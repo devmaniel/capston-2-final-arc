@@ -5,8 +5,8 @@ const { google } = require("googleapis");
 const config = require("../../api/GoogleOAUTH");
 
 const twilio = require("twilio");
-const accountSid = "ACd228378b332ff5338ad8032258c1cb65";
-const authToken = "7bb2fdb275a3bf0c44f9c354893ea027";
+//const accountSid = "ACd228378b332ff5338ad8032258c1cb65";
+//const authToken = "7bb2fdb275a3bf0c44f9c354893ea027";
 
 const client = twilio(accountSid, authToken);
 
