@@ -59,7 +59,7 @@ export default function Drawer({ dh }) {
                     to="/admin"
                     activeOptions={{ exact: true }}
                     {...(location.pathname === "/admin"
-                      ? { className: "text-white" }
+                      ? { className: "text-white bg-red-500" }
                       : {})}
                   >
                     <BsBoxes />
@@ -68,9 +68,9 @@ export default function Drawer({ dh }) {
                 </li>
                 <li>
                   <Link
-                    to="/admin/analytics/"
+                    to="/admin/analytics"
                     activeOptions={{ exact: true }}
-                    {...(location.pathname === "/admin/analytics/"
+                    {...(location.pathname === "/admin/analytics"
                       ? { className: "text-white" }
                       : {})}
                   >
@@ -81,10 +81,14 @@ export default function Drawer({ dh }) {
               </ul>
 
               <ul className="nav-item pt-5 admin_links">
-                {/* Navbar menu content here */}
-                <h1 className=" text-lg font-medium">Components</h1>
+                <h1 className="text-lg font-medium">Components</h1>
                 <li>
-                  <Link to="/admin/manage_students">
+                  <Link
+                    to="/admin/manage_students"
+                    {...(location.pathname.startsWith("/admin/manage_students")
+                      ? { className: "text-white" }
+                      : {})}
+                  >
                     <BsBackpack />
                     Manage Students
                   </Link>
@@ -92,7 +96,9 @@ export default function Drawer({ dh }) {
                 <li>
                   <Link
                     to="/admin/manage_violations"
-                    {...(location.pathname === "/admin/manage_violations"
+                    {...(location.pathname.startsWith(
+                      "/admin/manage_violations"
+                    )
                       ? { className: "text-white" }
                       : {})}
                   >
@@ -103,7 +109,7 @@ export default function Drawer({ dh }) {
                 <li>
                   <Link
                     to="/admin/manage_books"
-                    {...(location.pathname === "/admin/manage_books"
+                    {...(location.pathname.startsWith("/admin/manage_books")
                       ? { className: "text-white" }
                       : {})}
                   >
@@ -113,8 +119,8 @@ export default function Drawer({ dh }) {
                 </li>
                 <li>
                   <Link
-                    to="/admin/manage_request/"
-                    {...(location.pathname === "/admin/manage_request/"
+                    to="/admin/manage_request"
+                    {...(location.pathname.startsWith("/admin/manage_request")
                       ? { className: "text-white" }
                       : {})}
                   >
@@ -124,8 +130,8 @@ export default function Drawer({ dh }) {
                 </li>
                 <li>
                   <Link
-                    to="/admin/manage_lrn/"
-                    {...(location.pathname === "/admin/manage_lrn/"
+                    to="/admin/manage_lrn"
+                    {...(location.pathname.startsWith("/admin/manage_lrn")
                       ? { className: "text-white" }
                       : {})}
                   >
@@ -159,6 +165,7 @@ export default function Drawer({ dh }) {
             </div>
           </div>
         </div>
+
         <div className="drawer-side">
           <label
             htmlFor="my-drawer-3"
@@ -168,52 +175,96 @@ export default function Drawer({ dh }) {
           <ul className="menu p-4 w-80 min-h-full bg-neutral text-base-100">
             <h1 className="px-2 text-lg mb-2 font-medium mt-2">Dashboard</h1>
             <li>
-              <a href="#">
-                <BsBackpack />
+              <Link
+                to="/admin"
+                activeOptions={{ exact: true }}
+                {...(location.pathname === "/admin"
+                  ? { className: "text-primary font-bold" }
+                  : { className: "text-black font-bold" })}
+              >
+                <BsBoxes />
                 Default
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#">
+              <Link
+                to="/admin/analytics"
+                {...(location.pathname.startsWith("/admin/analytics")
+                  ? { className: "text-primary font-bold" }
+                  : {})}
+              >
                 <BsBackpack />
                 Analytics
-              </a>
+              </Link>
             </li>
+
             <h1 className="px-2 text-lg font-medium mt-2 mb-2">Components</h1>
             <li>
-              <a href="#">
+              <Link
+                to="/admin/manage_students"
+                {...(location.pathname.startsWith("/admin/manage_students")
+                  ? { className: "text-primary font-bold" }
+                  : {})}
+              >
                 <BsBackpack />
                 Manage Students
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#">
+              <Link
+                to="/admin/manage_books"
+                {...(location.pathname.startsWith("/admin/manage_books")
+                  ? { className: "text-primary font-bold" }
+                  : {})}
+              >
                 <BsBackpack />
                 Manage Books
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#">
+              <Link
+                to="/admin/manage_request"
+                {...(location.pathname.startsWith("/admin/manage_request")
+                  ? { className: "text-primary font-bold" }
+                  : {})}
+              >
                 <BsBackpack />
                 Manage Request
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#">
+              <Link
+                to="/admin/manage_lrn"
+                {...(location.pathname.startsWith("/admin/manage_lrn")
+                  ? { className: "text-primary font-bold" }
+                  : {})}
+              >
                 <BsBackpack />
                 Manage LRN
-              </a>
+              </Link>
             </li>
 
             <h1 className="px-2 text-lg font-medium mt-2 mb-2">Account</h1>
             <li>
-              <a href="#">
+              <Link
+                to="/account/profile"
+                {...(location.pathname.startsWith("/account/profile")
+                  ? { className: "text-primary font-bold" }
+                  : {})}
+              >
                 <BsBackpack />
                 Profile Setting
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#">Logout</a>
+              <Link
+                to="/logout"
+                {...(location.pathname.startsWith("/logout")
+                  ? { className: "text-primary font-bold" }
+                  : {})}
+              >
+                Logout
+              </Link>
             </li>
           </ul>
         </div>

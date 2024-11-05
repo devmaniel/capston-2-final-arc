@@ -66,11 +66,52 @@ exports.getActiveAcc = async (req, res, next) => {
   res.status(200).json(TotalActiveViolations);
 };
 
-exports.getActivityLog = (req, res, next) => {
-  res.status(200).json(activityLog);
+
+exports.getActivityLog = async (req, res, next) => {
+  try {
+    // Get the latest 5 books based on createdAt
+    const books = await BookModel.findAll({
+      order: [['createdAt', 'DESC']], // Order by createdAt in descending order
+      limit: 5, // Limit the results to 5
+      attributes: ['book_name', 'createdAt'], // Only select book_name and createdAt
+    });
+
+    // Format the data as requested
+    const activityLog = books.map((book) => ({
+      Action: 'Book Added',
+      BookName: book.book_name,
+      Date: new Date(book.createdAt),
+    }));
+
+    // Send the formatted data as JSON
+    res.status(200).json(activityLog);
+  } catch (error) {
+    console.error("Error fetching activity log:", error);
+    res.status(500).json({ error: "An error occurred while fetching the activity log" });
+  }
 };
 
-exports.totalBooksChart = (req, res, next) => {
-  // Send the data array as JSON response
-  res.status(200).json(TotalBooks);
+exports.totalBooksChart = async (req, res, next) => {
+  try {
+    // Get all books data
+    const allBooks = await BookModel.findAll();
+
+    // Initialize empty array for each month
+    const data = Array.from({ length: 12 }, () => ({
+      date: '',
+      data: 0
+    }));
+
+    // Loop through all books and increment the corresponding month
+    allBooks.forEach(book => {
+      const month = new Date(book.createdAt).getMonth();
+      data[month].date = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(book.createdAt));
+      data[month].data++;
+    });
+
+    // Send the data array as JSON response
+    res.status(200).json(data);
+  } catch (error) {
+    next(error);
+  }
 };

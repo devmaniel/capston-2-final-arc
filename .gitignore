@@ -2,3 +2,4 @@
 node_modules/
 
 
+server/controller/student/Register.js
