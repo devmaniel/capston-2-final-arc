@@ -1,0 +1,10 @@
+$base-100: #0A0A0A; // Dark mode color
+
+@mixin text-color-based-on-base-100 {
+    color: if(lightness($base-100) > 50%, #000000, #ffffff);
+}
+
+
+.text-based-on-base-100 {
+    @include text-color-based-on-base-100;
+}

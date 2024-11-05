@@ -1,0 +1,17 @@
+footer {
+  display: none !important;
+}
+
+/* Styles for smartphones */
+@media (max-width: 600px) {
+  footer {
+    display: block !important;
+  }
+}
+
+/* Styles for tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+  footer {
+    display: block !important;
+  }
+}

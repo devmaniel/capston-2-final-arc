@@ -1,0 +1,16 @@
+body {
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* Hides elements like headers, buttons, and other non-content elements when printing */
+@media print {
+    .print-btn{
+        visibility: hidden;
+    }
+    .page{
+      padding: 0;
+    }
+    .back{
+      visibility: hidden;
+    }
+}

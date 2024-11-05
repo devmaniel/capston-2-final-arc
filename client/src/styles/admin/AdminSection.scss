@@ -1,0 +1,31 @@
+.bfoot {
+  
+}
+
+/* Styles for smartphones */
+@media (max-width: 600px) {
+  section {
+    position: absolute;
+    margin-top: 5em;
+    left: 10px;
+    width: 85%;
+  }
+
+  .bfoot {
+    display: block;
+  }
+}
+
+/* Styles for tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+  section {
+    position: absolute;
+    margin-top: 5em;
+    left: 10px;
+    width: 93%;
+  }
+
+  .bfoot {
+    display: block;
+  }
+}

@@ -1,0 +1,15 @@
+#package module
+node_modules/
+
+#database connection
+/server/database/connection.js
+
+
+# Client ignore Book Image and QR Image
+/client/public/QR Image
+server/database/connection.js
+/client/public/Book Image
+server/database/connection.js
+*.js
+/server/database
+server/database/connection.js

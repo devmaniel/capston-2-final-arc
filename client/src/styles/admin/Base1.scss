@@ -1,0 +1,164 @@
+.base1 {
+  width: 100%;
+  .totalBooks,
+  .totalRequest {
+    height: 210px;
+    width: 100%;
+
+    border-radius: 5px;
+  }
+
+  .dailyreport {
+    div {
+      height: 100px;
+      width: 25vw;
+
+      border-radius: 5px;
+    }
+  }
+}
+
+.bfoot {
+  display: none;
+}
+
+
+.base-chart-r {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+section {
+  border: 1px white;
+
+  .base2 {
+    margin-bottom: 20px;
+  }
+
+  .base-chart {
+    border-radius: 5px;
+    width: 80%;
+  }
+
+  .base-history {
+    width: 50%;
+
+    border-radius: 5px;
+  }
+}
+
+
+
+/* Styles for smartphones */
+@media (max-width: 600px) {
+
+  .breadcrumbs{
+    margin-top: 3em !important;
+  }
+  .base1 {
+    position: absolute;
+    left: -30px;
+
+    top: -60px;
+    width: 93%;
+
+    margin: 80px 30px;
+
+    height: 100vh;
+    
+    flex-direction: column;
+  }
+
+  .dailyreport {
+    div {
+      height: 100px;
+      width: 100% !important;
+
+      border-radius: 5px;
+    }
+  }
+
+  .base2 {
+    position: absolute;
+
+    flex-direction: column;
+    gap: 100px;
+
+    left: -25px;
+    top: 690px;
+
+    margin: 80px 30px;
+
+    height: 600px;
+
+    margin-top: 770px;
+    width: 93%;
+
+    div {
+      width: 100%;
+    }
+
+    .base-history {
+      height: 100vh !important;
+    }
+  }
+
+  footer{
+    display: block;
+  }
+  
+}
+
+/* Styles for tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .base1 {
+    position: absolute;
+    left: -25px;
+
+    top: -60px;
+    width: 100%;
+
+    margin: 80px 30px;
+
+    height: 100vh;
+    
+    flex-direction: column;
+  }
+
+  .dailyreport {
+    div {
+      height: 100px;
+      width: 92vw !important;
+
+      border-radius: 5px;
+    }
+  }
+
+  .base2 {
+    position: absolute;
+
+    flex-direction: column;
+    gap: 100px;
+
+    left: -25px;
+    top: 690px;
+
+    margin: 80px 30px;
+
+    height: 600px;
+
+    margin-top: 770px;
+    width: 100%;
+
+    div {
+      width: 100%;
+    }
+
+    .base-history {
+      height: 100vh !important;
+    }
+  }
+
+
+  
+}

@@ -1,0 +1,31 @@
+.description {
+  width: 500px;
+  height: 205px;
+  text-align: justify;
+  overflow: hidden;
+}
+
+.TopBookCon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topBook img {
+  height: 370px;
+}
+
+.mostfavcon {
+  height: 370px;
+  width: 350px;
+  margin-top: 3.2em;
+}
+.mostfavcon img {
+  height: 90px;
+  width: 90px;
+  -o-object-fit: fill;
+     object-fit: fill;
+}
+.mostfavcon .badge {
+  font-size: 0.7em;
+}/*# sourceMappingURL=TopBook.css.map */

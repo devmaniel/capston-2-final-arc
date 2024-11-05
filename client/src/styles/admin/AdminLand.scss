@@ -1,0 +1,29 @@
+/* Styles for smartphones */
+@media (max-width: 600px) {
+  .breadcrumbs {
+    position: absolute;
+    left: 0;
+    margin: 50px 33px;
+  }
+
+  .right-nav {
+    position: absolute;
+    right: 0;
+    margin: 5px 30px;
+  }
+}
+
+/* Styles for tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .breadcrumbs {
+    position: absolute;
+    left: 0;
+    margin: 50px 33px;
+  }
+
+  .right-nav {
+    position: absolute;
+    right: 0;
+    margin: 5px 30px;
+  }
+}

@@ -1,0 +1,20 @@
+.nav-item li {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+.nav-item .active {
+  font-weight: bolder;
+  border-bottom: 1px solid #0476D0;
+  background-color: #0476D0;
+}
+.nav-item a {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  letter-spacing: 2px;
+  border: none;
+  padding: 0.7em;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: 0.5s ease;
+}/*# sourceMappingURL=nav.css.map */
