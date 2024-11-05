@@ -10,5 +10,6 @@ const LRNcontroller = require("../../controller/admin/LRN/LRN");
 
 router.get("/excelLRN", LRNcontroller.excelLRN);
 router.post("/excelLRN", upload.single('file'), LRNcontroller.excelLRNpost);
+router.get("/excelLRNTable",LRNcontroller.excelLRNTABLE );
 
 module.exports = router;

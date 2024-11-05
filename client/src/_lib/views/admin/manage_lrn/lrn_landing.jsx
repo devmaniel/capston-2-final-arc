@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // screens components
 import Nav from "@screen/admin/common/Nav";
@@ -19,17 +19,59 @@ import "@styles/admin/AdminLand.scss";
 import "@styles/admin/Footer.scss";
 
 // api
-import { axiosFetchTableBook } from "../../../hook/axiosFetchTableBook";
-import { axiosFetch } from "../../../hook/axiosFetch";
 import axios from "../../../api/axios";
 
 import Swal from "sweetalert2";
+
+import useAxiosFetchLRNTable from "../../../hook/useAxiosFetchLRNTable";
 
 import { Link } from "@tanstack/react-router";
 
 import Lrn_table from "./lrn_table";
 
 const lrn_landing = () => {
+  const [page, setPage] = useState(1);
+  const [filter, setFilter] = useState("newest");
+  const [status, setStatus] = useState("all");
+  const [statuslrn, setStatusLRN] = useState("all");
+  const [search, setSearch] = useState("");
+
+  const handleSetPage = (newPage) => {
+    setPage(newPage); // Update the page state
+  };
+
+  // Function to handle filter selection
+  const handleSetFilter = (event) => {
+    setFilter(event.target.value);
+  };
+
+  // Function to handle status selection
+  const handleSetStatus = (event) => {
+    setStatus(event.target.value);
+  };
+
+  const handleSetStatusLRN = (event) => {
+    setStatusLRN(event.target.value);
+  };
+  // Add a function to handle input changes for search
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const { data, loading, error, fetchStatus, totalPages } = useAxiosFetchLRNTable(
+    page,
+    filter,
+    status,
+    statuslrn,
+    search // Pass search as an argument
+  );
+
+  if (!data) {
+    return <di>Loading...</di>;
+  }
+
+ 
+
   return (
     <>
       <div className="flex">
@@ -64,24 +106,37 @@ const lrn_landing = () => {
 
             <div className="flex justify-between items-center mt-0 w-full">
               <div className="flex gap-5 items-center w-full">
-                <Searchj />
+                <Searchj
+                  searchValue={search}
+                  handleSearch={handleSearchChange}
+                />
                 <SelectInput
                   label={"Filter"}
+                  value={filter} // Bind value to the filter state
+                  onChange={handleSetFilter} // Bind onChange to handleSetFilter
                   options={["newest", "oldest", "A-Z", "Z-A"]}
                 />
                 <SelectInput
                   label={"Status"}
-                  options={["registered", "unregistered"]}
+                  value={status} // Bind value to the status state
+                  onChange={handleSetStatus} // Bind onChange to handleSetStatus
+                  options={["all", "registered", "unregistered"]}
+                />
+                <SelectInput
+                  label={"Status LRN"}
+                  value={statuslrn} // Bind value to the status state
+                  onChange={handleSetStatusLRN} // Bind onChange to handleSetStatus
+                  options={["all", "enrolled", "unenrolled"]}
                 />
               </div>
             </div>
 
             <div className="mt-5">
-              <Lrn_table />
+              <Lrn_table data={data} /> {/* Pass data as props */}
             </div>
           </section>
 
-          <Pagination />
+          <Pagination totalPages={totalPages} handlePage={handleSetPage} />
         </div>
       </div>
       <footer className="w-full h-10 mt-[500px]"></footer>

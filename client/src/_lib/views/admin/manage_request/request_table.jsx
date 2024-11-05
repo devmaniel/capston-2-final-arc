@@ -19,11 +19,10 @@ const Request_table = ({ requests }) => {
             <th>Request Code</th>
             <th>Requester Name</th>
             <th>Requester QR</th>
-            <th>Book ID</th>
+            
             <th>Book QR</th>
             <th>Book Name</th>
-            <th>ISBN Code</th>
-            <th>Classifications</th>
+
             <th>Request Quantity</th>
             <th>Date Created</th>
           </tr>
@@ -81,7 +80,7 @@ const Request_table = ({ requests }) => {
                     dialogId={`my_modal_Request_${index}`}
                   />
                 </td>
-                <td>{request["Book ID"]}</td>
+               
                 <td>
                   <button
                     className="badge badge-success"
@@ -97,8 +96,7 @@ const Request_table = ({ requests }) => {
                   />
                 </td>
                 <td>{request["Book Name"]}</td>
-                <td>{request["ISBN Code"]}</td>
-                <td>{request["Classifications"]}</td>
+               
                 <td>{request["Request Quantity"]}</td>
                 <td>
                   {new Date(request["Date Created"]).toLocaleDateString()}

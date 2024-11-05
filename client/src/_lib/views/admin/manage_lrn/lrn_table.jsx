@@ -1,16 +1,14 @@
 import React from "react";
 
-const lrn_table = () => {
+const Lrn_table = ({ data }) => {
   return (
     <>
       <div className="overflow-x-auto bg-neutral text-base-100 rounded-md">
         <table className="table">
           {/* head */}
-          <thead className="text-base-100 ">
+          <thead className="text-base-100">
             <tr>
-              <th>
-               
-              </th>
+              <th></th>
               <th>Name</th>
               <th>Student LRN</th>
               <th>Track</th>
@@ -24,50 +22,54 @@ const lrn_table = () => {
             </tr>
           </thead>
           <tbody>
-            {/* row 1 */}
-            <tr>
-              <th></th>
-              <td>
-                <div className="flex items-center gap-3">
-                  <h1>Last Name, First Name M.I.</h1>
-                </div>
-              </td>
-              <td>LRN1234567891011</td>
-              <td>
-                {" "}
-                <span className="badge badge-primary badge-sm">Academic</span>
-              </td>
-              <td>
-                {" "}
-                <span className="badge badge-primary badge-sm">STEM</span>
-              </td>
-              <td>
-                {" "}
-                <h1>Grade - 12</h1>
-              </td>
-              <td>
-                {" "}
-                <h1>STEM: 12-1</h1>
-              </td>
-              <td>Student</td>
-              <td>
-                {" "}
-                <span className="badge badge-primary badge-sm">Registered</span>
-              </td>
-              <td>MM/YY/DD</td>
-              <td>MM/YY/DD</td>
-              <th>
-                <a href="#">Details</a>
-              </th>
-            </tr>
-            {/* row 2 */}
+            {/* Map through data to create table rows */}
+            {data.map((item) => (
+              <tr key={item.id}>
+                <th>
+                  <span
+                    className={`badge capitalize  badge-sm text-white ${item.status_lrn === "enrolled" ? "badge-primary" : item.status_lrn === "unenrolled" ? "badge-error" : "badge-ghost"} text-uppercase`}
+                  >
+                    {item.status_lrn}
+                  </span>
+                </th>
+                <td>
+                  <div className="flex items-center gap-3">
+                    <h1>{`${item.last_name}, ${item.first_name} ${item.middle_name || ""}`}</h1>
+                  </div>
+                </td>
+                <td>{item.valid_lrn}</td>
+                <td>
+                  <span className="badge badge-primary badge-sm">
+                    {item.track}
+                  </span>
+                </td>
+                <td>
+                  <span className="badge badge-primary badge-sm">STEM</span>{" "}
+                  {/* Adjust as necessary */}
+                </td>
+                <td>
+                  <h1>Grade - {item.year_level}</h1>
+                </td>
+                <td>
+                  <h1>{item.section}</h1>
+                </td>
+                <td>{item.role}</td>
+                <td>
+                  <span
+                    className={`badge badge-sm capitalize ${item.acc_status === "registered" ? "badge-primary" : "badge-ghost"}`}
+                  >
+                    {item.acc_status}
+                  </span>
+                </td>
+                <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                <td>{new Date(item.updatedAt).toLocaleDateString()}</td>
+              </tr>
+            ))}
           </tbody>
           {/* foot */}
-          <tfoot className="text-base-100 ">
+          <tfoot className="text-base-100">
             <tr>
-              <th>
-                
-              </th>
+              <th></th>
               <th>Name</th>
               <th>Student LRN</th>
               <th>Track</th>
@@ -86,4 +88,4 @@ const lrn_table = () => {
   );
 };
 
-export default lrn_table;
+export default Lrn_table;
