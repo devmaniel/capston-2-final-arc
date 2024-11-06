@@ -4,8 +4,22 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import axios from "../_lib/api/axios";
 
+import Cookies from 'js-cookie';
+
 export const Route = createFileRoute("/forgot_password")({
   component: () => Forgot_Password(),
+  beforeLoad: () => {
+    // Check if the sessionId cookie exists
+    const sessionId = Cookies.get('sessionId');
+
+    if (sessionId) {
+      // Redirect to /student if sessionId cookie is present
+      throw redirect({
+        to: '/student',
+      });
+    }
+    // If sessionId is not present, proceed to render LoginUI
+  },
 });
 
 function Forgot_Password() {

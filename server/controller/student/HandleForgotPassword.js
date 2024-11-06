@@ -7,6 +7,8 @@ function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString(); // Generates a 6-digit OTP
 }
 
+const bcrypt = require('bcrypt'); // Import bcrypt
+
 async function mailOTP(email, validCode) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -141,8 +143,11 @@ exports.HandlePasswordChangePost = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Step 3: Update the user's password
-    user.password = changePassword;
+    // Step 3: Hash the new password before saving it
+    const hashedPassword = await bcrypt.hash(changePassword, 10); // 10 salt rounds
+
+    // Update the user's password with the hashed password
+    user.password = hashedPassword;
     await user.save();
 
     return res.status(200).json({ message: "Password changed successfully" });

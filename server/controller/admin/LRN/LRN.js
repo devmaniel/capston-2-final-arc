@@ -12,31 +12,31 @@ var upload = multer({ dest: "../../upload/excel" });
 
 exports.excelLRNTABLE = async (req, res, next) => {
   try {
-    // Get the page number from the request query, default to 1 if not provided
+    // Get query parameters
     const page = parseInt(req.query.page) || 1;
     const filter = req.query.filter?.toLowerCase() || "all";
     const status = req.query.status?.toLowerCase() || "registered";
     const statuslrn = req.query.statuslrn?.toLowerCase() || "all";
     const search = req.query.search?.trim() || "";
 
-    const limit = 2; // Number of records per page
+    const limit = 8; // Number of records per page
     const offset = (page - 1) * limit;
 
     // Set the order based on the filter parameter
     let order;
     switch (filter) {
       case "oldest":
-        order = [["createdAt", "ASC"]]; // Ascending order by creation date
+        order = [["createdAt", "ASC"]];
         break;
       case "a-z":
-        order = [["first_name", "ASC"]]; // Ascending order by first name
+        order = [["first_name", "ASC"]];
         break;
       case "z-a":
-        order = [["first_name", "DESC"]]; // Descending order by first name
+        order = [["first_name", "DESC"]];
         break;
       case "newest":
       default:
-        order = [["createdAt", "DESC"]]; // Descending order by creation date
+        order = [["createdAt", "DESC"]];
         break;
     }
 
@@ -51,7 +51,7 @@ exports.excelLRNTABLE = async (req, res, next) => {
     // Filter by status_lrn if not "all"
     if (statuslrn !== "all") {
       if (statuslrn === "enrolled" || statuslrn === "unenrolled") {
-        whereCondition.status_lrn = statuslrn; // Filter by ModelLRN.status_lrn
+        whereCondition.status_lrn = statuslrn;
       }
     }
 
@@ -65,30 +65,44 @@ exports.excelLRNTABLE = async (req, res, next) => {
       ];
     }
 
-    // Fetch the data with limit and offset for pagination
-    const { rows: data, count: totalItems } = await ModelLRN.findAndCountAll({
-      where: whereCondition, // Use the defined where condition
-      order, // Use the dynamically set order
-      limit,
-      offset,
-    });
+    // Fetch data with or without pagination based on the search term
+    let data, totalItems;
 
-    // Calculate total pages
-    const totalPages = Math.ceil(totalItems / limit);
+    if (search) {
+      // Fetch all matching records without pagination when search is provided
+      ({ rows: data, count: totalItems } = await ModelLRN.findAndCountAll({
+        where: whereCondition,
+        order,
+      }));
+    } else {
+      // Fetch paginated data if no search term is provided
+      ({ rows: data, count: totalItems } = await ModelLRN.findAndCountAll({
+        where: whereCondition,
+        order,
+        limit,
+        offset,
+      }));
+    }
 
-    // Respond with paginated data and pagination info
+    // Calculate total pages for paginated results
+    const totalPages = search ? 1 : Math.ceil(totalItems / limit);
+
+    // Respond with data and pagination info
     res.status(200).json({
       data,
-      pagination: {
-        currentPage: page,
-        totalItems,
-        totalPages,
-      },
+      pagination: search
+        ? null // No pagination info if search is provided
+        : {
+            currentPage: page,
+            totalItems,
+            totalPages,
+          },
     });
   } catch (error) {
     next(error);
   }
 };
+
 
 
 

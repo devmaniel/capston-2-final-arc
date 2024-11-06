@@ -21,7 +21,7 @@ router.get("/table_book/view/:bookId?" ,BookFetch.fetchSingleBook);
 router.get("/table_book/view/edit/:bookId?" ,BookFetch.fetchSingleBookEdit);
 router.get("/table_book/:page?/:filter?/:class?/:book_status?" ,BookFetch.bookTable);
 
-router.post("/update_book_Status/:book_id", BookFetch.postUpdateBookStatus)
+router.post("/update_book_status/:book_id", BookFetch.postUpdateBookStatus)
 
 router.post("/create_book", upload.single('bookimage')  ,BookFetch.postCreateBooks);
 router.post("/edit", upload.single("book_image"), BookFetch.postEditBooks);

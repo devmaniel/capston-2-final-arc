@@ -4,15 +4,43 @@ import { Link } from "@tanstack/react-router";
 export default function Footer() {
   return (
     <>
-      <div className="footer bg-neutral text-neutral-content p-10">
-        <nav>
+      <div className="bg-neutral w-full">
+        <div className="flex justify-evenly items-center sm ">
+          <div className="mt-10">
+            <img
+              src="/images/logo.png"
+              className="h-[150px] w-[150px] bg-white rounded-[50%]"
+            />
+          </div>
+          <div className="mt-10">
+            <img src="/images/deped.png" className="h-[150px] " />
+          </div>
+          <div className="mt-10">
+            <img src="/images/do.png" className="h-[150px] w-[150px]" />
+          </div>
+          <div className="mt-10">
+            <img src="/images/logo.png" className="h-[150px] w-[150px]" />
+          </div>
+        </div>
+      </div>
+      <div className="footer bg-neutral text-neutral-content p-10 sm:flex sm:justify-around sm:items-center">
+        <nav className="text-center ">
           <h6 className="footer-title">Resources</h6>
-          <Link to="/lorem" className="link link-hover">
-            lorem
-          </Link>
-          <Link to="/uipsum" className="link link-hover">
-            uipsum
-          </Link>
+          <a
+            href="https://www.deped.gov.ph/"
+            target="_blank"
+            class="link link-hover"
+          >
+            DepEd
+          </a>
+
+          <a
+            href="https://depedcaloocan.com/"
+            target="_blank"
+            className="link link-hover"
+          >
+            Division Office of Caloocan
+          </a>
         </nav>
         <nav>
           <h6
@@ -20,7 +48,7 @@ export default function Footer() {
             activeProps={{ className: "text-primary font-black" }}
             activeOptions={{ exact: true }}
           >
-            Deped
+            School
           </h6>
           <Link to="/student/about" className="link link-hover">
             About School
@@ -31,14 +59,11 @@ export default function Footer() {
         </nav>
         <nav>
           <h6 className="footer-title">Legal</h6>
-          <Link to="/terms-of-use" className="link link-hover">
+          <Link to="/student/termsOfuse/Terms" className="link link-hover">
             Terms of use
           </Link>
           <Link to="/student/privacy/Privacy" className="link link-hover">
             Privacy policy
-          </Link>
-          <Link to="/cookie-policy" className="link link-hover">
-            Cookie policy
           </Link>
         </nav>
       </div>

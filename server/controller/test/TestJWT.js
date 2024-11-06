@@ -29,53 +29,62 @@ exports.TestLoginPost = async (req, res, next) => {
   console.log("Login attempt:", { lrn, password });
 
   try {
+    // Step 1: Find user by LRN
     const user = await UserModel.findOne({
       where: {
         acc_lrn: lrn,
-        password: password, // Ensure password is hashed and compared correctly
       },
     });
 
     if (user) {
-      const lrnModel = await LRNModel.findOne({
-        where: {
-          valid_lrn: user.acc_lrn,
-        },
-      });
+      // Step 2: Compare entered password with hashed password
+      const passwordMatch = await bcrypt.compare(password, user.password); // Compare with hashed password
 
-      if (lrnModel) {
-        const role = lrnModel.role;
-
-        // Set user and role data in session
-        req.session.user = {
-          id: user.id,
-          lrn: user.acc_lrn,
-          role: role,
-        };
-
-        req.session.save((err) => {
-          if (err) {
-            console.error("Error saving session:", err);
-            return res.status(500).json({ error: "Internal Server Error" });
-          }
-
-          console.log("User role:", role);
-          console.log("Session ID:", req.sessionID);
-          console.log("Session expires at:", req.session.cookie.expires);
-
-          // Return session ID and user role
-          res.status(200).json({
-            sessionId: req.sessionID,
-            role: role,
-            sessionExpires: req.session.cookie.expires, // Optional: Send session expiry
-          });
+      if (passwordMatch) {
+        // Step 3: If password matches, retrieve LRN model and role
+        const lrnModel = await LRNModel.findOne({
+          where: {
+            valid_lrn: user.acc_lrn,
+          },
         });
+
+        if (lrnModel) {
+          const role = lrnModel.role;
+
+          // Set user and role data in session
+          req.session.user = {
+            id: user.id,
+            lrn: user.acc_lrn,
+            role: role,
+          };
+
+          req.session.save((err) => {
+            if (err) {
+              console.error("Error saving session:", err);
+              return res.status(500).json({ error: "Internal Server Error" });
+            }
+
+            console.log("User role:", role);
+            console.log("Session ID:", req.sessionID);
+            console.log("Session expires at:", req.session.cookie.expires);
+
+            // Return session ID and user role
+            res.status(200).json({
+              sessionId: req.sessionID,
+              role: role,
+              sessionExpires: req.session.cookie.expires, // Optional: Send session expiry
+            });
+          });
+        } else {
+          console.log("Login failed: LRN model not found");
+          res.status(401).json({ error: "Invalid LRN or password" });
+        }
       } else {
-        console.log("Login failed: LRN model not found");
+        console.log("Login failed: Invalid password");
         res.status(401).json({ error: "Invalid LRN or password" });
       }
     } else {
-      console.log("Login failed: Invalid LRN or password");
+      console.log("Login failed: Invalid LRN");
       res.status(401).json({ error: "Invalid LRN or password" });
     }
   } catch (error) {

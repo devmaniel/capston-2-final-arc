@@ -13,8 +13,11 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as ViolationspageImport } from './routes/violations_page'
 import { Route as RegisterImport } from './routes/register'
+import { Route as PrivacyImport } from './routes/privacy'
+import { Route as NolongerImport } from './routes/nolonger'
 import { Route as LoginImport } from './routes/login'
 import { Route as ForgotpasswordImport } from './routes/forgot_password'
+import { Route as Error404Import } from './routes/error404'
 import { Route as DesignImport } from './routes/design'
 import { Route as ChangepasswordImport } from './routes/change_password'
 import { Route as IndexImport } from './routes/index'
@@ -38,6 +41,7 @@ import { Route as AdminManagerequestIndexImport } from './routes/admin/manage_re
 import { Route as AdminManagelrnIndexImport } from './routes/admin/manage_lrn/index'
 import { Route as AdminManagebooksIndexImport } from './routes/admin/manage_books/index'
 import { Route as AdminAnalyticsIndexImport } from './routes/admin/analytics/index'
+import { Route as StudentTermsOfuseTermsImport } from './routes/student/termsOfuse/Terms'
 import { Route as StudentRequesthistoryViewrequestImport } from './routes/student/request_history/view_request'
 import { Route as StudentPrivacyPrivacyImport } from './routes/student/privacy/Privacy'
 import { Route as StudentFrequentlyAskFAQImport } from './routes/student/frequentlyAsk/FAQ'
@@ -65,6 +69,16 @@ const RegisterRoute = RegisterImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const PrivacyRoute = PrivacyImport.update({
+  path: '/privacy',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const NolongerRoute = NolongerImport.update({
+  path: '/nolonger',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const LoginRoute = LoginImport.update({
   path: '/login',
   getParentRoute: () => rootRoute,
@@ -72,6 +86,11 @@ const LoginRoute = LoginImport.update({
 
 const ForgotpasswordRoute = ForgotpasswordImport.update({
   path: '/forgot_password',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const Error404Route = Error404Import.update({
+  path: '/error404',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -196,6 +215,11 @@ const AdminAnalyticsIndexRoute = AdminAnalyticsIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const StudentTermsOfuseTermsRoute = StudentTermsOfuseTermsImport.update({
+  path: '/student/termsOfuse/Terms',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const StudentRequesthistoryViewrequestRoute =
   StudentRequesthistoryViewrequestImport.update({
     path: '/student/request_history/view_request',
@@ -300,6 +324,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DesignImport
       parentRoute: typeof rootRoute
     }
+    '/error404': {
+      id: '/error404'
+      path: '/error404'
+      fullPath: '/error404'
+      preLoaderRoute: typeof Error404Import
+      parentRoute: typeof rootRoute
+    }
     '/forgot_password': {
       id: '/forgot_password'
       path: '/forgot_password'
@@ -312,6 +343,20 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/nolonger': {
+      id: '/nolonger'
+      path: '/nolonger'
+      fullPath: '/nolonger'
+      preLoaderRoute: typeof NolongerImport
+      parentRoute: typeof rootRoute
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyImport
       parentRoute: typeof rootRoute
     }
     '/register': {
@@ -475,6 +520,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentRequesthistoryViewrequestImport
       parentRoute: typeof rootRoute
     }
+    '/student/termsOfuse/Terms': {
+      id: '/student/termsOfuse/Terms'
+      path: '/student/termsOfuse/Terms'
+      fullPath: '/student/termsOfuse/Terms'
+      preLoaderRoute: typeof StudentTermsOfuseTermsImport
+      parentRoute: typeof rootRoute
+    }
     '/admin/analytics/': {
       id: '/admin/analytics/'
       path: '/admin/analytics'
@@ -575,8 +627,11 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   ChangepasswordRoute,
   DesignRoute,
+  Error404Route,
   ForgotpasswordRoute,
   LoginRoute,
+  NolongerRoute,
+  PrivacyRoute,
   RegisterRoute,
   ViolationspageRoute,
   StudentEventsRoute,
@@ -600,6 +655,7 @@ export const routeTree = rootRoute.addChildren({
   StudentFrequentlyAskFAQRoute,
   StudentPrivacyPrivacyRoute,
   StudentRequesthistoryViewrequestRoute,
+  StudentTermsOfuseTermsRoute,
   AdminAnalyticsIndexRoute,
   AdminManagebooksIndexRoute,
   AdminManagelrnIndexRoute,
@@ -626,8 +682,11 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/change_password",
         "/design",
+        "/error404",
         "/forgot_password",
         "/login",
+        "/nolonger",
+        "/privacy",
         "/register",
         "/violations_page",
         "/student/Events",
@@ -651,6 +710,7 @@ export const routeTree = rootRoute.addChildren({
         "/student/frequentlyAsk/FAQ",
         "/student/privacy/Privacy",
         "/student/request_history/view_request",
+        "/student/termsOfuse/Terms",
         "/admin/analytics/",
         "/admin/manage_books/",
         "/admin/manage_lrn/",
@@ -675,11 +735,20 @@ export const routeTree = rootRoute.addChildren({
     "/design": {
       "filePath": "design.jsx"
     },
+    "/error404": {
+      "filePath": "error404.jsx"
+    },
     "/forgot_password": {
       "filePath": "forgot_password.jsx"
     },
     "/login": {
       "filePath": "login.jsx"
+    },
+    "/nolonger": {
+      "filePath": "nolonger.jsx"
+    },
+    "/privacy": {
+      "filePath": "privacy.jsx"
     },
     "/register": {
       "filePath": "register.jsx"
@@ -749,6 +818,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/student/request_history/view_request": {
       "filePath": "student/request_history/view_request.jsx"
+    },
+    "/student/termsOfuse/Terms": {
+      "filePath": "student/termsOfuse/Terms.jsx"
     },
     "/admin/analytics/": {
       "filePath": "admin/analytics/index.jsx"

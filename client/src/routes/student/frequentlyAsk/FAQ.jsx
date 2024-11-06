@@ -64,7 +64,9 @@ export default function FAQ() {
       <div className="w-full max-w-[1300px] mx-auto mb-10">
         <div className="h-auto p-4">
           <div className="">
-            <h1 className="font-medium text-xl">Frequently Asked Questions</h1>
+            <h1 className="font-bold tracking-wide text-2xl mb-2">
+              Frequently Asked Questions
+            </h1>
             <p className="text-sm my-1 mb-1 text-gray-600">
               Quick answers to questions you may have. Can't find what you're
               looking for?

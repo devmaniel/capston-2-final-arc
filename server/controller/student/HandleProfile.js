@@ -4,6 +4,8 @@ const { QueryTypes, Op } = require("sequelize"); // Add Op here
 
 const connection = require("../../database/connection.js");
 
+const bcrypt = require('bcrypt'); // Import bcrypt
+
 exports.fetchProfileInfo = async (req, res, next) => {
   try {
     console.log("Incoming Request Body Profile:", req.body);
@@ -125,6 +127,7 @@ exports.fetchProfileInfo = async (req, res, next) => {
   }
 };
 
+
 exports.postChangePassword = async (req, res, next) => {
   try {
     console.log("Request body:", req.body);
@@ -138,16 +141,22 @@ exports.postChangePassword = async (req, res, next) => {
     }
 
     // Check if the current password matches
-    if (user.password !== current) {
+    const isCurrentPasswordValid = await bcrypt.compare(current, user.password);
+
+    if (!isCurrentPasswordValid) {
       return res.status(400).json({ message: "Current password is incorrect" });
     }
 
-    // Update the user's password
-    user.password = newPass; // Ensure this is safe for storage!
+    // Hash the new password before saving it
+    const hashedPassword = await bcrypt.hash(newPass, 10); // 10 is the salt round
+
+    // Update the user's password with the hashed password
+    user.password = hashedPassword;
 
     // Update the updatedAt field
     user.updatedAt = new Date();
 
+    // Save the updated user information
     await user.save();
 
     res.status(200).json({ message: "Password updated successfully" });
@@ -156,6 +165,8 @@ exports.postChangePassword = async (req, res, next) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
 
 exports.postUploadProfilePicture = async (req, res, next) => {
   try {

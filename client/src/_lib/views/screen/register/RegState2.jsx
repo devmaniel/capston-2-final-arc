@@ -62,7 +62,7 @@ const RegState2 = ({
 
   // Simple regex for email and phone number validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneNumberRegex = /^\+\d{11,}$/;
+  const phoneNumberRegex = /^9\d{9}$/; // Matches 9 followed by 9 digits
   const strongPasswordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_\-()#^])[A-Za-z\d@$!%*?&_\-()#^]{8,}$/;
 
@@ -74,6 +74,38 @@ const RegState2 = ({
     isPasswordEmpty || !strongPasswordRegex.test(postProps.password);
   const firstNameError = isFirstNameEmpty;
   const lastNameError = isLastNameEmpty;
+
+  // Format phone number to meet requirements
+  const formatPhoneNumber = (number) => {
+    // Remove any non-numeric characters
+    let formattedNumber = number.replace(/\D/g, "");
+    
+    // Handle +63 format
+    if (formattedNumber.startsWith("63")) {
+      formattedNumber = "9" + formattedNumber.substring(2);
+    }
+    
+    // If there's no "9" at the start and the input isn't empty, maintain existing "9"
+    if (formattedNumber && !formattedNumber.startsWith("9")) {
+      return postProps.phoneNumber; // Keep the previous valid value
+    }
+    
+    // Limit to 10 digits while preserving the "9" prefix
+    if (formattedNumber.length > 10) {
+      formattedNumber = formattedNumber.slice(0, 10);
+    }
+    
+    return formattedNumber;
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    const inputValue = e.target.value;
+    // Only allow formatting if the input starts with 9 or is empty
+    if (inputValue === "" || inputValue.startsWith("9") || inputValue.startsWith("+63")) {
+      const formattedNumber = formatPhoneNumber(inputValue);
+      setInput(formattedNumber, "phoneNumber");
+    }
+  };
 
   const getBorderClass = (field) => {
     if (touched[field] || submitted) {
@@ -240,11 +272,12 @@ const RegState2 = ({
                 </span>
                 <input
                   value={postProps.phoneNumber}
-                  onChange={(e) => setInput(e.target.value, "phoneNumber")}
+                  onChange={handlePhoneNumberChange}
                   onBlur={() => handleBlur("phoneNumber")}
                   type="text"
                   name="phoneNumber"
-                  placeholder="+63xxxxxxxxxx"
+                  maxLength={10}
+                  placeholder="9xxxxxxxxx"
                   className={`bg-white text-black border border-base-100 pl-[80px] w-full ${getBorderClass("phoneNumber")}`}
                 />
               </div>
@@ -255,7 +288,8 @@ const RegState2 = ({
               )}
               {(touched.phoneNumber || submitted) && phoneNumberError && (
                 <span className="text-sm text-red-500 italic mt-2">
-                  Note: Phone number format is invalid
+                  Note: Phone number must start with 9 and be 9 or 10 digits
+                  long
                 </span>
               )}
             </div>
@@ -368,8 +402,6 @@ const RegState2 = ({
             {loading ? "Validating..." : "Submit"}
           </button>
 
-
-
           <i className="text-[13px] text-gray-600">
             Note: Must be valid account setup.
           </i>
@@ -382,8 +414,6 @@ const RegState2 = ({
           <li className="step">Verify Phone Number</li>
           <li className="step">Account Created</li>
         </ul>
-
-
       </form>
     </>
   );

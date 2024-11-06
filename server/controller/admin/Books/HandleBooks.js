@@ -2,10 +2,12 @@ const qr = require("qrcode");
 const fs = require("fs").promises; // Using fs.promises for async file operations
 const path = require("path");
 const BooksModel = require("../../../model/Books");
-const NotificationsModel = require("../../../model/Notifications")
-const UserModel = require("../../../model/user")
+const NotificationsModel = require("../../../model/Notifications");
+const UserModel = require("../../../model/user");
 
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
+
+const moment = require("moment"); // Make sure you have moment.js installed
 
 exports.fetchSingleBook = async (req, res, next) => {
   console.log("Fetching single book - started");
@@ -95,22 +97,30 @@ exports.fetchSingleBookEdit = async (req, res, next) => {
   console.log("Fetching single book - finished");
 };
 
-
-
-
 exports.bookTable = async (req, res, next) => {
   try {
     const page = parseInt(req.params.page) || 1;
     const filter = (req.params.filter || "newest").toLowerCase();
     const bookClass = (req.params.class || "all").toUpperCase();
-    const bookStatus = ["active", "archived", "deleted"].includes(req.params.book_status?.toLowerCase())
+    const bookStatus = ["active", "archived", "deleted"].includes(
+      req.params.book_status?.toLowerCase()
+    )
       ? req.params.book_status.toLowerCase()
       : "active";
 
     const limit = 10; // Items per page
     const offset = (page - 1) * limit;
 
-    console.log("Page:", page, "Filter:", filter, "Class:", bookClass, "Status:", bookStatus);
+    console.log(
+      "Page:",
+      page,
+      "Filter:",
+      filter,
+      "Class:",
+      bookClass,
+      "Status:",
+      bookStatus
+    );
 
     let order;
     if (filter === "oldest") {
@@ -130,7 +140,8 @@ exports.bookTable = async (req, res, next) => {
     };
 
     if (bookClass !== "ALL") {
-      const capitalizedClass = bookClass.charAt(0).toUpperCase() + bookClass.slice(1);
+      const capitalizedClass =
+        bookClass.charAt(0).toUpperCase() + bookClass.slice(1);
       whereClause.classifications_name = capitalizedClass;
     }
 
@@ -140,23 +151,24 @@ exports.bookTable = async (req, res, next) => {
       whereClause[Op.or] = [
         {
           book_name: {
-            [Op.like]: `${searchTerm}%` // Search by book name
-          }
+            [Op.like]: `${searchTerm}%`, // Search by book name
+          },
         },
         {
           book_author: {
-            [Op.like]: `${searchTerm}%` // Search by book author
-          }
+            [Op.like]: `${searchTerm}%`, // Search by book author
+          },
         },
         {
           isbn_code: {
-            [Op.like]: `${searchTerm}%` // Search by ISBN code
-          }
+            [Op.like]: `${searchTerm}%`, // Search by ISBN code
+          },
         },
         // Add more search fields here if necessary
       ];
     }
 
+    // Fetch books with the current filters
     const { count, rows: books } = await BooksModel.findAndCountAll({
       where: whereClause,
       order,
@@ -164,6 +176,25 @@ exports.bookTable = async (req, res, next) => {
       offset,
       distinct: true,
     });
+
+    // Check and update archived books that are more than 30 days old
+    for (let book of books) {
+      if (book.book_status === "archived") {
+        const updatedAt = moment(book.updatedAt);
+        const currentDate = moment();
+        const daysDiff = currentDate.diff(updatedAt, "days");
+
+        // If the book was updated more than 30 days ago, update the status to "deleted"
+        if (daysDiff > 30) {
+          await BooksModel.update(
+            { book_status: "deleted" },
+            {
+              where: { id: book.id },
+            }
+          );
+        }
+      }
+    }
 
     const totalPages = Math.ceil(count / limit);
     console.log(`Page: ${page}, Offset: ${offset}, Limit: ${limit}`);
@@ -189,7 +220,6 @@ exports.bookTable = async (req, res, next) => {
   }
 };
 
-
 exports.postEditBooks = async (req, res, next) => {
   try {
     const {
@@ -204,7 +234,7 @@ exports.postEditBooks = async (req, res, next) => {
       book_status, // This is the book status field
       publisher, // Add publisher field
       date_of_publish, // Add date_of_publish field
-      edition // Add edition field
+      edition, // Add edition field
     } = req.body;
 
     // Log the received data
@@ -220,7 +250,7 @@ exports.postEditBooks = async (req, res, next) => {
       book_status,
       publisher,
       date_of_publish,
-      edition
+      edition,
     });
 
     // Find the book by id
@@ -234,14 +264,22 @@ exports.postEditBooks = async (req, res, next) => {
 
     // If a new file is uploaded, handle file replacement
     if (req.file) {
-      const newImagePath = path.join(__dirname, "../../../../client/public/Book Image", req.file.filename);
+      const newImagePath = path.join(
+        __dirname,
+        "../../../../client/public/Book Image",
+        req.file.filename
+      );
 
       try {
         // Attempt to upload the new file first
         await fs.access(newImagePath); // Ensures the file has been uploaded
 
         // Now safely remove the old image if it exists
-        const oldImagePath = path.join(__dirname, "../../../../client/public/Book Image", book.book_img_file);
+        const oldImagePath = path.join(
+          __dirname,
+          "../../../../client/public/Book Image",
+          book.book_img_file
+        );
         try {
           // Check if the old file exists and delete it
           await fs.access(oldImagePath);
@@ -254,11 +292,12 @@ exports.postEditBooks = async (req, res, next) => {
         // Use the new image file name after the old one is deleted
         newImageFileName = req.file.filename;
         console.log("New uploaded file:", req.file.filename);
-
       } catch (uploadErr) {
         // If the new file was not successfully uploaded, cancel the operation
         console.error("Error during file upload:", uploadErr);
-        return res.status(500).json({ message: "File upload failed. Please try again." });
+        return res
+          .status(500)
+          .json({ message: "File upload failed. Please try again." });
       }
     }
 
@@ -274,7 +313,7 @@ exports.postEditBooks = async (req, res, next) => {
       book_status, // Update the book_status field
       publisher, // Update the publisher field
       date_of_publish, // Update the date_of_publish field
-      edition // Update the edition field
+      edition, // Update the edition field
     });
 
     // Respond with a success message
@@ -285,11 +324,27 @@ exports.postEditBooks = async (req, res, next) => {
   }
 };
 
-
-
 exports.postUpdateBookStatus = async (req, res) => {
   const { book_id } = req.params; // Get book ID from URL parameters
-  const { status } = req.body; // Get new status from the request body
+  let { status } = req.body; // Use 'let' here so you can modify the status
+
+  console.log("Incoming Request postUpdateBookStatus", req.body);
+
+  // If the status is 'unarchive', change it to 'archived'
+  if (status === "unarchive") {
+    status = "active";
+  }
+
+  // Validate the status value
+  const validStatuses = ["archived", "active", "deleted"];
+  if (!status || !validStatuses.includes(status)) {
+    return res
+      .status(400)
+      .json({
+        message:
+          "Invalid status value. It must be 'archived', 'active', or 'deleted'.",
+      });
+  }
 
   try {
     // Find the book by ID
@@ -306,10 +361,11 @@ exports.postUpdateBookStatus = async (req, res) => {
     res.status(200).json({ message: "Book status updated successfully" });
   } catch (error) {
     console.error("Error updating book status:", error);
-    res.status(500).json({ message: "An error occurred while updating the book status" });
+    res
+      .status(500)
+      .json({ message: "An error occurred while updating the book status" });
   }
 };
-
 
 exports.postCreateBooks = async (req, res, next) => {
   try {
@@ -352,18 +408,18 @@ exports.postCreateBooks = async (req, res, next) => {
       publisher, // Save new field
       date_of_publish, // Save new field
       edition, // Save new field
-      book_status: 'active',
+      book_status: "active",
     });
 
     const bookId = newBook.id;
 
     // Create notifications for each user
     const users = await UserModel.findAll();
-    const notifications = users.map(user => ({
+    const notifications = users.map((user) => ({
       account_id: user.id,
       descriptions: `New Book Created: ${bookname}`,
       href: `/student/book?bookId=${bookId}`,
-      type: 'book',
+      type: "book",
       isRead: 0,
     }));
 
@@ -371,7 +427,10 @@ exports.postCreateBooks = async (req, res, next) => {
 
     // Generate QR code
     const bookUrl = `http://localhost:5173/student/book?bookId=${bookId}`;
-    const formattedClassifications = classifications.replace(/[^a-zA-Z0-9]/g, '_');
+    const formattedClassifications = classifications.replace(
+      /[^a-zA-Z0-9]/g,
+      "_"
+    );
     const qrFileName = `${Date.now()}_${bookId}_${formattedClassifications}_qr.png`;
     const qrFilePath = path.join(
       __dirname,

@@ -29,16 +29,15 @@ import Swal from "sweetalert2";
 const page = ({ pageNum, pageFil, pageClass, bookStatus, classDataTest }) => {
   const navigate = useNavigate();
 
-
   // query params
   const [pageState, setPage] = useState(pageNum);
   const [filter, setFilter] = useState(pageFil);
   const [classState, setClass] = useState(pageClass);
   const [bookStatusState, setBookStatus] = useState(bookStatus || "active");
-  const [searchState, setSearchState] = useState(''); // Search state
+  const [searchState, setSearchState] = useState(""); // Search state
 
- 
-  
+  const [bookStatusLoading, setBookStatusLoading] = useState(false);
+
   // fetch data with search functionality
   const { bookdata: books, totalPage } = axiosFetchTableBook(
     "/admin/table_book",
@@ -60,11 +59,10 @@ const page = ({ pageNum, pageFil, pageClass, bookStatus, classDataTest }) => {
     classifications: classDataTest ? ["all", ...classDataTest] : ["all"],
   };
 
-
-    // Handle search input change
-    const handleSearch = (event) => {
-      setSearchState(event.target.value); // Update search state
-    };
+  // Handle search input change
+  const handleSearch = (event) => {
+    setSearchState(event.target.value); // Update search state
+  };
 
   const handlePage = (page) => {
     // page handle
@@ -143,7 +141,7 @@ const page = ({ pageNum, pageFil, pageClass, bookStatus, classDataTest }) => {
 
     // Determine action based on status
     if (status === "active") {
-      action = "archive";
+      action = "archived";
       confirmationText = "Do you want to archive this book?";
       successMessage = "The book has been archived.";
     } else if (status === "archived") {
@@ -151,7 +149,7 @@ const page = ({ pageNum, pageFil, pageClass, bookStatus, classDataTest }) => {
       confirmationText = "Do you want to unarchive this book?";
       successMessage = "The book has been restored to active.";
     } else if (status === "delete") {
-      action = "delete";
+      action = "deleted";
       confirmationText = "Do you want to delete this book?";
       successMessage = "The book has been deleted.";
     }
@@ -171,14 +169,16 @@ const page = ({ pageNum, pageFil, pageClass, bookStatus, classDataTest }) => {
 
         // API call to update the book's status
         axios
-          .post(`/update_book_status/${bookId}`, { status: action })
+          .post(`/admin/update_book_status/${bookId}`, { status: action })
           .then((response) => {
             Swal.fire(
               action.charAt(0).toUpperCase() + action.slice(1) + "d!",
               successMessage,
               "success"
             );
-          })
+          });
+        console
+          .log("Sucess updating book status")
           .catch((error) => {
             Swal.fire("Error", "Could not update the book status.", "error");
             console.error("Error updating book status:", error);
@@ -220,7 +220,10 @@ const page = ({ pageNum, pageFil, pageClass, bookStatus, classDataTest }) => {
 
             <div className="flex justify-between items-center mt-10 w-full">
               <div className="flex gap-5 items-center w-full">
-              <Searchj searchValue={searchState} handleSearch={handleSearch} />
+                <Searchj
+                  searchValue={searchState}
+                  handleSearch={handleSearch}
+                />
 
                 <SelectInput
                   label={"Filter"}
@@ -244,7 +247,11 @@ const page = ({ pageNum, pageFil, pageClass, bookStatus, classDataTest }) => {
                 />
               </div>
             </div>
-            <Table data={books} handleSetBookStatus={handleSetBookStatus} />
+            <Table
+              data={books}
+              handleSetBookStatus={handleSetBookStatus}
+              setBookStatusLoading={setBookStatusLoading}
+            />
           </section>
 
           <Pagination

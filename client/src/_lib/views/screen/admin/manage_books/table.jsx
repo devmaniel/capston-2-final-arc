@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 
 import { format } from 'date-fns';
 
-const table = ({ data, handleSetBookStatus }) => {
+const table = ({ data, handleSetBookStatus, setBookStatusLoading }) => {
   const navigate = useNavigate();
 
   // Function to handle the edit confirmation
@@ -35,91 +35,85 @@ const table = ({ data, handleSetBookStatus }) => {
   };
 
   return (
-    <>
-      <div className="overflow-x-auto bg-neutral mt-5 p-5 text-base-100 ">
-        <table className="table table-xl ">
-          <thead className="text-base-100 ">
-            <tr>
-              <th>Book ID</th>
-              <th>Book Name</th>
-              <th>Book Author</th>
-              <th>ISBN Code</th>
-              <th>Classifications</th>
-              <th>Quantity</th>
-              <th>Date Created</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data && data.length > 0 ? (
-              data.map((book) => (
-                <tr key={book.id}>
-                  <th>{book.id}</th>
-                  <td>{book.book_name}</td>
-                  <td>{book.book_author}</td>
-                  <td>{book.isbn_code}</td>
-                  <td>{book.classifications_name}</td>
-                  <td>{book.quantity}</td>
-                  
+    <div className="overflow-x-auto bg-neutral mt-5 p-5 text-base-100">
+      <table className="table table-xl">
+        <thead className="text-base-100">
+          <tr>
+            <th>Book ID</th>
+            <th>Book Name</th>
+            <th>Book Author</th>
+            <th>ISBN Code</th>
+            <th>Classifications</th>
+            <th>Quantity</th>
+            <th>Date Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data && data.length > 0 ? (
+            data.map((book) => (
+              <tr key={book.id}>
+                <th>{book.id}</th>
+                <td>{book.book_name}</td>
+                <td>{book.book_author}</td>
+                <td>{book.isbn_code}</td>
+                <td>{book.classifications_name}</td>
+                <td>{book.quantity}</td>
+                <td>{format(new Date(book.createdAt), 'MMMM do yyyy, h:mm:ss a')}</td>
 
-
-                  <td>{format(new Date(book.createdAt), 'MMMM do yyyy, h:mm:ss a')}</td>
-
-
-                  <td>
-                    <ul className="flex gap-2">
+                <td>
+                  <ul className="flex gap-2">
+                    <li>
+                      <FaEye />
+                    </li>
+                    <li>
+                      <MdEditSquare
+                        onClick={() => EditButtonLink(book.id)} // Pass book id to function
+                        style={{ cursor: "pointer" }}
+                      />
+                    </li>
+                    {/* Conditionally render buttons based on book_status */}
+                    {book.book_status === "active" ? (
                       <li>
-                        <FaEye />
-                      </li>
-                      <li>
-                        <MdEditSquare
-                          onClick={() => EditButtonLink(book.id)} // Pass book id to function
+                        <BiSolidArchive
+                          onClick={() => handleSetBookStatus(book.id, "active", setBookStatusLoading)}
                           style={{ cursor: "pointer" }}
                         />
                       </li>
-                      {/* Conditionally render buttons based on book_status */}
-                      {book.book_status === "active" ? (
+                    ) : (
+                      <>
                         <li>
-                          <BiSolidArchive
-                            onClick={() => handleSetBookStatus(book.id, "active")}
+                          <RiInboxUnarchiveFill
+                            onClick={() =>
+                              handleSetBookStatus(book.id, "archived", setBookStatusLoading)
+                            }
                             style={{ cursor: "pointer" }}
                           />
                         </li>
-                      ) : (
-                        <>
-                          <li>
-                            <RiInboxUnarchiveFill
-                              onClick={() =>
-                                handleSetBookStatus(book.id, "archived")
-                              }
-                              style={{ cursor: "pointer" }}
-                            />
-                          </li>
-                          <li>
-                            <MdDeleteForever
-                              onClick={() =>
-                                handleSetBookStatus(book.id, "delete")
-                              }
-                              style={{ cursor: "pointer" }}
-                            />
-                          </li>
-                        </>
-                      )}
-                    </ul>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="8" className="text-center">
-                  <h1 className="text-2xl">No Data</h1>
+                        <li>
+                          <MdDeleteForever
+                            onClick={() =>
+                              handleSetBookStatus(book.id, "delete", setBookStatusLoading)
+                            }
+                            style={{ cursor: "pointer" }}
+                          />
+                        </li>
+                      </>
+                    )}
+                  </ul>
                 </td>
               </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="8" className="text-center">
+                <h1 className="text-2xl">No Data</h1>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

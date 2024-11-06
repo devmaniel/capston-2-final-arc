@@ -1,8 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa";
+
+import Cookies from 'js-cookie';
+
+
 export const Route = createFileRoute("/change_password")({
   component: () => Change_Password_Component(),
+  beforeLoad: () => {
+    // Check if the sessionId cookie exists
+    const sessionId = Cookies.get('sessionId');
+
+    if (sessionId) {
+      // Redirect to /student if sessionId cookie is present
+      throw redirect({
+        to: '/student',
+      });
+    }
+    // If sessionId is not present, proceed to render LoginUI
+  },
 });
 
 import axios from "../_lib/api/axios";

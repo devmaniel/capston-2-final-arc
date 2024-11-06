@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import axios from "./axios";
 import { useNavigate } from "@tanstack/react-router";
 
@@ -15,7 +15,8 @@ const auth = async (role) => {
     console.log("Server Response:", response.data);
 
     if (response.status === 200) {
-      return { success: true, role: response.data.role };
+      // Check if role matches and return data accordingly
+      return { success: true, role: response.data.role, valid: true };
     } else {
       if (response.status === 401) { // Assuming 401 indicates an expired session
         Cookies.remove('sessionId'); // Remove the sessionId cookie
