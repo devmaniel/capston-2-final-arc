@@ -10,8 +10,8 @@ const path = require("path");
 const fs = require("fs");
 
 const twilio = require("twilio");
-const accountSid = "AC1dac80e05497e6fdc22e33c99bd179c9";
-const authToken = "7df8750d91e1b5c26bc5527b827b6b3e";
+// const accountSid = "AC1dac80e05497e6fdc22e33c99bd179c9";
+// const authToken = "7df8750d91e1b5c26bc5527b827b6b3e";
 const client = twilio(accountSid, authToken);
 
 const { Op } = require("sequelize");
