@@ -1,17 +1,17 @@
 const { Session } = require("express-session-sequelize")(
   require("express-session").Store
 );
-
 const connection = require("../database/connection.js");
-const ViolationsModel = require("../model/violations.js")
-
-
+const ViolationsModel = require("../model/violations.js");
+const UserModel = require("../model/user");
+const LRNModel = require("../model/lrn");
 const { QueryTypes } = require("sequelize");
 
 exports.FindSession = async (req, res, next) => {
   try {
     console.log("Incoming Request Body:", req.body);
     const { sessionId, role } = req.body;
+
     if (!sessionId || !role) {
       console.log("Error: Session ID or role is missing.");
       return res.status(400).json({
@@ -21,6 +21,7 @@ exports.FindSession = async (req, res, next) => {
       });
     }
 
+    // Get session data
     const session = await connection.query(
       "SELECT * FROM `sessions` WHERE `session_id` = :sessionId",
       {
@@ -56,6 +57,29 @@ exports.FindSession = async (req, res, next) => {
       });
     }
 
+    // Find user and check LRN enrollment status
+    const user = await UserModel.findOne({
+      where: {
+        id: sessionData.user.id
+      }
+    });
+
+    if (user && user.acc_lrn) {
+      const lrnRecord = await LRNModel.findOne({
+        where: {
+          valid_lrn: user.acc_lrn
+        }
+      });
+
+      if (lrnRecord && lrnRecord.status_lrn === 'unenrolled') {
+        return res.status(403).json({
+          valid: false,
+          reason: 'unenrolled',
+          message: 'User no longer enrolled.'
+        });
+      }
+    }
+
     // Check for pending violations
     const pendingViolations = await ViolationsModel.findAll({
       where: {
@@ -76,7 +100,6 @@ exports.FindSession = async (req, res, next) => {
       valid: true,
       role: sessionData.user.role
     });
-
   } catch (error) {
     console.error("Error finding session:", error);
     res.status(500).json({

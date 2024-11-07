@@ -59,7 +59,7 @@ exports.MostFrequentStrandBorrower = async (req, res, next) => {
     }
 };
 
-exports.MostYearLevelBorrower = async (req, res, next) => {
+exports.MostYearLevelSectionBorrower = async (req, res, next) => {
     try {
         console.log("Testing the connection at /admin/analytics/most_request_strand_borrower");
 

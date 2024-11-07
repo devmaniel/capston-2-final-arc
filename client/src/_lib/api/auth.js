@@ -13,13 +13,13 @@ const auth = async (role) => {
     
     const response = await axios.post("/session/find-session", { sessionId, role });
     console.log("Server Response:", response.data);
-
+    
     if (response.status === 200) {
       // Check if role matches and return data accordingly
       return { success: true, role: response.data.role, valid: true };
     } else {
-      if (response.status === 401) { // Assuming 401 indicates an expired session
-        Cookies.remove('sessionId'); // Remove the sessionId cookie
+      if (response.status === 401) {
+        Cookies.remove('sessionId');
         console.log("Session expired. Cookie removed.");
       }
       return {
@@ -31,10 +31,21 @@ const auth = async (role) => {
   } catch (err) {
     if (err.response) {
       console.error("Error Response from Server:", err.response.data);
-      if (err.response.status === 401) { // Assuming 401 indicates an expired session
-        Cookies.remove('sessionId'); // Remove the sessionId cookie
+      
+      if (err.response.status === 401) {
+        Cookies.remove('sessionId');
         console.log("Session expired. Cookie removed.");
       }
+      
+      // Handle the unenrolled case specifically
+      if (err.response.status === 403 && err.response.data.reason === 'unenrolled') {
+        return {
+          success: false,
+          reason: 'unenrolled',
+          message: err.response.data.message
+        };
+      }
+
       return {
         success: false,
         reason: err.response.data.reason || 'server_error',

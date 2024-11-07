@@ -45,17 +45,19 @@ export const Route = createFileRoute('/student/request_history/view_request')({
       case "expired_session":
         console.log(`Error reason: ${authResult.reason}`);
         throw redirect({ to: "/login" });
-        
       case "pending_violations":
-        console.log("User has pending violations");
+        console.log(
+          "User has pending violations. Redirecting to /violations_page"
+        );
         throw redirect({ to: "/violations_page" });
-        
       case "role_mismatch":
-        console.log("Role mismatch, redirecting to admin view");
-        throw redirect({
-          to: `/admin/manage_request/view_request_form?requestId=${search.request_id}`
-        });
-        
+        console.log(
+          `Role mismatch. Redirecting to: ${role === "admin" ? "/student" : "/admin"}`
+        );
+        throw redirect({ to: role === "admin" ? "/student" : "/admin" });
+      case "unenrolled":
+        console.log("User is no longer enrolled. Redirecting to /noLonger");
+        throw redirect({ to: "/noLonger" });
       default:
         console.log(`Unexpected error reason: ${authResult.reason}`);
         throw redirect({ to: "/login" });

@@ -55,7 +55,10 @@ import { Route as AdminManagerequestOnsiterequestImport } from './routes/admin/m
 import { Route as AdminManagelrnCycleaccountImport } from './routes/admin/manage_lrn/cycle_account'
 import { Route as AdminManagebooksEditbookImport } from './routes/admin/manage_books/edit_book'
 import { Route as AdminManagebooksCreatebooksImport } from './routes/admin/manage_books/create_books'
+import { Route as AdminAnalyticsPrintmostyearlevelsectionborrowerImport } from './routes/admin/analytics/print_most_year_level_section_borrower'
+import { Route as AdminAnalyticsPrintmostyearlevelborrowerImport } from './routes/admin/analytics/print_most_year_level_borrower'
 import { Route as AdminAnalyticsPrintdataImport } from './routes/admin/analytics/print_data'
+import { Route as AdminAnalyticsMostfrequeststrandborrowerImport } from './routes/admin/analytics/most_frequest_strand_borrower'
 
 // Create/Update Routes
 
@@ -294,10 +297,28 @@ const AdminManagebooksCreatebooksRoute =
     getParentRoute: () => rootRoute,
   } as any)
 
+const AdminAnalyticsPrintmostyearlevelsectionborrowerRoute =
+  AdminAnalyticsPrintmostyearlevelsectionborrowerImport.update({
+    path: '/admin/analytics/print_most_year_level_section_borrower',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const AdminAnalyticsPrintmostyearlevelborrowerRoute =
+  AdminAnalyticsPrintmostyearlevelborrowerImport.update({
+    path: '/admin/analytics/print_most_year_level_borrower',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 const AdminAnalyticsPrintdataRoute = AdminAnalyticsPrintdataImport.update({
   path: '/admin/analytics/print_data',
   getParentRoute: () => rootRoute,
 } as any)
+
+const AdminAnalyticsMostfrequeststrandborrowerRoute =
+  AdminAnalyticsMostfrequeststrandborrowerImport.update({
+    path: '/admin/analytics/most_frequest_strand_borrower',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -422,11 +443,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentIndexImport
       parentRoute: typeof rootRoute
     }
+    '/admin/analytics/most_frequest_strand_borrower': {
+      id: '/admin/analytics/most_frequest_strand_borrower'
+      path: '/admin/analytics/most_frequest_strand_borrower'
+      fullPath: '/admin/analytics/most_frequest_strand_borrower'
+      preLoaderRoute: typeof AdminAnalyticsMostfrequeststrandborrowerImport
+      parentRoute: typeof rootRoute
+    }
     '/admin/analytics/print_data': {
       id: '/admin/analytics/print_data'
       path: '/admin/analytics/print_data'
       fullPath: '/admin/analytics/print_data'
       preLoaderRoute: typeof AdminAnalyticsPrintdataImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/analytics/print_most_year_level_borrower': {
+      id: '/admin/analytics/print_most_year_level_borrower'
+      path: '/admin/analytics/print_most_year_level_borrower'
+      fullPath: '/admin/analytics/print_most_year_level_borrower'
+      preLoaderRoute: typeof AdminAnalyticsPrintmostyearlevelborrowerImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/analytics/print_most_year_level_section_borrower': {
+      id: '/admin/analytics/print_most_year_level_section_borrower'
+      path: '/admin/analytics/print_most_year_level_section_borrower'
+      fullPath: '/admin/analytics/print_most_year_level_section_borrower'
+      preLoaderRoute: typeof AdminAnalyticsPrintmostyearlevelsectionborrowerImport
       parentRoute: typeof rootRoute
     }
     '/admin/manage_books/create_books': {
@@ -641,7 +683,10 @@ export const routeTree = rootRoute.addChildren({
   TestTestPostRoute,
   AdminIndexRoute,
   StudentIndexRoute,
+  AdminAnalyticsMostfrequeststrandborrowerRoute,
   AdminAnalyticsPrintdataRoute,
+  AdminAnalyticsPrintmostyearlevelborrowerRoute,
+  AdminAnalyticsPrintmostyearlevelsectionborrowerRoute,
   AdminManagebooksCreatebooksRoute,
   AdminManagebooksEditbookRoute,
   AdminManagelrnCycleaccountRoute,
@@ -696,7 +741,10 @@ export const routeTree = rootRoute.addChildren({
         "/test/testPost",
         "/admin/",
         "/student/",
+        "/admin/analytics/most_frequest_strand_borrower",
         "/admin/analytics/print_data",
+        "/admin/analytics/print_most_year_level_borrower",
+        "/admin/analytics/print_most_year_level_section_borrower",
         "/admin/manage_books/create_books",
         "/admin/manage_books/edit_book",
         "/admin/manage_lrn/cycle_account",
@@ -777,8 +825,17 @@ export const routeTree = rootRoute.addChildren({
     "/student/": {
       "filePath": "student/index.jsx"
     },
+    "/admin/analytics/most_frequest_strand_borrower": {
+      "filePath": "admin/analytics/most_frequest_strand_borrower.jsx"
+    },
     "/admin/analytics/print_data": {
       "filePath": "admin/analytics/print_data.jsx"
+    },
+    "/admin/analytics/print_most_year_level_borrower": {
+      "filePath": "admin/analytics/print_most_year_level_borrower.jsx"
+    },
+    "/admin/analytics/print_most_year_level_section_borrower": {
+      "filePath": "admin/analytics/print_most_year_level_section_borrower.jsx"
     },
     "/admin/manage_books/create_books": {
       "filePath": "admin/manage_books/create_books.jsx"

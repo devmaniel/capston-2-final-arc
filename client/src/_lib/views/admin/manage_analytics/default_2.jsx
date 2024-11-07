@@ -14,7 +14,7 @@ const default_2 = ({MostFrequestStrandBorrower}) => {
             Most Frequest strand borrower (Bar Graph)
           </h3>
           <Link
-            to="/admin/analytics/print_data"
+            to="/admin/analytics/most_frequest_strand_borrower"
             activeProps={{ className: "text-primary font-black" }}
             activeOptions={{ exact: true }}
           >
@@ -30,7 +30,7 @@ const default_2 = ({MostFrequestStrandBorrower}) => {
         <Default_2_frequest_strand MostFrequestStrandBorrower={MostFrequestStrandBorrower}/>
       </div>
       {/* Second div */}
-      <div className="col-span-1 rounded-md bg-white text-[#333333] border-2 h-44 p-4">
+      <div className="col-span-1 rounded-md bg-white text-[#333333] border-2 h-52 p-4">
         <h1 className="font-bold">Legend</h1>
         <ul className="list-none pl-2">
           <li style={{ position: "relative", paddingLeft: "20px" }}>
@@ -77,6 +77,21 @@ const default_2 = ({MostFrequestStrandBorrower}) => {
               }}
             ></span>
             GAS
+          </li>
+          <li style={{ position: "relative", paddingLeft: "20px" }}>
+            <span
+              style={{
+                position: "absolute",
+                left: "0",
+                top: "50%",
+                transform: "translateY(-50%)",
+                height: "10px",
+                width: "10px",
+                borderRadius: "50%",
+                backgroundColor: "green",
+              }}
+            ></span>
+            Cookery
           </li>
           <li style={{ position: "relative", paddingLeft: "20px" }}>
             <span

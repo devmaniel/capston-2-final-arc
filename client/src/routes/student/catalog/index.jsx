@@ -60,7 +60,7 @@ export const Route = createFileRoute("/student/catalog/")({
         case "expired_session":
           console.log(`Error reason: ${authResult.reason}`);
           throw redirect({ to: "/login" });
-        case "pending_violations": // Handle pending violations here
+        case "pending_violations":
           console.log(
             "User has pending violations. Redirecting to /violations_page"
           );
@@ -70,6 +70,9 @@ export const Route = createFileRoute("/student/catalog/")({
             `Role mismatch. Redirecting to: ${role === "admin" ? "/student" : "/admin"}`
           );
           throw redirect({ to: role === "admin" ? "/student" : "/admin" });
+        case "unenrolled":
+          console.log("User is no longer enrolled. Redirecting to /noLonger");
+          throw redirect({ to: "/noLonger" });
         default:
           console.log(`Unexpected error reason: ${authResult.reason}`);
           throw redirect({ to: "/login" });

@@ -14,11 +14,13 @@ import Footer from "../../_lib/views/screen/student/common/Footer";
 // authentication api
 import auth from "../../_lib/api/auth";
 
+
+
 export const Route = createFileRoute("/student/")({
   beforeLoad: async () => {
     const role = "student";
     const authResult = await auth(role);
-
+    
     if (authResult.success) {
       if (authResult.role !== role) {
         console.log(
@@ -37,7 +39,7 @@ export const Route = createFileRoute("/student/")({
         case "expired_session":
           console.log(`Error reason: ${authResult.reason}`);
           throw redirect({ to: "/login" });
-        case "pending_violations": // Handle pending violations here
+        case "pending_violations":
           console.log(
             "User has pending violations. Redirecting to /violations_page"
           );
@@ -47,6 +49,9 @@ export const Route = createFileRoute("/student/")({
             `Role mismatch. Redirecting to: ${role === "admin" ? "/student" : "/admin"}`
           );
           throw redirect({ to: role === "admin" ? "/student" : "/admin" });
+        case "unenrolled":
+          console.log("User is no longer enrolled. Redirecting to /noLonger");
+          throw redirect({ to: "/noLonger" });
         default:
           console.log(`Unexpected error reason: ${authResult.reason}`);
           throw redirect({ to: "/login" });
@@ -55,6 +60,7 @@ export const Route = createFileRoute("/student/")({
   },
   component: () => index(),
 });
+
 
 const title = [
   {

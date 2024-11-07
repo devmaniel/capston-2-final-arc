@@ -49,7 +49,7 @@ const analytics_landing_page = () => {
   
   const { arrayData: MostYearStrandBorrower } = useAxiosFetchArrayData('/admin/analytics/most_request_strand_borrower'); // Replace with your API endpoint
   
-  const { arrayData: MostYearLevelBorrower } = useAxiosFetchArrayData('/admin/analytics/most_request_strand_borrower'); // Replace with your API endpoint
+  const { arrayData: MostYearLevelBorrower } = useAxiosFetchArrayData('/admin/analytics/most_year_level_borrower'); // Replace with your API endpoint
   
 
   if (!TotalBookActive && !TotalOutOfStock && !TotalBookBorrowed && !MostFrequestStrandBorrower && !MostYearStrandBorrower && MostYearLevelBorrower)
@@ -82,8 +82,8 @@ const analytics_landing_page = () => {
               TotalBookBorrowed={TotalBookBorrowed}
             />
             <Default_2 MostFrequestStrandBorrower={MostFrequestStrandBorrower} />
-            <div className="mt-2">
-              <Default_3 MostYearStrandBorrower={MostYearStrandBorrower} MostYearLevelBorrower={MostYearLevelBorrower}/>
+            <div className="mt-2">  
+              <Default_3 MostYearStrandBorrower={MostYearLevelBorrower} MostYearLevelBorrower={MostYearStrandBorrower}/>
             </div>
           </section>
 

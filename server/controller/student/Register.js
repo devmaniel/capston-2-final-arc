@@ -10,6 +10,8 @@ const authToken = "7bb2fdb275a3bf0c44f9c354893ea027";
 
 const client = twilio(accountSid, authToken);
 
+const bcrypt = require('bcrypt'); // Import bcrypt
+
 // model
 const LRNModel = require("../../model/lrn");
 const USERModel = require("../../model/user");
@@ -161,9 +163,10 @@ exports.PostLRNStep2 = async (req, res, next) => {
   }
 };
 
-const axios = require("axios");
+const axios = require('axios');
 
-// Function to handle form submission
+
+
 // Function to handle form submission
 exports.PostLRNStep3 = async (req, res, next) => {
   const { email, otp, phoneNumber, mailOtpID } = req.body;
@@ -217,10 +220,15 @@ exports.PostLRNStep3 = async (req, res, next) => {
 
       console.log("Phone OTP:", newOtp);
 
+      // Format the phone number with +63 prefix
+      const formattedPhoneNumber = `+63${phoneNumber}`;
+
+      console.log("formatted phone number", formattedPhoneNumber)
+
       // Create a new OTP for phone number verification
       await OTPModel.create({
         valid_code: newOtp,
-        mail_phone_number: phoneNumber,
+        mail_phone_number: formattedPhoneNumber,
         expiresAt: expiresAt,
       });
 
@@ -228,11 +236,12 @@ exports.PostLRNStep3 = async (req, res, next) => {
       try {
         const message = await client.messages.create({
           body: `Your BBSSHS account OTP code: ${newOtp}`,
-          from: "+16474949089", // Twilio number
-          to: phoneNumber,
-        });
+          from: "+12286414153", // Twilio number
+          to: formattedPhoneNumber,
+        })
+        .then(message => console.log(message.sid));
 
-        console.log("New OTP sent to phone number:", phoneNumber);
+        console.log("New OTP sent to phone number:", formattedPhoneNumber);
         console.log("Twilio response:", message);
       } catch (twilioError) {
         console.error("Failed to send OTP via Twilio:", twilioError);
@@ -249,11 +258,11 @@ exports.PostLRNStep3 = async (req, res, next) => {
     }
   } catch (error) {
     console.log("Error verifying OTP or generating new OTP:", error);
-    res
-      .status(500)
-      .json({ message: "Failed to verify OTP or generate new OTP" });
+    res.status(500).json({ message: "Failed to verify OTP or generate new OTP" });
   }
 };
+
+
 
 exports.PostLRNStep4 = async (req, res, next) => {
   try {
@@ -263,7 +272,7 @@ exports.PostLRNStep4 = async (req, res, next) => {
 
     // Step 1: Validate OTP
     const otpEntry = await OTPModel.findOne({
-      where: { mail_phone_number: phoneNumber },
+      where: { valid_code: otp },
       order: [["createdAt", "DESC"]],
     });
 
@@ -294,7 +303,10 @@ exports.PostLRNStep4 = async (req, res, next) => {
       return res.status(404).json({ error: "LRN not found" });
     }
 
-    // Step 3: Insert Data into USERModel
+    // Step 3: Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
+
+    // Step 4: Insert Data into USERModel with hashed password
     const newUser = await USERModel.create({
       last_name: lrnData.last_name,
       first_name: lrnData.first_name,
@@ -302,18 +314,18 @@ exports.PostLRNStep4 = async (req, res, next) => {
       acc_lrn: lrnData.valid_lrn, // Foreign Key
       email: email,
       phone_number: phoneNumber,
-      password: password,
+      password: hashedPassword, // Use hashed password
       status: "Active", // Set status to "Active"
       role: "Student", // Set role to "Student"
     });
 
-    // Step 4: Update LRNModel to Link with USERModel
+    // Step 5: Update LRNModel to Link with USERModel
     await lrnData.update({
       acc_status: newUser.id, // Update acc_status with the new User ID
       status: "active",
     });
 
-    // Step 5: Send Success Response
+    // Step 6: Send Success Response
     return res
       .status(200)
       .json({ success: true, userId: newUser.id, valid_phone_otp: true });

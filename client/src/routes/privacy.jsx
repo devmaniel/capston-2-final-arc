@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/privacy")({
   component: privacy,
+  
 });
 
 import React from "react";

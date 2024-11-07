@@ -6,7 +6,6 @@ import { React, useState } from "react";
 import Nav from "../../../_lib/views/screen/student/common/Nav";
 import Footer from "../../../_lib/views/screen/student/common/Footer";
 
-
 // authentication api
 import auth from "../../../_lib/api/auth";
 
@@ -17,8 +16,12 @@ export const Route = createFileRoute("/student/notifications/")({
 
     if (authResult.success) {
       if (authResult.role !== role) {
-        console.log(`Role mismatch detected. Expected: ${role}, Found: ${authResult.role}`);
-        throw redirect({ to: authResult.role === 'student' ? '/student' : '/login' });
+        console.log(
+          `Role mismatch detected. Expected: ${role}, Found: ${authResult.role}`
+        );
+        throw redirect({
+          to: authResult.role === "student" ? "/student" : "/login",
+        });
       }
       // Proceed if session is valid and roles match
       return {};
@@ -30,14 +33,19 @@ export const Route = createFileRoute("/student/notifications/")({
         case "expired_session":
           console.log(`Error reason: ${authResult.reason}`);
           throw redirect({ to: "/login" });
-        case "pending_violations":  // Handle pending violations here
-          console.log("User has pending violations. Redirecting to /violations_page");
+        case "pending_violations":
+          console.log(
+            "User has pending violations. Redirecting to /violations_page"
+          );
           throw redirect({ to: "/violations_page" });
         case "role_mismatch":
           console.log(
             `Role mismatch. Redirecting to: ${role === "admin" ? "/student" : "/admin"}`
           );
           throw redirect({ to: role === "admin" ? "/student" : "/admin" });
+        case "unenrolled":
+          console.log("User is no longer enrolled. Redirecting to /noLonger");
+          throw redirect({ to: "/noLonger" });
         default:
           console.log(`Unexpected error reason: ${authResult.reason}`);
           throw redirect({ to: "/login" });
@@ -92,12 +100,7 @@ export default function Notifications() {
               </div>
             </div>
           </div>
-          
-         
-          
-          
 
-         
           {isExpanded && (
             <>
               <div className="notif my-2">
@@ -123,7 +126,6 @@ export default function Notifications() {
                   </div>
                 </div>
               </div>
-              
             </>
           )}
 

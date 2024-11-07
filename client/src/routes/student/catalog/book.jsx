@@ -37,13 +37,18 @@ export const Route = createFileRoute("/student/catalog/book")({
           console.log(`Error reason: ${authResult.reason}`);
           throw redirect({ to: "/login" });
         case "pending_violations":
-          console.log("User has pending violations. Redirecting to /violations_page");
+          console.log(
+            "User has pending violations. Redirecting to /violations_page"
+          );
           throw redirect({ to: "/violations_page" });
         case "role_mismatch":
           console.log(
-            `Role mismatch. Redirecting to: /admin/manage_books/edit_book with bookId`
+            `Role mismatch. Redirecting to: ${role === "admin" ? "/student" : "/admin"}`
           );
-          throw redirect({ to: `/admin/manage_books/edit_book?book_id=${search.bookId}` });
+          throw redirect({ to: role === "admin" ? "/student" : "/admin" });
+        case "unenrolled":
+          console.log("User is no longer enrolled. Redirecting to /noLonger");
+          throw redirect({ to: "/noLonger" });
         default:
           console.log(`Unexpected error reason: ${authResult.reason}`);
           throw redirect({ to: "/login" });

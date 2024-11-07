@@ -7,6 +7,7 @@ import { GiBookshelf } from "react-icons/gi";
 
 export const Route = createFileRoute("/design")({
   component: () => Design(),
+  
 });
 
 function Design() {
