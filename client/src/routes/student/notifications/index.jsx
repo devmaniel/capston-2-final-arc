@@ -55,12 +55,22 @@ export const Route = createFileRoute("/student/notifications/")({
   component: () => Notifications(),
 });
 
+import { useAxiosNotifications } from "../../../_lib/hook/useAxiosNotifications";
+import { formatDistanceToNow } from "date-fns"; // Library to format time
+
 export default function Notifications() {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const { loading, data, error } = useAxiosNotifications();
+
+  if (loading) return <div>Loading...</div>;
+
+  console.log("Notifications Data", data);
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
+
   return (
     <>
       <Nav />
@@ -77,68 +87,64 @@ export default function Notifications() {
           <div>
             <h1 className="text-[12px]">Earlier</h1>
           </div>
-          <div className="notif my-2">
-            <div className="bg-neutral w-[auto] h-auto rounded">
+
+          {data && data.length > 0 ? (
+        data.map((notification, index) => (
+          <div key={index} className="notif my-2">
+            <div
+              className={`bg-neutral w-auto h-auto rounded ${
+                !notification.isRead ? "bg-opacity-90" : "bg-opacity-50"
+              }`}
+            >
               <div className="flex mb-3">
-                <img src="/images/logo.png" className="h-12" />
-                <div className="my-2 mx-4  overflow-hidden">
+                <img
+                  src="/images/logo.png"
+                  className="h-12"
+                  alt="BBSHS Logo"
+                />
+                <div className="my-2 mx-4 flex-1 overflow-hidden">
                   <div className="flex">
-                    <h1 className="text-[12px] font-bold">BBSHS</h1>
-                    <h1 className="text-[12px] mx-1 truncate">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Eaque perferendis error nostrum vitae amet sunt cupiditate
-                      laboriosam fugiat mollitia rerum blanditiis porro
-                      architecto, quia deserunt quasi ea, provident veniam.
-                      Libero.
+                    <h1 className="text-xs font-bold">BBSHS</h1>
+                    <h1 className="text-xs mx-1 truncate">
+                      {notification.descriptions}
                     </h1>
                   </div>
                   <div className="flex justify-between items-center">
-                    <h1 className="text-[12px] text-primary">1h ago</h1>
-                    <BsThreeDots />
+                    <h1 className="text-xs text-primary">
+                      {formatDistanceToNow(new Date(notification.createdAt))} ago
+                    </h1>
+                    <button
+                      className="p-1 hover:bg-gray-200 rounded-full"
+                      onClick={() => setIsExpanded(!isExpanded)}
+                      aria-label="More options"
+                    >
+                      <BsThreeDots className="text-gray-600" />
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        ))
+      ) : (
+        <div className="notif my-4 w-full max-w-md mx-auto">
+          <div className="rounded-lg text-center overflow-hidden">
+            <img
+              src="/images/logo.png"
+              alt="Company Logo"
+              className="mx-auto h-24 w-24 mb-4"
+            />
+            <h1 className="text-lg font-bold text-gray-800">
+              No notifications yet.
+            </h1>
+            <p className="text-gray-500 mt-2">
+              Stay tuned! Notifications will appear here when available.
+            </p>
+          </div>
+        </div>
+      )}
 
-          {isExpanded && (
-            <>
-              <div className="notif my-2">
-                <div className="bg-neutral w-[auto] h-auto rounded">
-                  <div className="flex mb-3">
-                    <img src="/images/logo.png" className="h-12" />
-                    <div className="my-2 mx-4  overflow-hidden">
-                      <div className="flex">
-                        <h1 className="text-[12px] font-bold">BBSHS</h1>
-                        <h1 className="text-[12px] mx-1 truncate">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Eaque perferendis error nostrum vitae amet sunt
-                          cupiditate laboriosam fugiat mollitia rerum blanditiis
-                          porro architecto, quia deserunt quasi ea, provident
-                          veniam. Libero.
-                        </h1>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <h1 className="text-[12px] text-primary">1h ago</h1>
-                        <BsThreeDots />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          <ul className="text-base-100 flex py-5 text-[14px]">
-            <li className="text-center mx-auto text-base-100 list-item-none">
-              <button
-                className="text-[12px] hover:underline text-base-100 px-2 rounded flex items-center"
-                onClick={handleToggle}
-              >
-                {isExpanded ? "View less" : "View more"}
-              </button>
-            </li>
-          </ul>
+          
         </div>{" "}
       </div>
     </>

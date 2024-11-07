@@ -10,20 +10,21 @@ import { formatDistanceToNow } from "date-fns"; // Library to format time
 export default function Notifications() {
   const { loading, data, error } = useAxiosNotifications();
   const [isExpanded, setIsExpanded] = useState(false);
-  const isRecent = (date) => {
-    const now = new Date();
-    const notificationDate = new Date(date);
-    const timeDiff = now - notificationDate;
-    const hoursDiff = timeDiff / (1000 * 60 * 60);
-    return hoursDiff < 24;
-  };
+
   if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading notifications</div>;
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
 
-  
+  // Assuming `data.date` holds the date of notification
+  const now = new Date();
+  const notificationDate = new Date(data?.date); // Adjust according to your data structure
+  const timeDiff = now - notificationDate;
+  const hoursDiff = timeDiff / (1000 * 60 * 60);
+  const isRecent = hoursDiff < 24;
+
   return (
     <div className="dropdown dropdown-end">
       <button className="btn btn-ghost   bell">
