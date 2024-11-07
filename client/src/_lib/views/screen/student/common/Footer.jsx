@@ -4,26 +4,47 @@ import { Link } from "@tanstack/react-router";
 export default function Footer() {
   return (
     <>
-      <div className="bg-neutral w-full">
-        <div className="flex justify-evenly items-center sm ">
-          <div className="mt-10">
-            <img
-              src="/images/logo.png"
-              className="h-[150px] w-[150px] bg-white rounded-[50%]"
-            />
+      <div className="bg-neutral w-full"> 
+        <div className="flex justify-evenly items-center mt-10 overflow-x-scroll space-x-4">
+          <div className="flex-shrink-0 mt-10 mb-5 mx-4 sm:mx-0">
+            <a
+              href="https://www.facebook.com/bagbarrioshs/?locale=tl_PH"
+              target="_blank"
+              class="link link-hover"
+            >
+              <img src="/images/logo.png" className="h-[150px] w-[150px] bg-white rounded-[50%]" />
+            </a>
           </div>
-          <div className="mt-10">
-            <img src="/images/deped.png" className="h-[150px] " />
+          <div className="flex-shrink-0 mx-4">
+            <a
+              href="https://www.deped.gov.ph/"
+              target="_blank"
+              class="link link-hover"
+            >
+              <img src="/images/deped.png" className="h-[150px]" />
+            </a>
           </div>
-          <div className="mt-10">
-            <img src="/images/do.png" className="h-[150px] w-[150px]" />
+          <div className="flex-shrink-0 mx-4">
+            <a
+              href="https://depedcaloocan.com/"
+              target="_blank"
+              class="link link-hover"
+            >
+              <img src="/images/do.png" className="h-[150px] w-[150px]" />
+            </a>
           </div>
-          <div className="mt-10">
-            <img src="/images/logo.png" className="h-[150px] w-[150px]" />
+          <div className="flex-shrink-0 mx-4">
+            <a
+              href="https://www.facebook.com/bagbarrioshs/?locale=tl_PH"
+              target="_blank"
+              class="link link-hover"
+            >
+              <img src="/images/logo.png" className="h-[150px] w-[150px]" />
+            </a>
           </div>
         </div>
       </div>
-      <div className="footer bg-neutral text-neutral-content p-10 sm:flex sm:justify-around sm:items-center">
+      <div className="footer bg-neutral text-neutral-content p-10 flex sm:flex sm:justify-between sm:flex-row sm:items-center flex-col  ">
         <nav className="text-center ">
           <h6 className="footer-title">Resources</h6>
           <a
