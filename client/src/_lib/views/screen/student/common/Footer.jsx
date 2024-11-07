@@ -44,7 +44,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="footer bg-neutral text-neutral-content p-10 flex sm:flex sm:justify-between sm:flex-row sm:items-center flex-col  ">
+      <div className="footer bg-neutral text-neutral-content p-10 ">
         <nav className="text-center ">
           <h6 className="footer-title">Resources</h6>
           <a
