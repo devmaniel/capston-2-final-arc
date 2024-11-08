@@ -5,8 +5,8 @@ const { google } = require("googleapis");
 const config = require("../../api/GoogleOAUTH");
 
 const twilio = require("twilio");
-const accountSid = "ACd228378b332ff5338ad8032258c1cb65";
-const authToken = "7bb2fdb275a3bf0c44f9c354893ea027";
+const accountSid = "AC45e6cf65f4b9062145d0d8be4df09726";
+const authToken = "7e6cc037a67e85681bb3bf60fb21de0f";
 
 const client = twilio(accountSid, authToken);
 
@@ -236,7 +236,7 @@ exports.PostLRNStep3 = async (req, res, next) => {
       try {
         const message = await client.messages.create({
           body: `Your BBSSHS account OTP code: ${newOtp}`,
-          from: "+12286414153", // Twilio number
+          from: "+12312992156", // Twilio number
           to: formattedPhoneNumber,
         })
         .then(message => console.log(message.sid));

@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import Nav from "@_lib/views/screen/student/common/Nav";
 import { BsThreeDots } from "react-icons/bs";
 
+import { Link } from "@tanstack/react-router";
+
 // authentication api
 import auth from "../../../_lib/api/auth";
 
@@ -9,7 +11,7 @@ export const Route = createFileRoute("/student/mobile_notif/")({
   beforeLoad: async () => {
     const role = "student";
     const authResult = await auth(role);
-    
+
     if (authResult.success) {
       if (authResult.role !== role) {
         console.log(
@@ -50,7 +52,15 @@ export const Route = createFileRoute("/student/mobile_notif/")({
   component: () => index(),
 });
 
+import { useAxiosNotifications } from "../../../_lib/hook/useAxiosNotifications";
+import { formatDistanceToNow } from "date-fns"; // Library to format time
+
 export default function index() {
+  const { loading, data, counter, error } = useAxiosNotifications();
+  if (loading) return <div>Loading...</div>;
+
+  console.log("Notifications Data", data);
+
   return (
     <>
       <div>
@@ -68,166 +78,65 @@ export default function index() {
             <div>
               <h1 className="text-[12px]">New</h1>
             </div>
-            <div className="notif my-2 text-black">
-              <div className="bg-white w-[auto] h-auto rounded shadow-sm">
-                <div className="flex mb-3 p-2 ">
-                  <img
-                    src="/images/logo.png"
-                    className="h-12 object-cover bg-white rounded-[50%]"
-                  />
-                  <div className="my-2 mx-4  overflow-hidden">
-                    <div className="flex text-black">
-                      <h1 className="text-[12px] font-bold">BBSHS</h1>
-                      <h1 className="text-[12px] mx-1 truncate ">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Eaque perferendis error nostrum vitae amet sunt
-                        cupiditate laboriosam fugiat mollitia rerum blanditiis
-                        porro architecto, quia deserunt quasi ea, provident
-                        veniam. Libero.
-                      </h1>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <h1 className="text-[12px] text-primary">1h ago</h1>
-                      <BsThreeDots />
-                    </div>
+
+            {data && data.length > 0 ? (
+              data.map((notification, index) => (
+                <div key={index} className="notif my-2 text-black">
+                  <div
+                    className={`bg-white w-auto h-auto rounded shadow-sm ${
+                      !notification.isRead ? "bg-opacity-90" : "bg-opacity-50"
+                    }`}
+                  >
+                    <Link to={notification.href} className="flex mb-3 p-2">
+                      <img
+                        src="/images/logo.png"
+                        className="h-12 object-cover bg-white rounded-[50%]"
+                        alt="BBSHS Logo"
+                      />
+                      <div className="my-2 mx-4 flex-1 overflow-hidden">
+                        <div className="flex text-black">
+                          <h1 className="text-[12px] font-bold">BBSHS</h1>
+                          <h1 className="text-[12px] mx-1 truncate">
+                            {notification.descriptions}
+                          </h1>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <h1 className="text-[12px] text-primary">
+                            {formatDistanceToNow(
+                              new Date(notification.createdAt)
+                            )}{" "}
+                            ago
+                          </h1>
+
+                          <button
+                            className="p-1 rounded-full"
+                            aria-label="More options"
+                          >
+                            <BsThreeDots className="text-gray-600" />
+                          </button>
+                        </div>
+                      </div>
+                    </Link>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div>
-              <h1 className="text-[12px]">Earlier</h1>
-            </div>
-            <div className="notif my-2">
-              <div className="bg-white w-[auto] h-auto rounded shadow-sm">
-                <div className="flex mb-3 p-2 ">
+              ))
+            ) : (
+              <div className="notif my-4 w-full max-w-md mx-auto text-center">
+                <div className="rounded-lg overflow-hidden">
                   <img
                     src="/images/logo.png"
-                    className="h-12 object-cover bg-white rounded-[50%]"
+                    alt="Company Logo"
+                    className="mx-auto h-24 w-24 mb-4"
                   />
-                  <div className="my-2 mx-4  overflow-hidden">
-                    <div className="flex text-black">
-                      <h1 className="text-[12px] font-bold">BBSHS</h1>
-                      <h1 className="text-[12px] mx-1 truncate ">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Eaque perferendis error nostrum vitae amet sunt
-                        cupiditate laboriosam fugiat mollitia rerum blanditiis
-                        porro architecto, quia deserunt quasi ea, provident
-                        veniam. Libero.
-                      </h1>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <h1 className="text-[12px] text-primary">1h ago</h1>
-                      <BsThreeDots />
-                    </div>
-                  </div>
+                  <h1 className="text-lg font-bold text-gray-800">
+                    No notifications yet.
+                  </h1>
+                  <p className="text-gray-500 mt-2">
+                    Stay tuned! Notifications will appear here when available.
+                  </p>
                 </div>
               </div>
-            </div>
-            <div className="notif my-2">
-              <div className="bg-white w-[auto] h-auto rounded shadow-sm">
-                <div className="flex mb-3 p-2 ">
-                  <img
-                    src="/images/logo.png"
-                    className="h-12 object-cover bg-white rounded-[50%]"
-                  />
-                  <div className="my-2 mx-4  overflow-hidden">
-                    <div className="flex text-black">
-                      <h1 className="text-[12px] font-bold">BBSHS</h1>
-                      <h1 className="text-[12px] mx-1 truncate ">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Eaque perferendis error nostrum vitae amet sunt
-                        cupiditate laboriosam fugiat mollitia rerum blanditiis
-                        porro architecto, quia deserunt quasi ea, provident
-                        veniam. Libero.
-                      </h1>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <h1 className="text-[12px] text-primary">1h ago</h1>
-                      <BsThreeDots />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="notif my-2">
-              <div className="bg-white w-[auto] h-auto rounded shadow-sm">
-                <div className="flex mb-3 p-2 ">
-                  <img
-                    src="/images/logo.png"
-                    className="h-12 object-cover bg-white rounded-[50%]"
-                  />
-                  <div className="my-2 mx-4  overflow-hidden">
-                    <div className="flex text-black">
-                      <h1 className="text-[12px] font-bold">BBSHS</h1>
-                      <h1 className="text-[12px] mx-1 truncate ">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Eaque perferendis error nostrum vitae amet sunt
-                        cupiditate laboriosam fugiat mollitia rerum blanditiis
-                        porro architecto, quia deserunt quasi ea, provident
-                        veniam. Libero.
-                      </h1>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <h1 className="text-[12px] text-primary">1h ago</h1>
-                      <BsThreeDots />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white w-[auto] h-auto rounded shadow-sm">
-                <div className="flex mb-3 p-2 ">
-                  <img
-                    src="/images/logo.png"
-                    className="h-12 object-cover bg-white rounded-[50%]"
-                  />
-                  <div className="my-2 mx-4  overflow-hidden">
-                    <div className="flex text-black">
-                      <h1 className="text-[12px] font-bold">BBSHS</h1>
-                      <h1 className="text-[12px] mx-1 truncate ">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Eaque perferendis error nostrum vitae amet sunt
-                        cupiditate laboriosam fugiat mollitia rerum blanditiis
-                        porro architecto, quia deserunt quasi ea, provident
-                        veniam. Libero.
-                      </h1>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <h1 className="text-[12px] text-primary">1h ago</h1>
-                      <BsThreeDots />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white w-[auto] h-auto rounded shadow-sm">
-                <div className="flex mb-3 p-2 ">
-                  <img
-                    src="/images/logo.png"
-                    className="h-12 object-cover bg-white rounded-[50%]"
-                  />
-                  <div className="my-2 mx-4  overflow-hidden">
-                    <div className="flex text-black">
-                      <h1 className="text-[12px] font-bold">BBSHS</h1>
-                      <h1 className="text-[12px] mx-1 truncate ">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Eaque perferendis error nostrum vitae amet sunt
-                        cupiditate laboriosam fugiat mollitia rerum blanditiis
-                        porro architecto, quia deserunt quasi ea, provident
-                        veniam. Libero.
-                      </h1>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <h1 className="text-[12px] text-primary">1h ago</h1>
-                      <BsThreeDots />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <button className="text-white bg-primary p-2 w-full rounded shadow-md">
-                See Previous Notifications
-              </button>
-            </div>
+            )}
           </div>
         </div>
       </div>

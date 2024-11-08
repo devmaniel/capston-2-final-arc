@@ -56,7 +56,7 @@ const Print_most_year_level_borrower = () => {
       <div className="flex justify-between ">
         <Link
           to="/admin/analytics"
-          className="text-left hover:underline transition duration-300"
+          className="text-left back hover:underline transition duration-300"
         >
           Back
         </Link>

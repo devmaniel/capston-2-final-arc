@@ -52,7 +52,7 @@ const Categories = ({
                 <input
                   type="text"
                   className="grow  py-2 z-50 rounded-md focus:outline-none"
-                  placeholder="Search"
+                  placeholder="Search by Book name, ISBN, & Author..."
                   value={searchValue}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyPress}

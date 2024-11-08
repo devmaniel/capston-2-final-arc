@@ -418,7 +418,7 @@ exports.postCreateBooks = async (req, res, next) => {
     const notifications = users.map((user) => ({
       account_id: user.id,
       descriptions: `New Book Created: ${bookname}`,
-      href: `/student/book?bookId=${bookId}`,
+      href: `/student/catalog/book?bookId=${bookId}`,
       type: "book",
       isRead: 0,
     }));

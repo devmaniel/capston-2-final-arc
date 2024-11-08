@@ -77,16 +77,16 @@ export default function LoginForm({
         >
           {loadingState ? "Logging in..." : "Login"}
         </button>
-        <Link to="/forgot_password" className="text-sm">Forgot Password?</Link> 
-        
+        <Link to="/forgot_password" className="text-sm">
+          Forgot Password?
+        </Link>
       </div>
 
-      
       <ul className="mt-[20px] text-sm mb-10 text-center text-base-content flex justify-center gap-5">
-          <Link to="/privacy">Privacy</Link> |
-          <Link to="/about">About BBSHS Library</Link> |
-          <Link to="/register">Want to Register Account?</Link>
-        </ul>
+        <Link to="/privacy">Privacy</Link> |
+        <Link to="/about">About BBSHS Library</Link> |
+        <Link to="/register">Want to Register Account?</Link>
+      </ul>
 
       {error && <p className="text-red-500 mt-2">{error}</p>}
     </form>

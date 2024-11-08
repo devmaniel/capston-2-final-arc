@@ -42,6 +42,11 @@ const RequestModel = connection.define('request', {
     allowNull: false,
     comment: 'Current status of the request (e.g., pending, approved, denied)'
   },
+  authorizer: {
+    type: Sequelize.STRING,
+    allowNull: true,  // Nullable if optional
+    comment: 'Name or ID of the librarian or staff member who authorized the request'
+  },
   request_qr_img: {
     type: Sequelize.STRING,
     allowNull: true,  // Nullable

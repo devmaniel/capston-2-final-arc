@@ -26,7 +26,7 @@ export default function Register() {
     lastName: "",
     firstName: "",
     middleName: "",
-    phoneNumber: "9577463369",
+    phoneNumber: "9123374089",
     email: "",
     password: "",
   });

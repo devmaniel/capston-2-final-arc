@@ -5,12 +5,11 @@ import { Link } from "@tanstack/react-router";
 
 import auth from "../../_lib/api/auth";
 
-
 export const Route = createFileRoute("/student/Events")({
   beforeLoad: async () => {
     const role = "student";
     const authResult = await auth(role);
-    
+
     if (authResult.success) {
       if (authResult.role !== role) {
         console.log(
@@ -54,74 +53,47 @@ export const Route = createFileRoute("/student/Events")({
 const Ganap = [
   {
     id: 1,
-    img: "/images/akopogi.jpg",
+    img: "/images/doc.jfif",
     title:
-      "Preserving Voices, Saving Histories: Meet Lisa Nguyen, CLIR Grantee Spotlight",
+      "Bagong Barrio Senior Higschool Congratulates Doc Neri For Passing the National Qualifying Exams for School Heads",
     description:
-      "By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical",
-    date: "October 21, 2024",
+      "Congratulations Doc Neri on passing the NQESH! Your hard work and dedication have paid off, and we are excited for the amazing leadership you'll bring as a future school head!",
+    date: "October 18, 2024",
   },
   {
     id: 2,
-    img: "/images/akopogi.jpg",
+    img: "/images/don.jfif",
     title:
-      "Preserving Voices, Saving Histories: Meet Lisa Nguyen, CLIR Grantee Spotlight",
+      "Donation of Cleaning Materials from Pandayan Bookstore to Bagong Barrio Senior High School ",
     description:
-      " By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical",
-    date: "October 21, 2024",
+      " Bayanihan continues at Bagong Barrio Senior High School Thank you Pandayan Bookshop for donating these cleaning materials for our students.",
+    date: "September 20, 2024",
   },
   {
     id: 3,
-    img: "/images/logo.png",
+    img: "/images/op.jfif",
     title:
-      "Preserving Voices, Saving Histories: Meet Lisa Nguyen, CLIR Grantee Spotlight",
+      "Announcement of Opening of Classes from Bagong Barrio Senior High School Confirmed.",
     description:
-      "By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical",
+      "All incoming Grade 11 and Grade 12 students are invited to join the first Flag Ceremony tomorrow, July 29, 2024, as we commence School Year 2024-2025. Students are encouraged to arrive as early as 7:00AM.",
     date: "October 21, 2024",
   },
   {
     id: 2,
-    img: "/images/bbshsloc.JPG",
+    img: "/images/paano.jfif",
     title:
-      "Preserving Voices, Saving Histories: Meet Lisa Nguyen, CLIR Grantee Spotlight",
+      "Bagong Barrio Senior High School is Now Accepting Enrollees For S.Y. 2024-2025",
     description:
-      " By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical",
+      " Magandang araw Bagong Barrio Senior High School! Narito ang mga detalye para sa enrolment ng mga mag-aaral para sa S.Y. 2024-2025 simula June 13,2024, 9:00 AM- 3:00 PM.",
     date: "October 21, 2024",
   },
   {
     id: 1,
-    img: "/images/akopogi.jpg",
+    img: "/images/lpu.jfif",
     title:
-      "Preserving Voices, Saving Histories: Meet Lisa Nguyen, CLIR Grantee Spotlight",
+      "Bagong Barrio Senior High School Celebrates the 2024 National Women’s Month",
     description:
-      "By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical",
-    date: "October 21, 2024",
-  },
-  {
-    id: 2,
-    img: "/images/bbshsloc.JPG",
-    title:
-      "Preserving Voices, Saving Histories: Meet Lisa Nguyen, CLIR Grantee Spotlight",
-    description:
-      " By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical",
-    date: "October 21, 2024",
-  },
-  {
-    id: 2,
-    img: "/images/bbshsloc.JPG",
-    title:
-      "Preserving Voices, Saving Histories: Meet Lisa Nguyen, CLIR Grantee Spotlight",
-    description:
-      " By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical",
-    date: "October 21, 2024",
-  },
-  {
-    id: 1,
-    img: "/images/akopogi.jpg",
-    title:
-      "Preserving Voices, Saving Histories: Meet Lisa Nguyen, CLIR Grantee Spotlight",
-    description:
-      "By William Carter As society continues its march into the digital era, the need to preserve historical records and make them accessible to the public is more critical",
+      "The theme of this year's National Women's Month, “Lipunang Patas Sa Bagong Pilipinas: Kakayahan ng Kababaihan, Patutunayan!” emphasizes the importance of gender equality and the potential of women in our rapidly evolving nation.",
     date: "October 21, 2024",
   },
 ];
@@ -160,44 +132,42 @@ export default function Events() {
         </div>
 
         <div className="w-full h-auto mx-auto max-w-[1300px] mb-5 ">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:p-1 mt-2 mb-5  ">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:p-1 mt-2 mb-5">
             {Ganap.map((data) => (
-              <>
-                <Link to="/student/Spec_Events">
-                  <div className="relative p-7 sm:p-0 sm:gap-6">
-                    <div
-                      key={data.title}
-                      className="flex flex-col w-full bg-white hover:shadow-lg transition duration-300 "
-                    >
-                      <div className="relative w-full overflow-hidden h-auto md:h-72 lg:h-auto ">
-                        <img
-                          src={data.img}
-                          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                          alt={data.title}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
-                        <h1 className="absolute top-5 left-5 bg-gradient-to-r from-sky-500 to-sky-600 tracking-[1px] w-fit px-2 py-1 font-bold text-[12px] text-white rounded-full">
-                          BBSHS Events
-                        </h1>
-                      </div>
-
-                      <div className="p-5 border-b-2 flex-grow text-[#333333]">
-                        <h1 className="text-primary font-bold text-[18px] mb-1 line-clamp-3">
-                          {data.title}
-                        </h1>
-                        <p className="text-[14px] my-2 line-clamp-5">
-                          {data.description}
-                        </p>
-                      </div>
-
-                      <div className="px-5 py-2 text-[#333333]">
-                        <p className="text-[12px] font-bold">{data.date}</p>
-                      </div>
-                      <div className="absolute bg-white opacity-0 hover:opacity-5 hover:duration-300 transition w-full h-full"></div>
-                    </div>
+              <Link to="/student/Spec_Events" key={data.title}>
+                <div className="relative  flex flex-col bg-white border rounded-lg shadow-sm hover:shadow-lg transition-all duration-300">
+                  {/* Image Section */}
+                  <div className="relative w-full h-64 md:h-72 lg:h-[300px]">
+                    <img
+                      src={data.img}
+                      alt={data.title}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
+                    <h1 className="absolute top-4 left-4 bg-gradient-to-r from-sky-500 to-sky-600 text-white text-xs font-bold py-1 px-3 rounded-full">
+                      BBSHS Events
+                    </h1>
                   </div>
-                </Link>
-              </>
+
+                  {/* Text Section */}
+                  <div className="flex-grow p-4">
+                    <h1 className="text-primary font-bold text-lg mb-2 line-clamp-2">
+                      {data.title}
+                    </h1>
+                    <p className="text-sm text-gray-600 line-clamp-3">
+                      {data.description}
+                    </p>
+                  </div>
+
+                  {/* Date Section */}
+                  <div className="px-4 py-2 text-sm font-semibold text-gray-800 border-t mt-3">
+                    <p>{data.date}</p>
+                  </div>
+
+                  {/* Overlay Effect */}
+                  <div className="absolute inset-0 bg-white opacity-0 hover:opacity-5 transition-all duration-300"></div>
+                </div>
+              </Link>
             ))}
           </div>
 

@@ -113,6 +113,16 @@ const View_Request_Form = ({
           </div>
 
           <div>
+            <h1 className="text-md font-semibold">Authorizer:</h1>
+            <input
+              type="text"
+              value={data.request.authorizer}
+              readOnly
+              className="input bg-base-100 text-neutral rounded-md w-full"
+            />
+          </div>
+
+          <div>
             <h1 className="text-md font-semibold">Requester LRN:</h1>
             <input
               type="text"

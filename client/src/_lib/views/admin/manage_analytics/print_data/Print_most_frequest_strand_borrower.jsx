@@ -2,7 +2,7 @@ import React from "react";
 import "../../../../../styles/admin/print_data.css";
 import useAxiosFetchArrayData from "../../../../hook/useAxiosFetchArrayData";
 
-import { Link } from '@tanstack/react-router'
+import { Link } from "@tanstack/react-router";
 
 const Print_most_frequest_strand_borrower = () => {
   const { arrayData: MostFrequestStrandBorrower } = useAxiosFetchArrayData(
@@ -10,11 +10,18 @@ const Print_most_frequest_strand_borrower = () => {
   );
 
   // Ensure data is fully loaded and contains necessary fields
-  if (!MostFrequestStrandBorrower || !MostFrequestStrandBorrower.frequency || !MostFrequestStrandBorrower.labels) {
+  if (
+    !MostFrequestStrandBorrower ||
+    !MostFrequestStrandBorrower.frequency ||
+    !MostFrequestStrandBorrower.labels
+  ) {
     return <div>Loading...</div>;
   }
 
-  console.log("Most Frequest Strand Borrower Data:", MostFrequestStrandBorrower);
+  console.log(
+    "Most Frequest Strand Borrower Data:",
+    MostFrequestStrandBorrower
+  );
 
   const fixedLabels = ["ICT", "GAS", "STEM", "HUMSS", "COOKERY", "ABM"];
 
@@ -27,16 +34,22 @@ const Print_most_frequest_strand_borrower = () => {
   // Create a mapping of labels to their percentages
   const labelPercentages = fixedLabels.map((label) => {
     const index = MostFrequestStrandBorrower.labels.indexOf(label);
-    const frequency = index !== -1 ? MostFrequestStrandBorrower.frequency[index] : 0;
-    const percentage = totalFrequency ? ((frequency / totalFrequency) * 100).toFixed(2) : 0;
+    const frequency =
+      index !== -1 ? MostFrequestStrandBorrower.frequency[index] : 0;
+    const percentage = totalFrequency
+      ? ((frequency / totalFrequency) * 100).toFixed(2)
+      : 0;
     return { label, percentage: `${percentage}%` };
   });
 
-
-// Generate a dynamic paragraph based on the percentages
-const summaryText = labelPercentages
-  .map(({ label, percentage }) => `${label} accounts for ${percentage} of all borrowings`)
-  .join(". ") + ".";
+  // Generate a dynamic paragraph based on the percentages
+  const summaryText =
+    labelPercentages
+      .map(
+        ({ label, percentage }) =>
+          `${label} accounts for ${percentage} of all borrowings`
+      )
+      .join(". ") + ".";
 
   const handlePrint = () => {
     window.print();
@@ -48,12 +61,12 @@ const summaryText = labelPercentages
   return (
     <div className="bg-white h-auto w-full text-black text-center mx-auto p-5">
       <div className="flex justify-between ">
-      <Link
-      to="/admin/analytics"
-      className="text-left hover:underline transition duration-300"
-    >
-      Back
-    </Link>
+        <Link
+          to="/admin/analytics"
+          className="text-left back hover:underline transition duration-300"
+        >
+          Back
+        </Link>
         <button
           className="px-2 py-1 bg-blue-500 text-white rounded print-btn"
           onClick={handlePrint}
@@ -62,12 +75,9 @@ const summaryText = labelPercentages
         </button>
       </div>
       <div className=" h-[700px] w-[700px] mx-auto text-center p-10 page">
-        <h1 className="font-bold">Most Frequent Strand Borrower (Bar Graph)</h1>
+        <h1 className="font-bold">Most Frequent Strand Borrower </h1>
 
-        <p className="pt-5 text-justify p-10">
-        {summaryText}
-      </p>
-
+        <p className="pt-5 text-justify p-10">{summaryText}</p>
 
         <table className="divide-y divide-black ml-10 border w-[540px]">
           <thead className="bg-gray-50">

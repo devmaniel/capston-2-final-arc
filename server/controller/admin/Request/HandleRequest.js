@@ -242,6 +242,7 @@ exports.fetchSpecificRequestForm = async (req, res, next) => {
         "request_code",
         "status",
         "student_comment",
+        "authorizer",
         "admin_comment",
         "pickupdate",
         "returndate",
@@ -311,6 +312,7 @@ exports.fetchSpecificRequestForm = async (req, res, next) => {
         requestCode: request.request_code,
         status: request.status,
         studentComment: request.student_comment,
+        authorizer: request.authorizer,
         adminComment: request.admin_comment,
         pickupDate: request.pickupdate,
         returnDate: request.returndate,
@@ -364,9 +366,10 @@ exports.StaffUpdateRequest = async (req, res, next) => {
       return res.status(404).json({ message: "Request not found." });
     }
 
-    const requestUserId = request.user_id; // Extract user_id from the request
+    const requestUserId = request.user_id;
 
-    await request.update({ admin_comment: adminComment, status });
+    // Set the authorizer field automatically
+    await request.update({ admin_comment: adminComment, status, authorizer: "Ebora Mendoza" });
 
     const bookId = request.book_id;
     const bookQty = parseInt(request.book_qty, 10);
@@ -385,11 +388,7 @@ exports.StaffUpdateRequest = async (req, res, next) => {
       const qrCodeData = `http://localhost:5173/student/request_history/view_request?request_id=${requestId}`;
       const qrCodeImageBuffer = await QRCode.toBuffer(qrCodeData);
       const qrCodeFileName = `${requestId}-qr.png`;
-      const qrCodeFilePath = path.join(
-        __dirname,
-        "../../../../client/public/QR Image",
-        qrCodeFileName
-      );
+      const qrCodeFilePath = path.join(__dirname, "../../../../client/public/QR Image", qrCodeFileName);
       fs.writeFileSync(qrCodeFilePath, qrCodeImageBuffer);
 
       await request.update({ request_qr_img: qrCodeFileName });
@@ -397,23 +396,24 @@ exports.StaffUpdateRequest = async (req, res, next) => {
       // Fetch pickupdate and returndate from request
       const { pickupdate, returndate } = request;
 
-      // Send SMS using Twilio
+      // Send SMS with updated message
       try {
         const message = await client.messages.create({
           body:
             `Your Request Books is now borrowed\n` +
+            `Request Code: ${request.request_code}\n` + // Add request code here
             `Book Name: ${book.book_name}\n` +
             `Book Author: ${book.book_author}\n` +
             `Pick up date: ${pickupdate}\n` +
             `Return Date: ${returndate}\n\n` +
             `Note: Please return the book on time and ensure it is not damaged.`,
-          from: "+12286414153", // Replace with your Twilio number
+          from: "+12286414153",
           to: phone_number,
         });
 
         console.log("SMS sent successfully to", phone_number);
         console.log("Twilio response:", message.sid);
-        console.log("Message status:", message.status); // Checking the message status
+        console.log("Message status:", message.status);
       } catch (smsError) {
         console.error("Error sending SMS:", smsError);
         return res.status(200).json({ message: "Failed to send SMS." });
@@ -424,12 +424,12 @@ exports.StaffUpdateRequest = async (req, res, next) => {
 
     // Handle violations
     if (status === "violated-damages" || status === "violated-lost") {
-      const violationType = status; // Either 'violated-damages' or 'violated-lost'
+      const violationType = status;
       const newViolation = await ViolationsModel.create({
         user_id: requestUserId,
-        type_of_violation: violationType, // Store the violation type
-        status: "pending", // Initial status
-        date_issued: new Date(), // Current date and time
+        type_of_violation: violationType,
+        status: "pending",
+        date_issued: new Date(),
       });
       console.log("Violation recorded:", newViolation);
     }

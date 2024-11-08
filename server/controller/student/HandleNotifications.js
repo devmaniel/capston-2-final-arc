@@ -9,7 +9,6 @@ exports.fetchNotifications = async (req, res, next) => {
   try {
     console.log("Starting fetchNotifications process.");
 
-    // Extract sessionId from the request body
     const { sessionId } = req.body;
     console.log("Extracted sessionId from request body:", sessionId);
 
@@ -22,7 +21,6 @@ exports.fetchNotifications = async (req, res, next) => {
       });
     }
 
-    // Query the session data using the sessionId
     console.log("Querying session data using sessionId...");
     const session = await connections.query(
       "SELECT * FROM `sessions` WHERE `session_id` = :sessionId",
@@ -47,7 +45,6 @@ exports.fetchNotifications = async (req, res, next) => {
     const userId = sessionData.user.id;
     console.log("Extracted userId from session data:", userId);
 
-    // Fetch notifications from the NotificationsModel where account_id matches userId
     console.log("Fetching notifications for userId:", userId);
     const notifications = await NotificationsModel.findAll({
       where: { account_id: userId },
@@ -58,18 +55,18 @@ exports.fetchNotifications = async (req, res, next) => {
 
     if (!notifications || notifications.length === 0) {
       console.log("No notifications found for this user.");
-      return res.status(404).json({
-        valid: false,
-        reason: "no_notifications",
-        message: "No notifications found for this user.",
+      return res.status(200).json({
+        valid: true,
+        data: [],
+        counter: 0, // Ensures the client receives an empty array and counter 0
       });
     }
 
-    // Return the fetched notifications
     console.log("Returning fetched notifications.");
     return res.status(200).json({
       valid: true,
       data: notifications,
+      counter: notifications.length,
     });
 
   } catch (error) {

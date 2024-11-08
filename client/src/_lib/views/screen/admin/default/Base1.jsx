@@ -15,19 +15,21 @@ import "@styles/admin/Base1.scss";
 import { axiosFetch } from "@hook/axiosFetch";
 
 const Base1 = () => {
-
   let { data: totalBooksData, status: Check } = axiosFetch("/admin/Base1");
   let { data: totalActive } = axiosFetch("/admin/Base2");
   let { data: totalActiveAcc } = axiosFetch("/admin/Base3");
   let { data: totalViolated } = axiosFetch("/admin/Base4");
   let { data: activityLog } = axiosFetch("/admin/Base5");
+
+  console.log("Data: ",activityLog);
+  
   const { data: bookChart } = axiosFetch("admin/Base6");
 
   return (
     <section className="mx-5">
       <div className="base1 flex gap-5">
         {totalBooksData === null ? (
-          <div className="skeleton totalBooks bg-default"></div>
+          <div className=" totalBooks bg-default"></div>
         ) : (
           <div className="totalBooks bg-neutral text-base-100 p-6">
             <TotalBook totalBooks={totalBooksData} />
@@ -39,12 +41,12 @@ const Base1 = () => {
             <TotalRequest totalActive={totalActive} />
           </div>
         ) : (
-          <div className="skeleton totalRequest bg-default"></div>
+          <div className=" totalRequest bg-default"></div>
         )}
 
         <div className="dailyreport flex flex-col gap-3 ">
           {totalActiveAcc === null ? (
-            <div className="bg-default skeleton b  px-5"></div>
+            <div className="bg-default  b  px-5"></div>
           ) : (
             <div className="bg-neutral text-base-100  px-5">
               <TotalStudent totalActive={totalActiveAcc} />
@@ -52,7 +54,7 @@ const Base1 = () => {
           )}
 
           {totalViolated === null ? (
-            <div className="bg-default skeleton b  px-5"></div>
+            <div className="bg-default  b  px-5"></div>
           ) : (
             <div className="bg-neutral text-base-100  px-5">
               <TotalViolatedAcc totalViolations={totalViolated} />
@@ -63,14 +65,14 @@ const Base1 = () => {
 
       <div className="flex  mt-5 gap-5 base2">
         {bookChart === null ? (
-          <div className="bg-default skeleton base-chart h-96 p-2"></div>
+          <div className="bg-default  base-chart h-96 p-2"></div>
         ) : (
           <div className="bg-secondary base-chart p-2">
             <BaseChart chartData={bookChart} />
           </div>
         )}
         {activityLog === null ? (
-          <div className=" skeleton base-history bg-default"></div>
+          <div className="  base-history bg-default"></div>
         ) : (
           <div className=" base-history p-5 bg-neutral text-base-100  h-5/6">
             <h1 className="text-2xl font-semibold pb-2">Recent History</h1>
@@ -79,8 +81,6 @@ const Base1 = () => {
             ))}
           </div>
         )}
-
-       
       </div>
     </section>
   );

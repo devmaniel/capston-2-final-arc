@@ -152,7 +152,7 @@ export default function profileSetting() {
       });
   };
 
-  if (!profileData) {
+  if (!profileData ) {
     return (
       <div className="max-w-[1400px] mx-auto h-screen p-4 sm:p-6 lg:p-8">
         <profileData />

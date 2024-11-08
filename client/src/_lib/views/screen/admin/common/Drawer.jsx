@@ -145,10 +145,17 @@ export default function Drawer({ dh }) {
                 {/* Navbar menu content here */}
                 <h1 className=" text-lg font-medium">Account</h1>
                 <li>
-                  <a href="#">
-                    <BsPersonFillGear />
+                  <Link
+                    to="/admin/profile_settings/profile_settings"
+                    {...(location.pathname.startsWith(
+                      "/admin/profile_settings/profile_settings"
+                    )
+                      ? { className: "text-white" }
+                      : {})}
+                  >
+                    <BsBookFill />
                     Profile Setting
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <button
@@ -247,8 +254,10 @@ export default function Drawer({ dh }) {
             <h1 className="px-2 text-lg font-medium mt-2 mb-2">Account</h1>
             <li>
               <Link
-                to="/account/profile"
-                {...(location.pathname.startsWith("/account/profile")
+                to="/admin/profile_settings/profile_settings"
+                {...(location.pathname.startsWith(
+                  "/admin/profile_settings/profile_settings"
+                )
                   ? { className: "text-primary font-bold" }
                   : {})}
               >

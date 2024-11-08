@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
+import { Link } from "@tanstack/react-router";
 
 import Manage_violations_landing from '../../../_lib/views/admin/manage_violations/manage_violations_landing'
 

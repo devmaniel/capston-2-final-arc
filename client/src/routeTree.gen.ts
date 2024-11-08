@@ -47,6 +47,7 @@ import { Route as StudentPrivacyPrivacyImport } from './routes/student/privacy/P
 import { Route as StudentFrequentlyAskFAQImport } from './routes/student/frequentlyAsk/FAQ'
 import { Route as StudentContactContactImport } from './routes/student/contact/Contact'
 import { Route as StudentCatalogBookImport } from './routes/student/catalog/book'
+import { Route as AdminProfilesettingsProfilesettingsImport } from './routes/admin/profile_settings/profile_settings'
 import { Route as AdminManageviolationsHandleviolationsImport } from './routes/admin/manage_violations/handle_violations'
 import { Route as AdminManagestudentsStudentviewformImport } from './routes/admin/manage_students/student_view_form'
 import { Route as AdminManagestudentsCreateaccountImport } from './routes/admin/manage_students/create_account'
@@ -248,6 +249,12 @@ const StudentCatalogBookRoute = StudentCatalogBookImport.update({
   path: '/student/catalog/book',
   getParentRoute: () => rootRoute,
 } as any)
+
+const AdminProfilesettingsProfilesettingsRoute =
+  AdminProfilesettingsProfilesettingsImport.update({
+    path: '/admin/profile_settings/profile_settings',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 const AdminManageviolationsHandleviolationsRoute =
   AdminManageviolationsHandleviolationsImport.update({
@@ -527,6 +534,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminManageviolationsHandleviolationsImport
       parentRoute: typeof rootRoute
     }
+    '/admin/profile_settings/profile_settings': {
+      id: '/admin/profile_settings/profile_settings'
+      path: '/admin/profile_settings/profile_settings'
+      fullPath: '/admin/profile_settings/profile_settings'
+      preLoaderRoute: typeof AdminProfilesettingsProfilesettingsImport
+      parentRoute: typeof rootRoute
+    }
     '/student/catalog/book': {
       id: '/student/catalog/book'
       path: '/student/catalog/book'
@@ -695,6 +709,7 @@ export const routeTree = rootRoute.addChildren({
   AdminManagestudentsCreateaccountRoute,
   AdminManagestudentsStudentviewformRoute,
   AdminManageviolationsHandleviolationsRoute,
+  AdminProfilesettingsProfilesettingsRoute,
   StudentCatalogBookRoute,
   StudentContactContactRoute,
   StudentFrequentlyAskFAQRoute,
@@ -753,6 +768,7 @@ export const routeTree = rootRoute.addChildren({
         "/admin/manage_students/create_account",
         "/admin/manage_students/student_view_form",
         "/admin/manage_violations/handle_violations",
+        "/admin/profile_settings/profile_settings",
         "/student/catalog/book",
         "/student/contact/Contact",
         "/student/frequentlyAsk/FAQ",
@@ -860,6 +876,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/admin/manage_violations/handle_violations": {
       "filePath": "admin/manage_violations/handle_violations.jsx"
+    },
+    "/admin/profile_settings/profile_settings": {
+      "filePath": "admin/profile_settings/profile_settings.jsx"
     },
     "/student/catalog/book": {
       "filePath": "student/catalog/book.jsx"

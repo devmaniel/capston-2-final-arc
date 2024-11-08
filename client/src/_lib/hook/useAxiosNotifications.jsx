@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 export const useAxiosNotifications = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
+  const [counter, setCounter] = useState(null)
   const [error, setError] = useState(null);
   
   useEffect(() => {
@@ -19,6 +20,7 @@ export const useAxiosNotifications = () => {
         const response = await axios.post('/student/get_notifcations', { sessionId });
         console.log("Client received data:", response.data);
         setData(response.data.data);
+        setCounter(response.data.counter)
       } catch (err) {
         console.error("Error fetching notifications:", err);
         setError(err.response ? err.response.data : "An unexpected error occurred.");
@@ -29,6 +31,6 @@ export const useAxiosNotifications = () => {
     fetchNotifications();
   }, [axios, Cookies]); // Add axios and Cookies to the dependency array
 
-  return { loading, data, error };
+  return { loading, data, counter ,error };
 };
 

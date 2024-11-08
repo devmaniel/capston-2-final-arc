@@ -12,7 +12,7 @@ const PrintDataIndex = () => {
     <div className="bg-white h-auto w-full text-black text-center mx-auto p-5">
       <div className="flex justify-between ">
         <button
-          className="text-left back hover:underline transition duration-300"
+          className="back text-left back hover:underline transition duration-300"
           onClick={handleBackClick}
         >
           Back

@@ -98,33 +98,27 @@ function AboutContent({ selected }) {
               About Bagong Barrior Senior High School
             </h1>
             <div className="w-full h-[1px] bg-zinc-400"></div>
-
-            <ul className="steps step-class steps-vertical lg:steps-horizontal w-full md:w-[700px] mt-10">
-              <li className="step step-info cursor-pointer">
-                Pick a specific book
-              </li>
-              <li className="step step-info">Click Book Request</li>
-              <li className="step step-info">Status Pending</li>
-              <li className="step step-info">Status Accepted</li>
-              <li className="step step-info">Status Borrowed</li>
-              <li className="step step-info">SMS/MAIL Notifications</li>
-            </ul>
           </div>
-
           <p className="px-5 mt-5 text-sm sm:text-base">
-            <span className="font-bold">Step 1: </span> Lorem ipsum dolor sit
-            amet consectetur adipisicing elit. Cumque voluptatibus quos dolorem
-            reiciendis. Tenetur, facilis unde temporibus, exercitationem
-            similique doloribus magnam sapiente, repellat soluta voluptas sit
-            explicabo delectus? Corporis quia porro omnis voluptatibus esse.
+            At Bagong Barrio Senior High School, we are more than just an
+            institution; we are a family that celebrates learning, growth, and
+            community. We prioritize a holistic education that includes academic
+            excellence, character-building, and active community involvement.
+            Together, as students, parents, and educators, we are committed to
+            making Bagong Barrio Senior High School a place where every
+            student`s journey is valued and every voice is heard.
           </p>
-
-          <p className="px-5 mt-10 text-sm sm:text-base">
-            <span className="font-bold">Reminders: </span> Lorem ipsum dolor sit
-            amet consectetur adipisicing elit. Cumque voluptatibus quos dolorem
-            reiciendis. Tenetur, facilis unde temporibus, exercitationem
-            similique doloribus magnam sapiente, repellat soluta voluptas sit
-            explicabo delectus? Corporis quia porro omnis voluptatibus esse.
+          <p className="px-5 mt-5 text-sm sm:text-base">
+            At Bagong Barrio Senior High School, we believe in nurturing the
+            unique potential of each student. Through innovative teaching
+            methods, extracurricular activities, and a supportive environment,
+            we empower our learners to become critical thinkers, compassionate
+            leaders, and responsible citizens. Our strong partnerships with
+            parents and the community help create a collaborative atmosphere
+            where students are encouraged to pursue their passions, overcome
+            challenges, and contribute positively to society. Here, every
+            student's success is our shared goal, and together, we build a
+            brighter future for all.
           </p>
         </div>
       );

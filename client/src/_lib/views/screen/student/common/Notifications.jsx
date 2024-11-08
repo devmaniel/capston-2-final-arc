@@ -8,11 +8,10 @@ import { useAxiosNotifications } from "../../../../hook/useAxiosNotifications";
 import { formatDistanceToNow } from "date-fns"; // Library to format time
 
 export default function Notifications() {
-  const { loading, data, error } = useAxiosNotifications();
+  const { loading, data, counter, error } = useAxiosNotifications();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error loading notifications</div>;
+  console.log("Notification Nav Data", data);
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
@@ -30,7 +29,7 @@ export default function Notifications() {
       <button className="btn btn-ghost   bell">
         <BsBell />
         <div className="badge bg-primary dark:text-white border-none  text-sm rounded-xl">
-          +99
+          {counter}
         </div>
       </button>
       <ul

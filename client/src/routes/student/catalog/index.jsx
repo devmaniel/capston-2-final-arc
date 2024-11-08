@@ -337,15 +337,6 @@ function Viewpage() {
                         </p>
                       </div>
                     </div>
-
-                    <div
-                      className="tooltip absolute top-2 right-1 rounded-md text-black hover:bg-[#f5f5f5] p-2"
-                      data-tip="Bookmark"
-                    >
-                      <button className="rounded my-1">
-                        <FaRegBookmark className="text-[12px] sm:text-[20px] cursor-pointer text-black-300" />
-                      </button>
-                    </div>
                   </div>
                 </div>
               ))
