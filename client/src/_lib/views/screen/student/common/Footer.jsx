@@ -39,7 +39,7 @@ export default function Footer() {
               target="_blank"
               class="link link-hover"
             >
-              <img src="/images/logo.png" className="h-[150px] w-[150px]" />
+              <img src="/images/calo.png" className="h-[150px] w-[150px]" />
             </a>
           </div>
         </div>

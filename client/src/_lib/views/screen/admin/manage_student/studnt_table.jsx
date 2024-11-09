@@ -31,19 +31,15 @@ const studnt_table = ({ studentdata }) => {
           {studentdata.map((student, index) => (
             <tr key={index}>
               <td>
-                <div className="flex gap-2">
+                <div className="flex gap-2 justify-center items-center">
                   <Link
                     to={`/admin/manage_students/student_view_form?student_id=${student.userid}`}
                     className="text-primary"
                   >
                     <GrView />
                   </Link>
-                  <Link to="/your-routet" className="text-primary">
-                    <BiSolidEdit />
-                  </Link>
-                  <Link to="/your-route2" className="text-primary">
-                    <BiHistory />
-                  </Link>
+                  
+                 
                 </div>
               </td>
               <td>
@@ -81,19 +77,26 @@ const studnt_table = ({ studentdata }) => {
               <td>
                 <span className="badge badge-ghost">{student.role}</span>
               </td>
-              <td>Academic</td>
+             
               {/* Conditional rendering for student.track */}
               <td>
-                {student.track === "ICT" &&
-                  "Information and Communications Technology (ICT)"}
-                {student.track === "ABM" &&
-                  "Accountancy, Business and Management (ABM)"}
-                {student.track === "HUMSS" && "Humanities and Social Sciences (HUMSS)"}
-                {student.track === "GAS" && "Academic Strand (GAS)"}
-                {!["ICT", "ABM", "HUMSS", "GAS"].includes(student.track) &&
-                  student.track}
-              </td>
-              {/* Add department */}
+  {student.track === "ICT" &&
+    "Information and Communications Technology (ICT)"}
+  {student.track === "ABM" &&
+    "Accountancy, Business and Management (ABM)"}
+  {student.track === "HUMSS" && "Humanities and Social Sciences (HUMSS)"}
+  {student.track === "GAS" && "Academic Strand (GAS)"}
+  {!["ICT", "ABM", "HUMSS", "GAS"].includes(student.track) &&
+    student.track}
+</td>
+<td>
+  {/* Check if track is ICT or COOKERY for TVL department */}
+  {["ICT", "COOKERY"].includes(student.track) 
+    ? "TVL" 
+    : ["GAS", "HUMSS", "STEM", "ABM"].includes(student.track)
+    ? "Academic"
+    : ""}
+</td>
               <td>Grade - 12</td> {/* Add grade level if required */}
               <td>{student.section}</td>
               <td>

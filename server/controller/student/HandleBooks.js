@@ -247,11 +247,11 @@ exports.getBookCatalogSearch = async (req, res, next) => {
 
     if (search) {
       whereClause[Op.or] = [
-        Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('book_name')), Op.eq, search),
-        Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('book_name')), Op.like, `%${search}%`),
-        Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('book_author')), Op.like, `%${search}%`),
-        Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('isbn_code')), Op.like, `%${search}%`),
-        Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('classifications_name')), Op.like, `%${search}%`)
+        { book_name: search },
+        { book_name: { [Op.like]: `%${search}%` } },
+        { book_author: { [Op.like]: `%${search}%` } },
+        { isbn_code: { [Op.like]: `%${search}%` } },
+        { classifications_name: { [Op.like]: `%${search}%` } }
       ];
     }
 

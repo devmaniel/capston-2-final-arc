@@ -1,11 +1,9 @@
-import { createFileRoute, redirect} from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+import Specific_lrn_view from '../../../_lib/views/admin/manage_lrn/specific_lrn_view'
 
-import Lrn_landing from '../../../_lib/views/admin/manage_lrn/lrn_landing'
+import auth from '../../../_lib/api/auth'
 
-
-import auth from "../../../_lib/api/auth";
-
-export const Route = createFileRoute('/admin/manage_lrn/')({
+export const Route = createFileRoute('/admin/manage_lrn/specific_lrn')({
   beforeLoad: async () => {
     const role = "admin";
     const authResult = await auth(role);
@@ -34,5 +32,5 @@ export const Route = createFileRoute('/admin/manage_lrn/')({
       }
     }
   },
-  component: () => <Lrn_landing />
+  component: () => <Specific_lrn_view />
 })

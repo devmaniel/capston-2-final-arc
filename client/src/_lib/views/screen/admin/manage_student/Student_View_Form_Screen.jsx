@@ -2,6 +2,21 @@ import React from "react";
 import { FiEdit } from "react-icons/fi";
 
 const Student_View_Form_Screen = ({ studentData }) => {
+
+  const ACADEMIC_TRACKS = {
+    ICT: "Information and Communications Technology (ICT)",
+    ABM: "Accountancy, Business and Management (ABM)",
+    HUMSS: "Humanities and Social Sciences (HUMSS)",
+    GAS: "General Academic Strand (GAS)",
+    COOKERY: "Cookery (CK)"
+  };
+
+  // Function to get track display name
+  const getTrackDisplayName = (track) => {
+    return ACADEMIC_TRACKS[track] || track;
+  };
+
+
   return (
     <div className="bg-neutral rounded-md text-base-100 mb-5">
       <div className="border-base-100 p-5 border-b flex justify-between">
@@ -105,7 +120,7 @@ const Student_View_Form_Screen = ({ studentData }) => {
               name="track_name"
               className="input bg-base-100 text-neutral rounded-md w-full"
               readOnly
-              value={studentData.lrnData.track}
+              value={getTrackDisplayName(studentData.lrnData.track)}
             />
           </div>
 

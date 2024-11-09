@@ -53,6 +53,7 @@ import { Route as AdminManagestudentsStudentviewformImport } from './routes/admi
 import { Route as AdminManagestudentsCreateaccountImport } from './routes/admin/manage_students/create_account'
 import { Route as AdminManagerequestViewrequestformImport } from './routes/admin/manage_request/view_request_form'
 import { Route as AdminManagerequestOnsiterequestImport } from './routes/admin/manage_request/onsite_request'
+import { Route as AdminManagelrnSpecificlrnImport } from './routes/admin/manage_lrn/specific_lrn'
 import { Route as AdminManagelrnCycleaccountImport } from './routes/admin/manage_lrn/cycle_account'
 import { Route as AdminManagebooksEditbookImport } from './routes/admin/manage_books/edit_book'
 import { Route as AdminManagebooksCreatebooksImport } from './routes/admin/manage_books/create_books'
@@ -286,6 +287,11 @@ const AdminManagerequestOnsiterequestRoute =
     getParentRoute: () => rootRoute,
   } as any)
 
+const AdminManagelrnSpecificlrnRoute = AdminManagelrnSpecificlrnImport.update({
+  path: '/admin/manage_lrn/specific_lrn',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AdminManagelrnCycleaccountRoute = AdminManagelrnCycleaccountImport.update(
   {
     path: '/admin/manage_lrn/cycle_account',
@@ -499,6 +505,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminManagelrnCycleaccountImport
       parentRoute: typeof rootRoute
     }
+    '/admin/manage_lrn/specific_lrn': {
+      id: '/admin/manage_lrn/specific_lrn'
+      path: '/admin/manage_lrn/specific_lrn'
+      fullPath: '/admin/manage_lrn/specific_lrn'
+      preLoaderRoute: typeof AdminManagelrnSpecificlrnImport
+      parentRoute: typeof rootRoute
+    }
     '/admin/manage_request/onsite_request': {
       id: '/admin/manage_request/onsite_request'
       path: '/admin/manage_request/onsite_request'
@@ -704,6 +717,7 @@ export const routeTree = rootRoute.addChildren({
   AdminManagebooksCreatebooksRoute,
   AdminManagebooksEditbookRoute,
   AdminManagelrnCycleaccountRoute,
+  AdminManagelrnSpecificlrnRoute,
   AdminManagerequestOnsiterequestRoute,
   AdminManagerequestViewrequestformRoute,
   AdminManagestudentsCreateaccountRoute,
@@ -763,6 +777,7 @@ export const routeTree = rootRoute.addChildren({
         "/admin/manage_books/create_books",
         "/admin/manage_books/edit_book",
         "/admin/manage_lrn/cycle_account",
+        "/admin/manage_lrn/specific_lrn",
         "/admin/manage_request/onsite_request",
         "/admin/manage_request/view_request_form",
         "/admin/manage_students/create_account",
@@ -861,6 +876,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/admin/manage_lrn/cycle_account": {
       "filePath": "admin/manage_lrn/cycle_account.jsx"
+    },
+    "/admin/manage_lrn/specific_lrn": {
+      "filePath": "admin/manage_lrn/specific_lrn.jsx"
     },
     "/admin/manage_request/onsite_request": {
       "filePath": "admin/manage_request/onsite_request.jsx"

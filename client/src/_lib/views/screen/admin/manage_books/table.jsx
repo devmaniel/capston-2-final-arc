@@ -9,7 +9,7 @@ import { useNavigate } from "@tanstack/react-router";
 
 import Swal from "sweetalert2";
 
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 const table = ({ data, handleSetBookStatus, setBookStatusLoading }) => {
   const navigate = useNavigate();
@@ -59,13 +59,12 @@ const table = ({ data, handleSetBookStatus, setBookStatusLoading }) => {
                 <td>{book.isbn_code}</td>
                 <td>{book.classifications_name}</td>
                 <td>{book.quantity}</td>
-                <td>{format(new Date(book.createdAt), 'MMMM do yyyy, h:mm:ss a')}</td>
+                <td>
+                  {format(new Date(book.createdAt), "MMMM do yyyy, h:mm:ss a")}
+                </td>
 
                 <td>
-                  <ul className="flex gap-2">
-                    <li>
-                      <FaEye />
-                    </li>
+                  <ul className="flex gap-2 justify-center items-center">
                     <li>
                       <MdEditSquare
                         onClick={() => EditButtonLink(book.id)} // Pass book id to function
@@ -76,7 +75,13 @@ const table = ({ data, handleSetBookStatus, setBookStatusLoading }) => {
                     {book.book_status === "active" ? (
                       <li>
                         <BiSolidArchive
-                          onClick={() => handleSetBookStatus(book.id, "active", setBookStatusLoading)}
+                          onClick={() =>
+                            handleSetBookStatus(
+                              book.id,
+                              "active",
+                              setBookStatusLoading
+                            )
+                          }
                           style={{ cursor: "pointer" }}
                         />
                       </li>
@@ -85,7 +90,11 @@ const table = ({ data, handleSetBookStatus, setBookStatusLoading }) => {
                         <li>
                           <RiInboxUnarchiveFill
                             onClick={() =>
-                              handleSetBookStatus(book.id, "archived", setBookStatusLoading)
+                              handleSetBookStatus(
+                                book.id,
+                                "archived",
+                                setBookStatusLoading
+                              )
                             }
                             style={{ cursor: "pointer" }}
                           />
@@ -93,7 +102,11 @@ const table = ({ data, handleSetBookStatus, setBookStatusLoading }) => {
                         <li>
                           <MdDeleteForever
                             onClick={() =>
-                              handleSetBookStatus(book.id, "delete", setBookStatusLoading)
+                              handleSetBookStatus(
+                                book.id,
+                                "delete",
+                                setBookStatusLoading
+                              )
                             }
                             style={{ cursor: "pointer" }}
                           />

@@ -57,7 +57,7 @@ export default function BaseChart({ chartData }) {
   };
 
   return (
-    <div className="chart-container">
+    <div className="chart-container w-full">
       <h1 className="text-3xl px-2 pt-4 font-black text-white">Today Report</h1>
       <Bar data={data} options={options} className="base-chart-r px-2" />
     </div>

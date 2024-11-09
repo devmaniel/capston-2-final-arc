@@ -1,14 +1,13 @@
 const ModelLRN = require("../../../model/lrn");
 const UserModel = require("../../../model/user");
 
-const {Op} = require("sequelize")
+const { Op } = require("sequelize");
 
 const exceltojson = require("convert-excel-to-json");
 const XLSX = require("xlsx");
 const multer = require("multer");
 const fs = require("fs-extra");
 var upload = multer({ dest: "../../upload/excel" });
-
 
 exports.excelLRNTABLE = async (req, res, next) => {
   try {
@@ -104,7 +103,123 @@ exports.excelLRNTABLE = async (req, res, next) => {
 };
 
 
+// Adjusted Code
+exports.getSpecificLRN = async (req, res, next) => {
+  try {
+    const lrnId = req.query.lrn_id;
+    
+    if (!lrnId) {
+      return res.status(400).json({ 
+        success: false,
+        message: "lrn_id parameter is required" 
+      });
+    }
 
+    // Use correct field name based on your schema (assuming `id` is the primary key field)
+    const specificLRN = await ModelLRN.findOne({ where: { id: lrnId } });
+
+    if (!specificLRN) {
+      return res.status(404).json({ 
+        success: false,
+        message: "Student LRN record not found" 
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: specificLRN
+    });
+
+  } catch (err) {
+    if (err.name === 'CastError') {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid lrn_id format"
+      });
+    }
+
+    console.error('Error fetching specific LRN:', err);
+    return res.status(500).json({
+      success: false,
+      message: "An unexpected error occurred"
+    });
+  }
+};
+
+exports.postUpdateSpecificLRN = async (req, res, next) => {
+  try {
+    // Get the request body
+    const { 
+      id, 
+      last_name, 
+      first_name, 
+      middle_name, 
+      valid_lrn, 
+      section, 
+      track, 
+      year_level 
+    } = req.body;
+
+    // Find the student by id (LRN)
+    const student = await ModelLRN.findOne({ 
+      where: { id: id } 
+    });
+
+    if (!student) {
+      return res.status(404).json({ 
+        message: "Student not found" 
+      });
+    }
+
+    // Find the associated user record using valid_lrn
+    const user = await UserModel.findOne({
+      where: { acc_lrn: student.valid_lrn }
+    });
+
+    if (!user) {
+      return res.status(404).json({ 
+        message: "Associated user not found" 
+      });
+    }
+
+    // Update the student record with new data
+    const updatedStudent = await student.update({
+      last_name,
+      first_name,
+      middle_name,
+      valid_lrn,
+      section,
+      track,
+      year_level,
+      updatedAt: new Date()
+    });
+
+    // Update the user record with new data
+    const updatedUser = await user.update({
+      last_name,
+      first_name,
+      middle_name,
+      acc_lrn: valid_lrn, // Update acc_lrn with the new valid_lrn
+      updatedAt: new Date()
+    });
+
+    // Respond with both updated records
+    return res.status(200).json({ 
+      message: "Student and user records updated successfully", 
+      data: {
+        student: updatedStudent,
+        user: updatedUser
+      }
+    });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ 
+      message: "An error occurred while updating the records", 
+      error: err.message 
+    });
+  }
+};
 
 // Controller function
 exports.excelLRN = (req, res, next) => {
@@ -266,12 +381,10 @@ exports.excelLRNpost = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Error inserting data:", error);
-    res
-      .status(500)
-      .json({
-        error: "Failed to insert data into database",
-        details: error.message,
-      });
+    res.status(500).json({
+      error: "Failed to insert data into database",
+      details: error.message,
+    });
   } finally {
     fs.remove(filePath, (err) => {
       if (err) console.error(err);

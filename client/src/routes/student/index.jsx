@@ -14,13 +14,11 @@ import Footer from "../../_lib/views/screen/student/common/Footer";
 // authentication api
 import auth from "../../_lib/api/auth";
 
-
-
 export const Route = createFileRoute("/student/")({
   beforeLoad: async () => {
     const role = "student";
     const authResult = await auth(role);
-    
+
     if (authResult.success) {
       if (authResult.role !== role) {
         console.log(
@@ -60,7 +58,6 @@ export const Route = createFileRoute("/student/")({
   },
   component: () => index(),
 });
-
 
 const title = [
   {
@@ -239,7 +236,7 @@ export default function index() {
         <div className="relative gap-5 mx-auto items-center w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4">
           {Events.map((data) => (
             <div
-              className="bg-white skeleton shadow-md relative flex flex-col h-[auto] w-full rounded-md hover:shadow-lg transition duration-500"
+              className="bg-white  shadow-md relative flex flex-col h-[auto] w-full rounded-md hover:shadow-lg transition duration-500"
               key={data.id}
             >
               <div className="h-[240px] w-full rounded-t bg-no-repeat bg-center relative">
@@ -299,12 +296,12 @@ export default function index() {
               {Slides.map((info) => (
                 <div
                   key={info.id}
-                  className="card flex-shrink-0 w-[300px] bg-gradient-to-r skeleton shadow-lg from-[#0567BB] via-[#0676D0] to-[#0785E5] h-[380px] rounded-lg"
+                  className="card flex-shrink-0 w-[300px] bg-gradient-to-r  shadow-lg from-[#0567BB] via-[#0676D0] to-[#0785E5] h-[380px] rounded-lg"
                 >
                   <div className="img relative">
                     <img
                       src={info.img}
-                      className="h-[380px] w-full rounded-lg skeleton"
+                      className="h-[380px] w-full rounded-lg "
                       alt={info.title}
                     />
                     <div className="absolute inset-0 bottom-[88%] flex justify-between items-center ml-4 pr-8">

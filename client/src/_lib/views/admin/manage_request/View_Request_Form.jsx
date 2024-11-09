@@ -44,6 +44,15 @@ const View_Request_Form = ({
             <option value="violated-damages">Violate - Book Damages</option>
           </>
         );
+        case "returned":
+          return (
+            <>
+              <option value="returned">Return</option>
+              <option value="completed">Complete</option>
+              <option value="violated-lost">Violate - Lost/Didn’t Return</option>
+              <option value="violated-damages">Violate - Book Damages</option>
+            </>
+          );
       case "cancelled":
         return (
           <>

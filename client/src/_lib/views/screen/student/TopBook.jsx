@@ -350,8 +350,8 @@ export default function TopBook({ bookData }) {
           </div>
           <div className="book-info w-full text-black">
             <div className="title">
-              <div className="flex justify-between items-center">
-                <h1 className="font-bold text-[24px] sm:text-[30px] md:text-[50px] font-mono">
+              <div className="flex justify-between ">
+                <h1 className="font-bold text-[24px] sm:text-[30px] md:text-[35px] font-mono">
                   {book_name}
                 </h1>
 

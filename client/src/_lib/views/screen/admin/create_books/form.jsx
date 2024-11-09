@@ -69,20 +69,13 @@ export default function Form({
             </div>
 
             <div>
-              <h1 className="text-md font-semibold">
-                ISBN Code:{" "}
-                <small className="text-[12px] text-gray-500">
-                  <span className="text-[10px]">Format: XXX-XXXX-XXX</span>
-                </small>
-              </h1>
+              <h1 className="text-md font-semibold">ISBN Code: </h1>
               <input
                 onChange={(e) => {
                   handleInput(e.target.value, "isbncode");
                 }}
                 type="text"
                 placeholder="Enter Book ISBN"
-                pattern="\d{3}-\d{4}-\d{3}"
-                maxlength={12}
                 className={`input bg-base-100 text-neutral rounded-md w-full ${postprops.isbncode === "" ? "input-error border-2 border-error" : ""}`}
               />
             </div>

@@ -1,5 +1,8 @@
 import React from "react";
 
+import { GrView } from "react-icons/gr";
+
+import { Link } from "@tanstack/react-router";
 const Lrn_table = ({ data }) => {
   return (
     <>
@@ -25,6 +28,16 @@ const Lrn_table = ({ data }) => {
             {/* Map through data to create table rows */}
             {data.map((item) => (
               <tr key={item.id}>
+                <th>
+                  <div className="flex gap-2 justify-center items-center">
+                    <Link
+                      to={`/admin/manage_lrn/specific_lrn?lrn_id=${item.id}`}
+                      className="text-primary"
+                    >
+                      <GrView />
+                    </Link>
+                  </div>
+                </th>
                 <th>
                   <span
                     className={`badge capitalize  badge-sm text-white ${item.status_lrn === "enrolled" ? "badge-primary" : item.status_lrn === "unenrolled" ? "badge-error" : "badge-ghost"} text-uppercase`}
@@ -56,9 +69,15 @@ const Lrn_table = ({ data }) => {
                 <td>{item.role}</td>
                 <td>
                   <span
-                    className={`badge badge-sm capitalize ${item.acc_status === "registered" ? "badge-primary" : "badge-ghost"}`}
+                    className={`badge badge-sm capitalize ${
+                      item.acc_status === "registered"
+                        ? "badge-ghost"
+                        : "badge-primary"
+                    }`}
                   >
-                    {item.acc_status}
+                    {item.acc_status === "unregistered"
+                      ? item.acc_status
+                      : "registered"}
                   </span>
                 </td>
                 <td>{new Date(item.createdAt).toLocaleDateString()}</td>

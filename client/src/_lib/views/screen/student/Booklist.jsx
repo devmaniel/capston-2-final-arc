@@ -58,14 +58,9 @@ export default function Booklist({ props, deviceType, booksList }) {
                 <img
                   src={"/Book Image/" + book.book_img_file}
                   alt={book.book_img_file}
-                  className="object-cover h-[350px] mb-3 w-[250px] sm:mb-0 sm:h-[250px] md:mx-0 lg:mx-0 md:mb-0 lg:mb-0 md:h-[350px] lg:h-[250px] shadow-md transition-transform duration-200 hover:scale-105"
+                  className="object-cover bg-white h-[350px] mb-3 w-[250px] sm:mb-0 sm:h-[250px] md:mx-0 lg:mx-0 md:mb-0 lg:mb-0 md:h-[350px] lg:h-[250px] shadow-md transition-transform duration-200 hover:scale-105"
                 />
                 <div className="absolute inset-0 top-0 w-[250px] h-[350px] mx-[3.4em] sm:mx-0 md:h-full md:w-full sm:h-[250px] bg-white opacity-0 hover:opacity-50 transition-opacity duration-200"></div>
-              </div>
-              <div className="absolute inset-0 top-0 mx-[3.4em] sm:mx-0 bg-[#eab208e0] h-[32px] w-12 p-2">
-                <p className="mx-1 tracking-[1px] text-[12px] text-white">
-                  NEW
-                </p>
               </div>
             </div>
             <div className="overflow-hidden">

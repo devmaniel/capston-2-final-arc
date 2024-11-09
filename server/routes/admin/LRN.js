@@ -9,6 +9,10 @@ var upload = multer({ dest: "/upload/excel" });
 const LRNcontroller = require("../../controller/admin/LRN/LRN");
 
 router.get("/excelLRN", LRNcontroller.excelLRN);
+router.get("/excelspecificstudent", LRNcontroller.getSpecificLRN);
+
+
+router.post("/excellrnupdatespecificstudent", LRNcontroller.postUpdateSpecificLRN);
 router.post("/excelLRN", upload.single('file'), LRNcontroller.excelLRNpost);
 router.get("/excelLRNTable",LRNcontroller.excelLRNTABLE );
 
