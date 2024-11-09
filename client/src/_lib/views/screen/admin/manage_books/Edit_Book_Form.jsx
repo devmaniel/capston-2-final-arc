@@ -38,7 +38,7 @@ const Edit_Book_Form = ({
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <h1 className="text-md font-semibold">Book Name:</h1>
+            <h1 className="text-md font-semibold">Title:</h1>
             <input
               type="text"
               name="book_name"
@@ -50,7 +50,7 @@ const Edit_Book_Form = ({
           </div>
 
           <div>
-            <h1 className="text-md font-semibold">Author Name:</h1>
+            <h1 className="text-md font-semibold">Author:</h1>
             <input
               type="text"
               name="book_author"
@@ -74,7 +74,7 @@ const Edit_Book_Form = ({
           </div>
 
           <div>
-            <h1 className="text-md font-semibold">Quantity:</h1>
+            <h1 className="text-md font-semibold">Number of Copies:</h1>
             <input
               type="number"
               name="quantity"
@@ -124,20 +124,6 @@ const Edit_Book_Form = ({
               <option value="archived">Archived</option>
               <option value="deleted">Deleted</option>
             </select>
-          </div>
-
-          <div>
-            {/* Quantity Input */}
-            <h1 className="text-md font-semibold">Quantity:</h1>
-            <input
-              type="number"
-              name="quantity"
-              placeholder={data.quantity}
-              value={formData.quantity || ""}
-              onChange={(e) => handleInputChange(e.target.value, "quantity")}
-              className="input bg-base-100 text-neutral rounded-md w-full"
-              min="0"
-            />
           </div>
 
           <div>

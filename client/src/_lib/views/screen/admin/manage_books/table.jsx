@@ -39,12 +39,12 @@ const table = ({ data, handleSetBookStatus, setBookStatusLoading }) => {
       <table className="table table-xl">
         <thead className="text-base-100">
           <tr>
-            <th>Book ID</th>
-            <th>Book Name</th>
-            <th>Book Author</th>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
             <th>ISBN Code</th>
             <th>Classifications</th>
-            <th>Quantity</th>
+            <th>Number of Copies</th>
             <th>Date Created</th>
             <th>Actions</th>
           </tr>

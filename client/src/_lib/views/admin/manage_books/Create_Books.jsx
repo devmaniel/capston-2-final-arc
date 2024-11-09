@@ -26,7 +26,7 @@ import { formclass } from "../../../data/FormClassification";
 const page = () => {
   const tabLinks = [
     { name: "Manage Books", path: "/admin/manage_books" },
-    { name: "Create Books", path: "/admin/manage_books/create_books" },
+    { name: "Add Books", path: "/admin/manage_books/create_books" },
   ];
 
   console.log(formclass);
@@ -224,7 +224,7 @@ const page = () => {
         <div className="dashboard w-full">
           <nav className="flex p-5 justify-between ">
             <Breadcrumps
-              links={["Components", "Manage Books", "Create Books"]}
+              links={["Components", "Manage Books", "Add Books"]}
             />
             <div className="flex items-center gap-2 right-nav">
               <Notifications />

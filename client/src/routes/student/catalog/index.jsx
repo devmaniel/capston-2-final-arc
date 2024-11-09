@@ -314,8 +314,8 @@ function Viewpage() {
                                 {book.quantity > 0 ? (
                                   <p className="mx-1 uppercase bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 w-full shadow-lg p-2 tracking-[1px]">
                                     {book.quantity === 1
-                                      ? "In Stock"
-                                      : "In Stock"}
+                                      ? "Available"
+                                      : "Available"}
                                   </p>
                                 ) : (
                                   <p className="tracking-[1px] bg-gradient-to-r from-red-400 via-red-500 to-red-600 p-2 w-full shadow-lg">

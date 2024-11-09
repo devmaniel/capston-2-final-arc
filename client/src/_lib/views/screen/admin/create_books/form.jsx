@@ -17,7 +17,7 @@ export default function Form({
     <>
       <div className="bg-neutral rounded-md text-base-100">
         <div className="border-base-100 p-5 border-b flex justify-between">
-          <h1 className="font-black">Create Books Form</h1>
+          <h1 className="font-black">Add Books Form</h1>
 
           <BiBookAdd className="text-2xl" />
         </div>
@@ -29,7 +29,7 @@ export default function Form({
         >
           <div className="">
             <label htmlFor="file" className="text-md  font-semibold">
-              Book Image:
+              Image:
             </label>
             <input
               onChange={(e) => {
@@ -44,7 +44,7 @@ export default function Form({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <h1 className="text-md font-semibold">Book Name:</h1>
+              <h1 className="text-md font-semibold">Title:</h1>
               <input
                 type="text"
                 placeholder="Enter Book Name"
@@ -57,7 +57,7 @@ export default function Form({
             </div>
 
             <div>
-              <h1 className="text-md font-semibold">Author Name:</h1>
+              <h1 className="text-md font-semibold">Author:</h1>
               <input
                 onChange={(e) => {
                   handleInput(e.target.value, "authorname");
@@ -80,7 +80,7 @@ export default function Form({
               />
             </div>
             <div>
-              <h1 className="text-md font-semibold">Quantity:</h1>
+              <h1 className="text-md font-semibold">Number of Copies:</h1>
               <input
                 value={postprops.quantity}
                 onChange={(e) => {
@@ -184,7 +184,7 @@ export default function Form({
               type="submit"
               className="bg-base-100 col-span-2 rounded-md text-neutral text-xl p-2"
             >
-              Save
+              Add
             </button>
           </div>
         </form>

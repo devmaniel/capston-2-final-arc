@@ -375,7 +375,7 @@ export default function TopBook({ bookData }) {
             </div>
             <div className="border-b-2 mt-5 mb-5 border-primary"></div>
             <div className="description mt-5 ">
-              <h1 className="font-black text-2xl ">Descriptions: </h1>
+              <h1 className="font-black text-2xl ">Description: </h1>
               {formattedDescription.map((chunk, index) => (
                 <div key={index} className="my-2">
                   <p className="text-black text-sm">
@@ -417,7 +417,7 @@ export default function TopBook({ bookData }) {
                   <p>Classifications</p>
                   <p>Publish Date</p>
                   <p>ISBN Code</p>
-                  <p>Quantity</p>
+                  <p>Number of Copies</p>
                 </div>
                 <div className="mx-[1rem] sm:mx-[1rem] lg:mx-[-2rem] xl:mx-[-3rem]">
                   <p>{publisher}</p>
@@ -575,7 +575,7 @@ export default function TopBook({ bookData }) {
                     <div className="grid grid-cols-2 gap-5 text-black">
                       <div>
                         <label className="font-bold tracking-[1px] text-base-100 mb-2 text-[15px]">
-                          Pick-up Date:
+                          Date of Borrow:
                         </label>
                         <input
                           type="date"
@@ -594,7 +594,7 @@ export default function TopBook({ bookData }) {
 
                       <div>
                         <label className="text-base-100 mb-2 text-[15px] font-bold tracking-[1px]">
-                          Return Date:
+                          Date of Return:
                         </label>
                         <input
                           type="date"

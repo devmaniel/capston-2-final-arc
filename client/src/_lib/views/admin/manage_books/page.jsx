@@ -193,7 +193,7 @@ const page = ({ pageNum, pageFil, pageClass, bookStatus, classDataTest }) => {
 
   const tabLinks = [
     { name: "Manage Books", path: "/admin/manage_books" },
-    { name: "Create Books", path: "/admin/manage_books/create_books" },
+    { name: "Add Books", path: "/admin/manage_books/create_books" },
   ];
 
   // Check if books is undefined or null (still loading)
