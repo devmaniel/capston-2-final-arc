@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 // screens components
 import Nav from "@screen/admin/common/Nav";
@@ -32,67 +32,151 @@ import { axiosFetch } from "../../../hook/axiosFetch";
 
 import useAxiosFetchArrayData from "../../../hook/useAxiosFetchArrayData";
 
-const analytics_landing_page = () => {
+const AnalyticsLandingPage = () => {
+  const [category, setCategory] = useState("");
+  const [status, setStatus] = useState("");
+  const [year, setYear] = useState("");
 
-
-  let { data: TotalBookActive } = axiosFetch(
+  const { data: TotalBookActive } = axiosFetch(
     "/admin/analytics/total_book_active"
   );
-  let { data: TotalOutOfStock } = axiosFetch(
+  const { data: TotalOutOfStock } = axiosFetch(
     "/admin/analytics/total_out_of_stock"
   );
-  let { data: TotalBookBorrowed } = axiosFetch(
+  const { data: TotalBookBorrowed } = axiosFetch(
     "/admin/analytics/total_borrowed_book"
   );
 
-  const { arrayData: MostFrequestStrandBorrower } = useAxiosFetchArrayData('/admin/analytics/most_request_strand_borrower_bar'); // Replace with your API endpoint
-  
-  const { arrayData: MostYearStrandBorrower } = useAxiosFetchArrayData('/admin/analytics/most_request_strand_borrower'); // Replace with your API endpoint
-  
-  const { arrayData: MostYearLevelBorrower } = useAxiosFetchArrayData('/admin/analytics/most_year_level_borrower'); // Replace with your API endpoint
-  
+  const { arrayData: MostFrequestStrandBorrower } = useAxiosFetchArrayData(
+    "/admin/analytics/most_request_strand_borrower_bar"
+  );
+  const { arrayData: MostYearStrandBorrower } = useAxiosFetchArrayData(
+    "/admin/analytics/most_request_strand_borrower"
+  );
+  const { arrayData: MostYearLevelBorrower } = useAxiosFetchArrayData(
+    "/admin/analytics/most_year_level_borrower"
+  );
 
-  if (!TotalBookActive && !TotalOutOfStock && !TotalBookBorrowed && !MostFrequestStrandBorrower && !MostYearStrandBorrower && MostYearLevelBorrower)
-    return <div>Loadin... </div>;
+  // Loading state check
+  if (
+    !TotalBookActive ||
+    !TotalOutOfStock ||
+    !TotalBookBorrowed ||
+    !MostFrequestStrandBorrower ||
+    !MostYearStrandBorrower ||
+    !MostYearLevelBorrower
+  ) {
+    return <div>Loading...</div>;
+  }
 
+  // Handlers for filters
+  const handleCategoryChange = (e) => setCategory(e.target.value);
+  const handleStatusChange = (e) => setStatus(e.target.value);
+  const handleYearChange = (e) => setYear(e.target.value);
 
-  console.log("MostFrequestStrandBorrower", MostFrequestStrandBorrower);
-  
   return (
     <>
       <div className="flex">
         <Drawer />
         <div className="dashboard w-full">
-          <nav className="flex p-5 justify-between ">
+          <nav className="flex p-5 justify-between">
             <Breadcrumps links={["Components", "Analytics"]} />
-
             <div className="flex items-center gap-2 right-nav">
               <Notifications />
               <ColorMode />
             </div>
           </nav>
 
-          <section className="mx-5 ">
-            <div className="w-full bg-white p-4 text-[#333333] font-bold tracking-[1px] text-[18px] mb-2 rounded-md shadow-lg">
-              Books
+          <section className="mx-5">
+            <div className="mb-2 ">
+              <div className="flex gap-4 justify-between">
+                <div className="flex flex-col w-full md:w-1/3">
+                  <label
+                    htmlFor="category"
+                    className="font-medium text-sm text-neutral"
+                  >
+                    Classifications
+                  </label>
+                  <select
+                    id="category"
+                    className="mt-2 p-2 border border-gray-300 rounded-md text-[#333333]"
+                    onChange={handleCategoryChange}
+                  >
+                    <option value="">All Categories</option>
+                    <option value="fiction">ABM</option>
+                    <option value="non-fiction">GAS</option>
+                    <option value="science">STEM</option>
+                    <option value="science">ICT</option>
+                    <option value="science">COOKERY</option>
+                    <option value="science">ACADEMIC</option>
+                    <option value="science">TVL</option>
+                  </select>
+                </div>
+
+                {/* Filter 2: Dropdown for Book Status */}
+                <div className="flex flex-col w-full md:w-1/3">
+                  <label
+                    htmlFor="status"
+                    className="font-medium text-sm text-neutral"
+                  >
+                    Status
+                  </label>
+                  <select
+                    id="status"
+                    className="mt-2 p-2 border border-gray-300 rounded-md text-[#333333]"
+                    onChange={handleStatusChange}
+                  >
+                    <option value="">All Status</option>
+                    <option value="available">Available</option>
+                    <option value="borrowed">Borrowed</option>
+                    <option value="out-of-stock">Unavailable</option>
+                  </select>
+                </div>
+
+                {/* Filter 3: Date Picker for Year */}
+                <div className="flex flex-col w-full md:w-1/3">
+                  <label
+                    htmlFor="year"
+                    className="font-medium text-sm text-neutral"
+                  >
+                    Date
+                  </label>
+                  <input
+                    type="date"
+                    id="year"
+                    className="mt-2 p-2 border border-gray-300 rounded-md text-[#333333]"
+                    onChange={handleYearChange}
+                  />
+                </div>
+              </div>
             </div>
+
+            {/* Default Components Rendered with Props */}
             <Default_1
               TotalBookActive={TotalBookActive}
               TotalOutOfStock={TotalOutOfStock}
               TotalBookBorrowed={TotalBookBorrowed}
             />
-            <Default_2 MostFrequestStrandBorrower={MostFrequestStrandBorrower} />
-            <div className="mt-2">  
-              <Default_3 MostYearStrandBorrower={MostYearLevelBorrower} MostYearLevelBorrower={MostYearStrandBorrower}/>
+
+            <Default_2
+              MostFrequestStrandBorrower={MostFrequestStrandBorrower}
+            />
+
+            <div className="mt-2">
+              <Default_3
+                MostYearStrandBorrower={MostYearLevelBorrower}
+                MostYearLevelBorrower={MostYearStrandBorrower}
+              />
             </div>
           </section>
 
           <Pagination />
         </div>
       </div>
+
       <footer className="w-full h-10 mt-[500px]"></footer>
     </>
   );
 };
 
-export default analytics_landing_page;
+export default AnalyticsLandingPage;

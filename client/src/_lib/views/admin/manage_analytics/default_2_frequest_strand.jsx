@@ -42,7 +42,7 @@ const default_2_frequest_strand = ({MostFrequestStrandBorrower}) => {
         beginAtZero: true,
         title: {
           display: true,
-          text: "Number of Times Borrowed",
+          text: "Number of Books Borrowed",
           // Y-axis title color
         },
         ticks: {

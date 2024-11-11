@@ -2,16 +2,16 @@ import { BsReceiptCutoff } from "react-icons/bs";
 export default function TotalBooks({totalActive}) {
   return (
     <>
-        <ul className="flex justify-between ">
+        <ul className="flex justify-between text-black">
             
-            <h1 className="text-4xl p-3 bg-base-100 rounded-full"><BsReceiptCutoff className="text-neutral" /></h1>
+            <h1 className="text-4xl p-3 bg-gray-100 rounded-full"><BsReceiptCutoff className="text-primary" /></h1>
             <a href="#" className="">...</a>
         </ul>
 
-        <div className="mt-10">
+        <div className="mt-10 text-black">
          
             <h1 className="text-2xl font-bold">Total Request:</h1>
-            <h1 className="text-2xl font-bold">{totalActive}</h1>
+            <h1 className="text-xl font-bold">{totalActive}</h1>
         </div>
     </>
   )

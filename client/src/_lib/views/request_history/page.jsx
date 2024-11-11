@@ -178,11 +178,11 @@ function RequestTable({ requests, user, handleCancelRequest }) {
           <thead className="">
             <tr className=" text-black ">
               <th>Request Code</th>
-              <th>Book Name</th>
-              <th>Book Author</th>
-              <th>Request Quantity</th>
-              <th>Date Pick-up</th>
-              <th>Date Returned</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Number of Copies</th>
+              <th>Date of Borrowed</th>
+              <th>Date of Returned</th>
               <th>History</th>
               <th>Book QR</th>
               <th>Request QR</th>

@@ -46,7 +46,7 @@ export default function Drawer({ dh }) {
               </svg>
             </label>
           </div>
-          <div className="w-full custom-drawer overflow-auto p-5 flex-col text-left rounded-l-lg h-full hidden lg:block text-base-100 bg-neutral">
+          <div className="w-full custom-drawer overflow-auto p-5 flex-col text-left rounded-l-lg h-auto hidden lg:block text-base-100 bg-neutral">
             <div className="flex-1 text-lg  font-bold hidden lg:block">
               BBSHS Library{" "}
             </div>

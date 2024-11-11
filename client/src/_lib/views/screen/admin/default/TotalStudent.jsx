@@ -6,7 +6,7 @@ export default function TotalStudent({totalActive}) {
         <BsFillPersonFill className="text-5xl text-neutral bg-base-100 rounded-sm p-2" />
         <ul>
             <li>
-            <h1 className="font-bold text-lg">Active Account:</h1>
+            <h1 className="font-bold text-lg">Active Accounts:</h1>
             </li>
             <li>
                 <h1 className="text-lg">{totalActive}</h1>
