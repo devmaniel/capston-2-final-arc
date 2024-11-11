@@ -27,6 +27,7 @@ const page = () => {
   const tabLinks = [
     { name: "Manage Books", path: "/admin/manage_books" },
     { name: "Add Books", path: "/admin/manage_books/create_books" },
+    { name: "Add Books using QR Scanner", path: "/admin/manage_books/qr_scan_add_books" },
   ];
 
   console.log(formclass);

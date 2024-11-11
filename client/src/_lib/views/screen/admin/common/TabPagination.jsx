@@ -4,7 +4,7 @@ import React from "react";
 
 const TabPagination = ({ tablink }) => {
   return (
-    <div role="tablist" className="tabs tabs-boxed w-1/2 rounded-sm">
+    <div role="tablist" className="tabs tabs-boxed  rounded-sm">
       {tablink.map((link) => (
         <Link
           key={link.path}

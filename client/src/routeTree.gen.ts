@@ -55,6 +55,9 @@ import { Route as AdminManagerequestViewrequestformImport } from './routes/admin
 import { Route as AdminManagerequestOnsiterequestImport } from './routes/admin/manage_request/onsite_request'
 import { Route as AdminManagelrnSpecificlrnImport } from './routes/admin/manage_lrn/specific_lrn'
 import { Route as AdminManagelrnCycleaccountImport } from './routes/admin/manage_lrn/cycle_account'
+import { Route as AdminManagebooksQrscanaddbooksformImport } from './routes/admin/manage_books/qr_scan_add_books_form'
+import { Route as AdminManagebooksQrscanaddbooksbarcodeImport } from './routes/admin/manage_books/qr_scan_add_books_barcode'
+import { Route as AdminManagebooksQrscanaddbooksImport } from './routes/admin/manage_books/qr_scan_add_books'
 import { Route as AdminManagebooksEditbookImport } from './routes/admin/manage_books/edit_book'
 import { Route as AdminManagebooksCreatebooksImport } from './routes/admin/manage_books/create_books'
 import { Route as AdminAnalyticsPrintmostyearlevelsectionborrowerImport } from './routes/admin/analytics/print_most_year_level_section_borrower'
@@ -299,6 +302,24 @@ const AdminManagelrnCycleaccountRoute = AdminManagelrnCycleaccountImport.update(
   } as any,
 )
 
+const AdminManagebooksQrscanaddbooksformRoute =
+  AdminManagebooksQrscanaddbooksformImport.update({
+    path: '/admin/manage_books/qr_scan_add_books_form',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const AdminManagebooksQrscanaddbooksbarcodeRoute =
+  AdminManagebooksQrscanaddbooksbarcodeImport.update({
+    path: '/admin/manage_books/qr_scan_add_books_barcode',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const AdminManagebooksQrscanaddbooksRoute =
+  AdminManagebooksQrscanaddbooksImport.update({
+    path: '/admin/manage_books/qr_scan_add_books',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 const AdminManagebooksEditbookRoute = AdminManagebooksEditbookImport.update({
   path: '/admin/manage_books/edit_book',
   getParentRoute: () => rootRoute,
@@ -496,6 +517,27 @@ declare module '@tanstack/react-router' {
       path: '/admin/manage_books/edit_book'
       fullPath: '/admin/manage_books/edit_book'
       preLoaderRoute: typeof AdminManagebooksEditbookImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/manage_books/qr_scan_add_books': {
+      id: '/admin/manage_books/qr_scan_add_books'
+      path: '/admin/manage_books/qr_scan_add_books'
+      fullPath: '/admin/manage_books/qr_scan_add_books'
+      preLoaderRoute: typeof AdminManagebooksQrscanaddbooksImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/manage_books/qr_scan_add_books_barcode': {
+      id: '/admin/manage_books/qr_scan_add_books_barcode'
+      path: '/admin/manage_books/qr_scan_add_books_barcode'
+      fullPath: '/admin/manage_books/qr_scan_add_books_barcode'
+      preLoaderRoute: typeof AdminManagebooksQrscanaddbooksbarcodeImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/manage_books/qr_scan_add_books_form': {
+      id: '/admin/manage_books/qr_scan_add_books_form'
+      path: '/admin/manage_books/qr_scan_add_books_form'
+      fullPath: '/admin/manage_books/qr_scan_add_books_form'
+      preLoaderRoute: typeof AdminManagebooksQrscanaddbooksformImport
       parentRoute: typeof rootRoute
     }
     '/admin/manage_lrn/cycle_account': {
@@ -716,6 +758,9 @@ export const routeTree = rootRoute.addChildren({
   AdminAnalyticsPrintmostyearlevelsectionborrowerRoute,
   AdminManagebooksCreatebooksRoute,
   AdminManagebooksEditbookRoute,
+  AdminManagebooksQrscanaddbooksRoute,
+  AdminManagebooksQrscanaddbooksbarcodeRoute,
+  AdminManagebooksQrscanaddbooksformRoute,
   AdminManagelrnCycleaccountRoute,
   AdminManagelrnSpecificlrnRoute,
   AdminManagerequestOnsiterequestRoute,
@@ -776,6 +821,9 @@ export const routeTree = rootRoute.addChildren({
         "/admin/analytics/print_most_year_level_section_borrower",
         "/admin/manage_books/create_books",
         "/admin/manage_books/edit_book",
+        "/admin/manage_books/qr_scan_add_books",
+        "/admin/manage_books/qr_scan_add_books_barcode",
+        "/admin/manage_books/qr_scan_add_books_form",
         "/admin/manage_lrn/cycle_account",
         "/admin/manage_lrn/specific_lrn",
         "/admin/manage_request/onsite_request",
@@ -873,6 +921,15 @@ export const routeTree = rootRoute.addChildren({
     },
     "/admin/manage_books/edit_book": {
       "filePath": "admin/manage_books/edit_book.jsx"
+    },
+    "/admin/manage_books/qr_scan_add_books": {
+      "filePath": "admin/manage_books/qr_scan_add_books.jsx"
+    },
+    "/admin/manage_books/qr_scan_add_books_barcode": {
+      "filePath": "admin/manage_books/qr_scan_add_books_barcode.jsx"
+    },
+    "/admin/manage_books/qr_scan_add_books_form": {
+      "filePath": "admin/manage_books/qr_scan_add_books_form.jsx"
     },
     "/admin/manage_lrn/cycle_account": {
       "filePath": "admin/manage_lrn/cycle_account.jsx"
