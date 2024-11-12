@@ -5,14 +5,73 @@ const UserModel = require("../../../model/user");
 const LRNModel = require("../../../model/lrn");
 const ViolationsModel = require("../../../model/violations");
 
-// add this
+// Helper function to get date range based on the query parameter
+const getDateRange = (dateFilter) => {
+    const now = new Date();
+    let startDate, endDate;
+
+    switch (dateFilter) {
+        case "today":
+            startDate = new Date(now.setHours(0, 0, 0, 0)); // Start of today
+            endDate = new Date(now.setHours(23, 59, 59, 999)); // End of today
+            break;
+        case "this_week":
+            startDate = new Date(now);
+            startDate.setDate(now.getDate() - now.getDay()); // Start of this week (Sunday)
+            startDate.setHours(0, 0, 0, 0);
+            endDate = new Date(now);
+            endDate.setHours(23, 59, 59, 999); // End of today
+            break;
+        case "last_week":
+            startDate = new Date(now);
+            startDate.setDate(now.getDate() - now.getDay() - 7); // Start of last week
+            startDate.setHours(0, 0, 0, 0);
+            endDate = new Date(now);
+            endDate.setDate(now.getDate() - now.getDay() - 1); // End of last week (Saturday)
+            endDate.setHours(23, 59, 59, 999);
+            break;
+        case "last_month":
+            startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1); // Start of last month
+            startDate.setHours(0, 0, 0, 0);
+            endDate = new Date(now.getFullYear(), now.getMonth(), 0); // End of last month
+            endDate.setHours(23, 59, 59, 999);
+            break;
+        case "last_6_months":
+            startDate = new Date(now);
+            startDate.setMonth(now.getMonth() - 6); // 6 months ago
+            startDate.setHours(0, 0, 0, 0);
+            endDate = new Date(now); // Today
+            endDate.setHours(23, 59, 59, 999);
+            break;
+        case "one_year_ago":
+            startDate = new Date(now);
+            startDate.setFullYear(now.getFullYear() - 1); // 1 year ago
+            startDate.setHours(0, 0, 0, 0);
+            endDate = new Date(now); // Today
+            endDate.setHours(23, 59, 59, 999);
+            break;
+        case "all":
+            return null; // No date range filter for "all"
+        default:
+            return null; // No date range filter
+    }
+    return { startDate, endDate };
+};
+
 
 exports.MostFrequentStrandBorrower = async (req, res, next) => {
     try {
         console.log("Testing the connection at /admin/analytics/most_request_strand_borrower_bar");
+        console.log("Req.query.date:", req.query.date)
 
-        // Step 1: Get all request data
-        const requests = await RequestModel.findAll();
+        // Step 1: Determine the date range based on the `date` query
+        const dateRange = getDateRange(req.query.date);
+        const whereClause = dateRange
+            ? { createdAt: { [Op.between]: [dateRange.startDate, dateRange.endDate] } }
+            : {}; // If no date range, fetch all data
+
+        // Step 2: Fetch request data filtered by date range
+        const requests = await RequestModel.findAll({ where: whereClause });
 
         // Initialize an object to count frequencies of each track
         const frequencyCount = {
@@ -24,19 +83,19 @@ exports.MostFrequentStrandBorrower = async (req, res, next) => {
             HUMSS: 0
         };
 
-        // Step 2: Process each request
+        // Step 3: Process each request
         for (const request of requests) {
             const userId = request.user_id;
 
-            // Step 3: Find User by user_id
+            // Step 4: Find User by user_id
             const user = await UserModel.findOne({ where: { id: userId } });
             if (!user) continue;
 
-            // Step 4: Find LRN by valid_lrn in LRNModel where it matches UserModel's acc_lrn
+            // Step 5: Find LRN by valid_lrn in LRNModel where it matches UserModel's acc_lrn
             const lrn = await LRNModel.findOne({ where: { valid_lrn: user.acc_lrn } });
             if (!lrn) continue;
 
-            // Step 5: Extract the track and count occurrences
+            // Step 6: Extract the track and count occurrences
             const track = lrn.track;
             if (frequencyCount.hasOwnProperty(track)) {
                 frequencyCount[track]++;
@@ -59,23 +118,37 @@ exports.MostFrequentStrandBorrower = async (req, res, next) => {
     }
 };
 
+
 exports.MostYearLevelSectionBorrower = async (req, res, next) => {
     try {
         console.log("Testing the connection at /admin/analytics/most_request_strand_borrower");
+        console.log("Req.query.date:", req.query.date);
 
-        // Step 1: Get all requests with their user_id
+        // Step 1: Get date range from query parameter
+        const dateRange = getDateRange(req.query.date);
+
+        // Step 2: Set up where condition for date filtering
+        const whereCondition = {};
+        if (dateRange) {
+            whereCondition.createdAt = {
+                [Op.between]: [dateRange.startDate, dateRange.endDate]
+            };
+        }
+
+        // Step 3: Get all requests with their user_id, filtered by date if applicable
         const requestRecords = await RequestModel.findAll({
+            where: whereCondition,
             attributes: ['user_id']
         });
 
-        // Step 2: Extract user_ids and get their acc_lrn from UserModel
+        // Step 4: Extract user_ids and get their acc_lrn from UserModel
         const userIds = requestRecords.map(record => record.user_id);
         const userRecords = await UserModel.findAll({
             where: {
                 id: { [Op.in]: userIds }
             },
             attributes: ['id', 'acc_lrn'],
-            raw: true // Use raw for direct object format
+            raw: true
         });
 
         // Map userId to acc_lrn for easy lookup
@@ -84,7 +157,7 @@ exports.MostYearLevelSectionBorrower = async (req, res, next) => {
             return acc;
         }, {});
 
-        // Step 3: Get sections for each valid_lrn from LRNModel
+        // Step 5: Get sections for each valid_lrn from LRNModel
         const validLrnList = userRecords.map(user => user.acc_lrn);
         const lrnRecords = await LRNModel.findAll({
             where: {
@@ -100,16 +173,15 @@ exports.MostYearLevelSectionBorrower = async (req, res, next) => {
             return acc;
         }, {});
 
-        // Step 4: Initialize sectionCounts to keep track of each section's frequency
+        // Step 6: Initialize sectionCounts to keep track of each section's frequency
         const sectionCounts = {};
 
-        // Step 5: Count frequency for each section from matched user requests
+        // Step 7: Count frequency for each section from matched user requests
         requestRecords.forEach(record => {
             const userId = record.user_id;
             const validLrn = userIdToLrnMap[userId];
             const section = lrnToSectionMap[validLrn];
 
-            // Only count if section is found in lrnToSectionMap
             if (section) {
                 sectionCounts[section] = (sectionCounts[section] || 0) + 1;
             }
@@ -122,7 +194,11 @@ exports.MostYearLevelSectionBorrower = async (req, res, next) => {
         return res.status(200).json({
             message: "Function executed successfully.",
             labels: labels,
-            data: data
+            data: data,
+            dateRange: dateRange ? {
+                startDate: dateRange.startDate,
+                endDate: dateRange.endDate
+            } : 'all'
         });
 
     } catch (err) {
@@ -131,14 +207,25 @@ exports.MostYearLevelSectionBorrower = async (req, res, next) => {
     }
 };
 
-
-
 exports.MostYearLevelBorrower = async (req, res, next) => {
     try {
         console.log("Testing the connection at /admin/analytics/most_year_level_borrower");
+        console.log("Req.query.date:", req.query.date)
 
-        // Step 1: Get all request data
-        const requests = await RequestModel.findAll();
+        // Step 1: Get date filter from query parameter
+        const dateFilter = req.query.date;
+        const dateRange = getDateRange(dateFilter);
+
+        // Step 2: Query requests within date range (if applicable)
+        const whereCondition = {};
+        if (dateRange) {
+            whereCondition.createdAt = {
+                [Op.between]: [dateRange.startDate, dateRange.endDate]
+            };
+        }
+
+        // Step 3: Fetch requests with date filtering
+        const requests = await RequestModel.findAll({ where: whereCondition });
 
         // Initialize an object to count frequencies
         const frequencyCount = {
@@ -146,19 +233,19 @@ exports.MostYearLevelBorrower = async (req, res, next) => {
             G12: 0
         };
 
-        // Step 2: Process each request
+        // Step 4: Process each request
         for (const request of requests) {
             const userId = request.user_id;
 
-            // Step 3: Find User by user_id
+            // Step 5: Find User by user_id
             const user = await UserModel.findOne({ where: { id: userId } });
             if (!user) continue;
 
-            // Step 4: Find LRN by valid_lrn in LRNModel where it matches UserModel's acc_lrn
+            // Step 6: Find LRN by valid_lrn in LRNModel where it matches UserModel's acc_lrn
             const lrn = await LRNModel.findOne({ where: { valid_lrn: user.acc_lrn } });
             if (!lrn) continue;
 
-            // Step 5: Extract year_level and determine the label
+            // Step 7: Extract year_level and determine the label
             const yearLevel = lrn.year_level;
             let gradeLabel = "";
 
@@ -171,7 +258,7 @@ exports.MostYearLevelBorrower = async (req, res, next) => {
                 continue;
             }
 
-            // Step 6: Count the occurrences of each label
+            // Step 8: Count the occurrences of each label
             frequencyCount[gradeLabel]++;
         }
 

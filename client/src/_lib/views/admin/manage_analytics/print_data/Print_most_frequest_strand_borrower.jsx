@@ -1,13 +1,34 @@
-import React from "react";
+import React, {useState} from "react";
 import "../../../../../styles/admin/print_data.css";
 import useAxiosFetchArrayData from "../../../../hook/useAxiosFetchArrayData";
 
 import { Link } from "@tanstack/react-router";
 
 const Print_most_frequest_strand_borrower = () => {
+  const [default1_Date, setDefault1_Date] = useState("this_week");
+
   const { arrayData: MostFrequestStrandBorrower } = useAxiosFetchArrayData(
-    "/admin/analytics/most_request_strand_borrower_bar"
+    `/admin/analytics/most_request_strand_borrower_bar?date=${default1_Date}`
   );
+
+  // Handler function to update state based on the selected date range
+  const handleDateChange = (event, dateType) => {
+    const newValue = event.target.value;
+
+    switch (dateType) {
+      case "default1_Date":
+        setDefault1_Date(newValue);
+        break;
+      case "default2_Date":
+        setDefault2_Date(newValue);
+        break;
+      case "default3_Date":
+        setDefault3_Date(newValue);
+        break;
+      default:
+        console.warn("Unknown date type:", dateType);
+    }
+  };
 
   // Ensure data is fully loaded and contains necessary fields
   if (
@@ -67,12 +88,29 @@ const Print_most_frequest_strand_borrower = () => {
         >
           Back
         </Link>
-        <button
-          className="px-2 py-1 bg-blue-500 text-white rounded print-btn"
-          onClick={handlePrint}
-        >
-          Print
-        </button>
+
+        <div className="flex gap-2">
+          <select
+            className="select select-primary bg-base-100 text-neutral w-full max-w-xs"
+            value={default1_Date}
+            onChange={(event) => handleDateChange(event, "default1_Date")}
+          >
+            <option disabled>Pick a Date Range</option>
+            <option value="all">All</option>
+            <option value="today">Today</option>
+            <option value="this_week">This Week</option>
+            <option value="last_week">Last Week</option>
+            <option value="last_month">Last Month</option>
+            <option value="last_6_months">Last 6 Months</option>
+            <option value="one_year_ago">One Year Ago</option>
+          </select>
+          <button
+            className="px-2 py-1 bg-blue-500 text-white rounded print-btn"
+            onClick={handlePrint}
+          >
+            Print
+          </button>
+        </div>
       </div>
       <div className=" h-[700px] w-[700px] mx-auto text-center p-10 page">
         <h1 className="font-bold">Most Frequent Strand Borrower </h1>

@@ -33,38 +33,61 @@ import { axiosFetch } from "../../../hook/axiosFetch";
 import useAxiosFetchArrayData from "../../../hook/useAxiosFetchArrayData";
 
 const AnalyticsLandingPage = () => {
-  const [category, setCategory] = useState("");
-  const [status, setStatus] = useState("");
-  const [year, setYear] = useState("");
+  const [default1_Date, setDefault1_Date] = useState("this_week");
+  const [default2_Date, setDefault2_Date] = useState("all");
+  const [default3_Date, setDefault3_Date] = useState("all");
 
-  const { data: TotalBookActive } = axiosFetch(
-    "/admin/analytics/total_book_active"
+  // Handler function to update state based on the selected date range
+  const handleDateChange = (event, dateType) => {
+    const newValue = event.target.value;
+
+    switch (dateType) {
+      case "default1_Date":
+        setDefault1_Date(newValue);
+        break;
+      case "default2_Date":
+        setDefault2_Date(newValue);
+        break;
+      case "default3_Date":
+        setDefault3_Date(newValue);
+        break;
+      default:
+        console.warn("Unknown date type:", dateType);
+    }
+  };
+
+  const { data: TotalBookActive, loading: TotalBookActiveLoading } = axiosFetch(
+    `/admin/analytics/total_book_active`
   );
-  const { data: TotalOutOfStock } = axiosFetch(
+  const { data: TotalOutOfStock, loading: TotalOutOfStockLoading } = axiosFetch(
     "/admin/analytics/total_out_of_stock"
   );
-  const { data: TotalBookBorrowed } = axiosFetch(
-    "/admin/analytics/total_borrowed_book"
-  );
+  const { data: TotalBookBorrowed, loading: TotalBookBorrowedLoading } =
+    axiosFetch(`/admin/analytics/total_borrowed_book`);
 
-  const { arrayData: MostFrequestStrandBorrower } = useAxiosFetchArrayData(
-    "/admin/analytics/most_request_strand_borrower_bar"
+  const {
+    arrayData: MostFrequestStrandBorrower,
+    loading: MostFrequestStrandBorrowerLoading,
+  } = useAxiosFetchArrayData(
+    `/admin/analytics/most_request_strand_borrower_bar?date=${default1_Date}`
   );
-  const { arrayData: MostYearStrandBorrower } = useAxiosFetchArrayData(
-    "/admin/analytics/most_request_strand_borrower"
-  );
-  const { arrayData: MostYearLevelBorrower } = useAxiosFetchArrayData(
-    "/admin/analytics/most_year_level_borrower"
-  );
+  const {
+    arrayData: MostYearStrandBorrower,
+    loading: MostYearStrandBorrowerLoading,
+  } = useAxiosFetchArrayData(`/admin/analytics/most_request_strand_borrower?date=${default3_Date}`);
+  const {
+    arrayData: MostYearLevelBorrower,
+    loading: MostYearLevelBorrowerLoading,
+  } = useAxiosFetchArrayData(`/admin/analytics/most_year_level_borrower?date=${default2_Date}`);
 
-  // Loading state check
+  // Check if any loading state is true
   if (
-    !TotalBookActive ||
-    !TotalOutOfStock ||
-    !TotalBookBorrowed ||
-    !MostFrequestStrandBorrower ||
-    !MostYearStrandBorrower ||
-    !MostYearLevelBorrower
+    TotalBookActiveLoading ||
+    TotalOutOfStockLoading ||
+    TotalBookBorrowedLoading ||
+    MostFrequestStrandBorrowerLoading ||
+    MostYearStrandBorrowerLoading ||
+    MostYearLevelBorrowerLoading
   ) {
     return <div>Loading...</div>;
   }
@@ -88,69 +111,6 @@ const AnalyticsLandingPage = () => {
           </nav>
 
           <section className="mx-5">
-            <div className="mb-2 ">
-              <div className="flex gap-4 justify-between">
-                <div className="flex flex-col w-full md:w-1/3">
-                  <label
-                    htmlFor="category"
-                    className="font-medium text-sm text-neutral"
-                  >
-                    Classifications
-                  </label>
-                  <select
-                    id="category"
-                    className="mt-2 p-2 border border-gray-300 rounded-md text-[#333333]"
-                    onChange={handleCategoryChange}
-                  >
-                    <option value="">All Categories</option>
-                    <option value="fiction">ABM</option>
-                    <option value="non-fiction">GAS</option>
-                    <option value="science">STEM</option>
-                    <option value="science">ICT</option>
-                    <option value="science">COOKERY</option>
-                    <option value="science">ACADEMIC</option>
-                    <option value="science">TVL</option>
-                  </select>
-                </div>
-
-                {/* Filter 2: Dropdown for Book Status */}
-                <div className="flex flex-col w-full md:w-1/3">
-                  <label
-                    htmlFor="status"
-                    className="font-medium text-sm text-neutral"
-                  >
-                    Status
-                  </label>
-                  <select
-                    id="status"
-                    className="mt-2 p-2 border border-gray-300 rounded-md text-[#333333]"
-                    onChange={handleStatusChange}
-                  >
-                    <option value="">All Status</option>
-                    <option value="available">Available</option>
-                    <option value="borrowed">Borrowed</option>
-                    <option value="out-of-stock">Unavailable</option>
-                  </select>
-                </div>
-
-                {/* Filter 3: Date Picker for Year */}
-                <div className="flex flex-col w-full md:w-1/3">
-                  <label
-                    htmlFor="year"
-                    className="font-medium text-sm text-neutral"
-                  >
-                    Date
-                  </label>
-                  <input
-                    type="date"
-                    id="year"
-                    className="mt-2 p-2 border border-gray-300 rounded-md text-[#333333]"
-                    onChange={handleYearChange}
-                  />
-                </div>
-              </div>
-            </div>
-
             {/* Default Components Rendered with Props */}
             <Default_1
               TotalBookActive={TotalBookActive}
@@ -160,12 +120,17 @@ const AnalyticsLandingPage = () => {
 
             <Default_2
               MostFrequestStrandBorrower={MostFrequestStrandBorrower}
+              default1_Date={default1_Date}
+              handleDateChange={handleDateChange}
             />
 
             <div className="mt-2">
               <Default_3
                 MostYearStrandBorrower={MostYearLevelBorrower}
                 MostYearLevelBorrower={MostYearStrandBorrower}
+                default2_Date={default2_Date}
+                default3_Date={default3_Date}
+                handleDateChange={handleDateChange}
               />
             </div>
           </section>

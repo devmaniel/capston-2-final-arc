@@ -1,13 +1,34 @@
-import React from "react";
+import React, {useState} from "react";
 import "../../../../../styles/admin/print_data.css";
 import useAxiosFetchArrayData from "../../../../hook/useAxiosFetchArrayData";
 
-import { Link } from '@tanstack/react-router'
+import { Link } from "@tanstack/react-router";
 
 const Print_most_year_level_section_borrower = () => {
+  const [default2_Date, setDefault2_Date] = useState("all");
+
   const { arrayData: MostFrequestSectionBorrower } = useAxiosFetchArrayData(
-    "/admin/analytics/most_year_level_borrower"
+    `/admin/analytics/most_year_level_borrower?date=${default2_Date}`
   );
+
+  // Handler function to update state based on the selected date range
+  const handleDateChange = (event, dateType) => {
+    const newValue = event.target.value;
+
+    switch (dateType) {
+      case "default1_Date":
+        setDefault1_Date(newValue);
+        break;
+      case "default2_Date":
+        setDefault2_Date(newValue);
+        break;
+      case "default3_Date":
+        setDefault3_Date(newValue);
+        break;
+      default:
+        console.warn("Unknown date type:", dateType);
+    }
+  };
 
   // Ensure data is fully loaded and contains necessary fields
   if (
@@ -55,18 +76,35 @@ const Print_most_year_level_section_borrower = () => {
   return (
     <div className="bg-white h-auto w-full text-black text-center mx-auto p-5">
       <div className="flex justify-between ">
-      <Link
-      to="/admin/analytics"
-      className="text-left back hover:underline transition duration-300"
-    >
-      Back
-    </Link>
-        <button
-          className="px-2 py-1 bg-blue-500 text-white rounded print-btn"
-          onClick={handlePrint}
+        <Link
+          to="/admin/analytics"
+          className="text-left back hover:underline transition duration-300"
         >
-          Print
-        </button>
+          Back
+        </Link>
+
+        <div className="flex gap-2">
+          <select
+            className="select select-primary bg-base-100 text-neutral w-full max-w-xs"
+            value={default2_Date}
+            onChange={(event) => handleDateChange(event, "default2_Date")}
+          >
+            <option disabled>Pick a Date Range</option>
+            <option value="all">All</option>
+            <option value="today">Today</option>
+            <option value="this_week">This Week</option>
+            <option value="last_week">Last Week</option>
+            <option value="last_month">Last Month</option>
+            <option value="last_6_months">Last 6 Months</option>
+            <option value="one_year_ago">One Year Ago</option>
+          </select>
+          <button
+            className="px-2 py-1 bg-blue-500 text-white rounded print-btn"
+            onClick={handlePrint}
+          >
+            Print
+          </button>
+        </div>
       </div>
       <div className="h-[700px] w-[700px] mx-auto text-center p-10 page">
         <h1 className="font-bold">Most Frequent Section Borrower</h1>
