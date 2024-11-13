@@ -14,14 +14,13 @@ const default_3 = ({
   return (
     <div className="grid grid-cols-4  gap-4 mt-[210px] my-2 ">
       <div className="col-span-2 rounded-md bg-white text-[#333333] my-2  border-2 p-4">
-        <div className="flex justify-between items-center ">
+        <div className="flex justify-between  ">
           <h3 className="mb-2 font-black text-[#333333]">
-            Most Year level Section borrower
+          Top Borrower by Strand & Year Level
           </h3>
-
-          <div className="flex items-center gap-5">
+          <div className="flex  items-center justify-end">
             <select
-              className="select select-primary bg-base-100 text-neutral w-full max-w-xs"
+              className="bg-white border px-2 py-1 rounded-md w-[50%]"
               value={default2_Date}
               onChange={(event) => handleDateChange(event, "default2_Date")}
             >
@@ -57,19 +56,19 @@ const default_3 = ({
       <div className="col-span-2 rounded-md bg-white p-4 my-2  border-2">
         <div className="flex justify-between items-center ">
           <h3 className="mb-2 font-black text-[#333333]">
-            Most Year level Strand borrower
+            Most Borrowed by Year Level 
           </h3>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2  justify-end">
             <select
-              className="select select-primary bg-base-100 text-neutral w-full max-w-xs"
+              className="bg-white border px-2 py-1 rounded-md w-[50%]"
               value={default3_Date}
               onChange={(event) => handleDateChange(event, "default3_Date")}
             >
               <option disabled>Pick a Date Range</option>
               <option value="all">All</option>
               <option value="today">Today</option>
-               <option value="this_week">This Week</option>
+              <option value="this_week">This Week</option>
               <option value="last_week">Last Week</option>
               <option value="last_month">Last Month</option>
               <option value="last_6_months">Last 6 Months</option>

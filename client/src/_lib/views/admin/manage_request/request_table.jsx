@@ -15,16 +15,16 @@ const Request_table = ({ requests }) => {
         <thead className="text-base-100">
           <tr>
             <th>Actions</th>
-            <th>Request Status</th>
-            <th>Request Code</th>
+            <th>Status</th>
+            <th>Request ID</th>
             <th>Requester Name</th>
-            <th>Requester QR</th>
-            
-            <th>Book QR</th>
-            <th>Book Name</th>
+            <th>Requester QR Code</th>
 
-            <th>Request Quantity</th>
-            <th>Date Created</th>
+            <th>QR Code</th>
+            <th>Title</th>
+
+            <th>Number of Requested</th>
+            <th>Date of Request</th>
           </tr>
         </thead>
         <tbody>
@@ -80,7 +80,7 @@ const Request_table = ({ requests }) => {
                     dialogId={`my_modal_Request_${index}`}
                   />
                 </td>
-               
+
                 <td>
                   <button
                     className="badge badge-success"
@@ -96,7 +96,7 @@ const Request_table = ({ requests }) => {
                   />
                 </td>
                 <td>{request["Book Name"]}</td>
-               
+
                 <td>{request["Request Quantity"]}</td>
                 <td>
                   {new Date(request["Date Created"]).toLocaleDateString()}
@@ -104,7 +104,6 @@ const Request_table = ({ requests }) => {
               </tr>
             ))
           ) : (
-            
             <tr>
               <td colSpan={12} className="text-center text-2xl font-bold">
                 No data available.

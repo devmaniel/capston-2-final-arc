@@ -212,7 +212,7 @@ const View_Request_Form = ({
           </div>
 
           <div>
-            <h1 className="text-md font-semibold">Request Quantity:</h1>
+            <h1 className="text-md font-semibold">Number of Request:</h1>
             <input
               type="number"
               value={data.request.bookQty}
@@ -222,7 +222,7 @@ const View_Request_Form = ({
           </div>
 
           <div>
-            <h1 className="text-md font-semibold">PickUp Date:</h1>
+            <h1 className="text-md font-semibold">Date of Borrowed:</h1>
             <input
               type="date"
               value={
@@ -234,7 +234,7 @@ const View_Request_Form = ({
           </div>
 
           <div>
-            <h1 className="text-md font-semibold">PickUp Date:</h1>
+            <h1 className="text-md font-semibold">Date of Returned:</h1>
             <input
               type="date"
               value={

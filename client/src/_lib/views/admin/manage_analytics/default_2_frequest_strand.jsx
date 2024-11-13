@@ -1,7 +1,7 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 
-const default_2_frequest_strand = ({MostFrequestStrandBorrower}) => {
+const default_2_frequest_strand = ({ MostFrequestStrandBorrower }) => {
   const data = {
     labels: MostFrequestStrandBorrower.labels,
     datasets: [
@@ -69,7 +69,10 @@ const default_2_frequest_strand = ({MostFrequestStrandBorrower}) => {
   };
 
   return (
-    <div style={{ width: "100%", height: "100%", margin: "10px auto" }} className="text-base-100 ">
+    <div
+      style={{ width: "100%", height: "100%", margin: "10px auto" }}
+      className="text-base-100 "
+    >
       <Bar data={data} options={options} className="text-base-100" />{" "}
     </div>
   );

@@ -5,7 +5,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 // Register necessary components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const default_3_frequent_yr = ({MostYearLevelBorrower}) => {
+const default_3_frequent_yr = ({ MostYearLevelBorrower }) => {
   // Sample data: you should replace this with your actual data
   const data = {
     labels: MostYearLevelBorrower.labels,
@@ -33,7 +33,6 @@ const default_3_frequent_yr = ({MostYearLevelBorrower}) => {
       legend: {
         position: "top",
       },
-     
     },
   };
 

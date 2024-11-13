@@ -22,7 +22,7 @@ const default_2 = ({
 
           <div className="flex items-center gap-5">
             <select
-              className="select select-primary bg-base-100 text-neutral w-full max-w-xs"
+              className="bg-white border px-2 py-1 rounded-md"
               value={default1_Date}
               onChange={(event) => handleDateChange(event, "default1_Date")}
             >

@@ -575,7 +575,7 @@ export default function TopBook({ bookData }) {
                     <div className="grid grid-cols-2 gap-5 text-black">
                       <div>
                         <label className="font-bold tracking-[1px] text-base-100 mb-2 text-[15px]">
-                          Date of Borrow:
+                          Date of Borrowed:
                         </label>
                         <input
                           type="date"
@@ -594,7 +594,7 @@ export default function TopBook({ bookData }) {
 
                       <div>
                         <label className="text-base-100 mb-2 text-[15px] font-bold tracking-[1px]">
-                          Date of Return:
+                          Date of Returned:
                         </label>
                         <input
                           type="date"
