@@ -23,7 +23,7 @@ export default function Drawer({ dh }) {
     <>
       <div className={`drawer w-80 m-5  ${dh}  z-10 `}>
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col custom-drawer">
+        <div className="drawer-content flex flex-col max-h-full">
           {/* Navbar */}
           <div className="flex-none lg:hidden">
             <label

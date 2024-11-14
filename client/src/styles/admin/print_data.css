@@ -7,6 +7,9 @@ body {
     .print-btn{
         visibility: hidden;
     }
+    .select{
+      visibility: hidden;
+    }
     .page{
       padding: 0;
     }

@@ -99,8 +99,8 @@ const AnalyticsLandingPage = () => {
 
   return (
     <>
-      <div className="flex">
-        <Drawer />
+      <div className="flex h-max">
+        <Drawer dh={"h-lvh"} />
         <div className="dashboard w-full">
           <nav className="flex p-5 justify-between">
             <Breadcrumps links={["Components", "Analytics"]} />

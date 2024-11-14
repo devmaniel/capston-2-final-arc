@@ -24,7 +24,7 @@ export const Route = createFileRoute(
       return {};
     } else {
       // Handle redirection based on the reason provided by the auth function
-      switch (authResult.reason) {
+      switch (authResult.reason) {  
         case "session_not_found":
         case "invalid_session":
         case "expired_session":

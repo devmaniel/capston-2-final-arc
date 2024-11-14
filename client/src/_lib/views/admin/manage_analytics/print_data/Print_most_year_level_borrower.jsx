@@ -29,6 +29,12 @@ const Print_most_year_level_borrower = () => {
     }
   };
 
+  const today = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   
   // Ensure data is fully loaded and contains necessary fields
   if (
@@ -109,9 +115,9 @@ const Print_most_year_level_borrower = () => {
       <div className="h-[700px] w-[700px] mx-auto text-center p-10 page">
         <h1 className="font-bold">Most Frequent Year Level Borrower</h1>
 
-        <p className="pt-5 text-justify p-10">{summaryText}</p>
+       
 
-        <table className="divide-y divide-black ml-10 border w-[540px]">
+        <table className="divide-y divide-black mt-5 ml-10 border w-[540px]">
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-md font-bold uppercase tracking-wider">
@@ -131,6 +137,15 @@ const Print_most_year_level_borrower = () => {
             ))}
           </tbody>
         </table>
+
+
+        <p class="border-t border-black pt-2 absolute  text-center w-[250px] -ml-35 mt-[100px]">
+          Signature of the Head Librarian Over Printed Name
+        </p>
+
+        <p className="border-t border-black pt-2 absolute w-[250px]  ml-[350px] mt-[100px]">
+          Date: {today}
+        </p>
       </div>
     </div>
   );
