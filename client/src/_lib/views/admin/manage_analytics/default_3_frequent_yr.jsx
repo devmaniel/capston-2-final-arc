@@ -7,12 +7,14 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const default_3_frequent_yr = ({ MostYearLevelBorrower }) => {
   // Sample data: you should replace this with your actual data
+  const frequencyData = MostYearLevelBorrower.frequency || MostYearLevelBorrower.data;
+
   const data = {
     labels: MostYearLevelBorrower.labels,
     datasets: [
       {
         label: "Strands",
-        data: MostYearLevelBorrower.frequency, // Replace with your actual frequency data
+        data: frequencyData, // Replace with your actual frequency data
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(54, 162, 235, 0.6)",

@@ -36,6 +36,8 @@ const AnalyticsLandingPage = () => {
   const [default1_Date, setDefault1_Date] = useState("this_week");
   const [default2_Date, setDefault2_Date] = useState("all");
   const [default3_Date, setDefault3_Date] = useState("all");
+  const [default4_Date, setDefault4_Date] = useState("all");
+  const [default5_Date, setDefault5_Date] = useState("all");
 
   // Handler function to update state based on the selected date range
   const handleDateChange = (event, dateType) => {
@@ -50,6 +52,12 @@ const AnalyticsLandingPage = () => {
         break;
       case "default3_Date":
         setDefault3_Date(newValue);
+        break;
+      case "default4_Date":
+        setDefault4_Date(newValue);
+        break;
+      case "default5_Date":
+        setDefault5_Date(newValue);
         break;
       default:
         console.warn("Unknown date type:", dateType);
@@ -74,11 +82,29 @@ const AnalyticsLandingPage = () => {
   const {
     arrayData: MostYearStrandBorrower,
     loading: MostYearStrandBorrowerLoading,
-  } = useAxiosFetchArrayData(`/admin/analytics/most_request_strand_borrower?date=${default3_Date}`);
+  } = useAxiosFetchArrayData(
+    `/admin/analytics/most_request_strand_borrower?date=${default3_Date}`
+  );
   const {
     arrayData: MostYearLevelBorrower,
     loading: MostYearLevelBorrowerLoading,
-  } = useAxiosFetchArrayData(`/admin/analytics/most_year_level_borrower?date=${default2_Date}`);
+  } = useAxiosFetchArrayData(
+    `/admin/analytics/most_year_level_borrower?date=${default2_Date}`
+  );
+
+  const {
+    arrayData: MostBookBorrowedClassifications,
+    loading: MostBookBorrowedClassificationsLoading,
+  } = useAxiosFetchArrayData(
+    `/admin/analytics/most_borrowed_book_classifications?date=${default4_Date}`
+  );
+
+  const {
+    arrayData: MostBookBorrowedBookTitle,
+    loading: MostBookBorrowedBookTitleLoading,
+  } = useAxiosFetchArrayData(
+    `/admin/analytics/most_borrowed_book_title?date=${default5_Date}`
+  );
 
   // Check if any loading state is true
   if (
@@ -87,16 +113,14 @@ const AnalyticsLandingPage = () => {
     TotalBookBorrowedLoading ||
     MostFrequestStrandBorrowerLoading ||
     MostYearStrandBorrowerLoading ||
+    MostBookBorrowedClassificationsLoading ||
+    MostBookBorrowedBookTitleLoading ||
     MostYearLevelBorrowerLoading
   ) {
     return <div>Loading...</div>;
   }
 
-  // Handlers for filters
-  const handleCategoryChange = (e) => setCategory(e.target.value);
-  const handleStatusChange = (e) => setStatus(e.target.value);
-  const handleYearChange = (e) => setYear(e.target.value);
-
+ 
   return (
     <>
       <div className="flex h-max">
@@ -124,12 +148,16 @@ const AnalyticsLandingPage = () => {
               handleDateChange={handleDateChange}
             />
 
-            <div className="mt-2">
+            <div className="mt-[350px]">
               <Default_3
                 MostYearStrandBorrower={MostYearLevelBorrower}
                 MostYearLevelBorrower={MostYearStrandBorrower}
+                MostBookBorrowedClassifications={MostBookBorrowedClassifications}
+                MostBookBorrowedBookTitle={MostBookBorrowedBookTitle}
                 default2_Date={default2_Date}
                 default3_Date={default3_Date}
+                default4_Date={default4_Date}
+                default5_Date={default5_Date}
                 handleDateChange={handleDateChange}
               />
             </div>

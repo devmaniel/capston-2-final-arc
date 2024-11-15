@@ -6,7 +6,7 @@ const default_2_frequest_strand = ({ MostFrequestStrandBorrower }) => {
     labels: MostFrequestStrandBorrower.labels,
     datasets: [
       {
-        label: "Most Frequent Strand Borrowed",
+        label: MostFrequestStrandBorrower.labels,
         data: MostFrequestStrandBorrower.frequency,
         backgroundColor: [
           "rgba(0, 100, 100, 0.8)", // Darker teal

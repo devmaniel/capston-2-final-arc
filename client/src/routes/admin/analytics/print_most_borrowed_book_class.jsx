@@ -1,11 +1,10 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 
-import Print_most_year_level_section_borrower from '../../../_lib/views/admin/manage_analytics/print_data/Print_most_year_level_section_borrower'
-
+import Print_most_borrowed_class from '../../../_lib/views/admin/manage_analytics/print_data/Print_most_borrowed_class';
 
 import auth from '../../../_lib/api/auth';
 
-export const Route = createFileRoute('/admin/analytics/print_most_year_level_section_borrower')({
+export const Route = createFileRoute('/admin/analytics/print_most_borrowed_book_class')({
   beforeLoad: async () => {
     const role = "admin";
     const authResult = await auth(role);
@@ -34,5 +33,5 @@ export const Route = createFileRoute('/admin/analytics/print_most_year_level_sec
       }
     }
   },
-  component: () => <Print_most_year_level_section_borrower />
+  component: () =><Print_most_borrowed_class />
 })

@@ -29,4 +29,8 @@ router.get("/most_request_strand_borrower", Array_data_Con.MostYearLevelBorrower
 
 router.get("/most_year_level_borrower", Array_data_Con.MostYearLevelSectionBorrower)
 
+router.get("/most_borrowed_book_classifications", Array_data_Con.MostBorrowedBookClassifications )
+
+router.get("/most_borrowed_book_title", Array_data_Con.MostBorrowedBookTitle );
+
 module.exports = router;

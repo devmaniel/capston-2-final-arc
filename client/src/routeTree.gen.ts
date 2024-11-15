@@ -62,8 +62,11 @@ import { Route as AdminManagebooksEditbookImport } from './routes/admin/manage_b
 import { Route as AdminManagebooksCreatebooksImport } from './routes/admin/manage_books/create_books'
 import { Route as AdminAnalyticsPrintmostyearlevelsectionborrowerImport } from './routes/admin/analytics/print_most_year_level_section_borrower'
 import { Route as AdminAnalyticsPrintmostyearlevelborrowerImport } from './routes/admin/analytics/print_most_year_level_borrower'
+import { Route as AdminAnalyticsPrintmostborrowedtitleImport } from './routes/admin/analytics/print_most_borrowed_title'
+import { Route as AdminAnalyticsPrintmostborrowedbookclassImport } from './routes/admin/analytics/print_most_borrowed_book_class'
 import { Route as AdminAnalyticsPrintdataImport } from './routes/admin/analytics/print_data'
 import { Route as AdminAnalyticsMostfrequeststrandborrowerImport } from './routes/admin/analytics/most_frequest_strand_borrower'
+import { Route as AdminAnalyticsMostborrowedbooksbasedonclassificationsImport } from './routes/admin/analytics/most_borrowed_books_based_on_classifications'
 
 // Create/Update Routes
 
@@ -343,6 +346,18 @@ const AdminAnalyticsPrintmostyearlevelborrowerRoute =
     getParentRoute: () => rootRoute,
   } as any)
 
+const AdminAnalyticsPrintmostborrowedtitleRoute =
+  AdminAnalyticsPrintmostborrowedtitleImport.update({
+    path: '/admin/analytics/print_most_borrowed_title',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const AdminAnalyticsPrintmostborrowedbookclassRoute =
+  AdminAnalyticsPrintmostborrowedbookclassImport.update({
+    path: '/admin/analytics/print_most_borrowed_book_class',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 const AdminAnalyticsPrintdataRoute = AdminAnalyticsPrintdataImport.update({
   path: '/admin/analytics/print_data',
   getParentRoute: () => rootRoute,
@@ -351,6 +366,12 @@ const AdminAnalyticsPrintdataRoute = AdminAnalyticsPrintdataImport.update({
 const AdminAnalyticsMostfrequeststrandborrowerRoute =
   AdminAnalyticsMostfrequeststrandborrowerImport.update({
     path: '/admin/analytics/most_frequest_strand_borrower',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const AdminAnalyticsMostborrowedbooksbasedonclassificationsRoute =
+  AdminAnalyticsMostborrowedbooksbasedonclassificationsImport.update({
+    path: '/admin/analytics/most_borrowed_books_based_on_classifications',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -477,6 +498,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentIndexImport
       parentRoute: typeof rootRoute
     }
+    '/admin/analytics/most_borrowed_books_based_on_classifications': {
+      id: '/admin/analytics/most_borrowed_books_based_on_classifications'
+      path: '/admin/analytics/most_borrowed_books_based_on_classifications'
+      fullPath: '/admin/analytics/most_borrowed_books_based_on_classifications'
+      preLoaderRoute: typeof AdminAnalyticsMostborrowedbooksbasedonclassificationsImport
+      parentRoute: typeof rootRoute
+    }
     '/admin/analytics/most_frequest_strand_borrower': {
       id: '/admin/analytics/most_frequest_strand_borrower'
       path: '/admin/analytics/most_frequest_strand_borrower'
@@ -489,6 +517,20 @@ declare module '@tanstack/react-router' {
       path: '/admin/analytics/print_data'
       fullPath: '/admin/analytics/print_data'
       preLoaderRoute: typeof AdminAnalyticsPrintdataImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/analytics/print_most_borrowed_book_class': {
+      id: '/admin/analytics/print_most_borrowed_book_class'
+      path: '/admin/analytics/print_most_borrowed_book_class'
+      fullPath: '/admin/analytics/print_most_borrowed_book_class'
+      preLoaderRoute: typeof AdminAnalyticsPrintmostborrowedbookclassImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/analytics/print_most_borrowed_title': {
+      id: '/admin/analytics/print_most_borrowed_title'
+      path: '/admin/analytics/print_most_borrowed_title'
+      fullPath: '/admin/analytics/print_most_borrowed_title'
+      preLoaderRoute: typeof AdminAnalyticsPrintmostborrowedtitleImport
       parentRoute: typeof rootRoute
     }
     '/admin/analytics/print_most_year_level_borrower': {
@@ -752,8 +794,11 @@ export const routeTree = rootRoute.addChildren({
   TestTestPostRoute,
   AdminIndexRoute,
   StudentIndexRoute,
+  AdminAnalyticsMostborrowedbooksbasedonclassificationsRoute,
   AdminAnalyticsMostfrequeststrandborrowerRoute,
   AdminAnalyticsPrintdataRoute,
+  AdminAnalyticsPrintmostborrowedbookclassRoute,
+  AdminAnalyticsPrintmostborrowedtitleRoute,
   AdminAnalyticsPrintmostyearlevelborrowerRoute,
   AdminAnalyticsPrintmostyearlevelsectionborrowerRoute,
   AdminManagebooksCreatebooksRoute,
@@ -815,8 +860,11 @@ export const routeTree = rootRoute.addChildren({
         "/test/testPost",
         "/admin/",
         "/student/",
+        "/admin/analytics/most_borrowed_books_based_on_classifications",
         "/admin/analytics/most_frequest_strand_borrower",
         "/admin/analytics/print_data",
+        "/admin/analytics/print_most_borrowed_book_class",
+        "/admin/analytics/print_most_borrowed_title",
         "/admin/analytics/print_most_year_level_borrower",
         "/admin/analytics/print_most_year_level_section_borrower",
         "/admin/manage_books/create_books",
@@ -904,11 +952,20 @@ export const routeTree = rootRoute.addChildren({
     "/student/": {
       "filePath": "student/index.jsx"
     },
+    "/admin/analytics/most_borrowed_books_based_on_classifications": {
+      "filePath": "admin/analytics/most_borrowed_books_based_on_classifications.jsx"
+    },
     "/admin/analytics/most_frequest_strand_borrower": {
       "filePath": "admin/analytics/most_frequest_strand_borrower.jsx"
     },
     "/admin/analytics/print_data": {
       "filePath": "admin/analytics/print_data.jsx"
+    },
+    "/admin/analytics/print_most_borrowed_book_class": {
+      "filePath": "admin/analytics/print_most_borrowed_book_class.jsx"
+    },
+    "/admin/analytics/print_most_borrowed_title": {
+      "filePath": "admin/analytics/print_most_borrowed_title.jsx"
     },
     "/admin/analytics/print_most_year_level_borrower": {
       "filePath": "admin/analytics/print_most_year_level_borrower.jsx"

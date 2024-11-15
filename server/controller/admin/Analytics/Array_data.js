@@ -277,3 +277,125 @@ exports.MostYearLevelBorrower = async (req, res, next) => {
         return res.status(500).json({ message: "An error occurred." });
     }
 };
+
+
+
+exports.MostBorrowedBookClassifications = async (req, res, next) => {
+    try {
+        // Step 1: Determine the date range based on the `date` query
+        const dateRange = getDateRange(req.query.date);
+        const whereClause = dateRange
+            ? { createdAt: { [Op.between]: [dateRange.startDate, dateRange.endDate] } }
+            : {}; // If no date range, fetch all data
+
+        // Step 2: Get all `book_id`s from `RequestModel` with date filtering
+        const requestData = await RequestModel.findAll({
+            attributes: ['book_id'],
+            where: whereClause,
+            raw: true,
+        });
+
+        // Extract the list of book IDs directly from requestData
+        const bookIds = requestData.map(req => req.book_id);
+
+        // Step 3: Find the classifications for these book IDs directly from `BookModel`
+        const booksData = await BookModel.findAll({
+            where: {
+                id: {
+                    [Op.in]: bookIds
+                }
+            },
+            attributes: ['id', 'classifications_name'],
+            raw: true,
+        });
+
+        // Step 4: Map `book_id` to `classifications_name` for fast lookup
+        const bookClassificationMap = booksData.reduce((acc, book) => {
+            acc[book.id] = book.classifications_name;
+            return acc;
+        }, {});
+
+        // Step 5: Count frequency based on each request entry's classification name
+        const frequencyMap = requestData.reduce((acc, request) => {
+            const classification = bookClassificationMap[request.book_id];
+            if (classification) {
+                acc[classification] = (acc[classification] || 0) + 1;
+            }
+            return acc;
+        }, {});
+
+        // Step 6: Prepare labels and frequency arrays for the chart
+        const labels = Object.keys(frequencyMap);
+        const frequency = Object.values(frequencyMap);
+
+        // Step 7: Send response with labels and frequency
+        res.json({
+            labels,
+            data: frequency
+        });
+    } catch (err) {
+        // Handle any errors
+        console.error(err);
+        res.status(500).json({ error: "An error occurred while fetching book classifications data." });
+    }
+};
+
+exports.MostBorrowedBookTitle = async (req, res, next) => {
+    try {
+        // Step 1: Determine the date range based on the `date` query
+        const dateRange = getDateRange(req.query.date);
+        const whereClause = dateRange
+            ? { createdAt: { [Op.between]: [dateRange.startDate, dateRange.endDate] } }
+            : {}; // If no date range, fetch all data
+
+        // Step 2: Get all `book_id`s from `RequestModel` with date filtering
+        const requestData = await RequestModel.findAll({
+            attributes: ['book_id'],
+            where: whereClause,
+            raw: true,
+        });
+
+        // Extract the list of book IDs directly from requestData
+        const bookIds = requestData.map(req => req.book_id);
+
+        // Step 3: Find the book names for these book IDs from `BookModel`
+        const booksData = await BookModel.findAll({
+            where: {
+                id: {
+                    [Op.in]: bookIds
+                }
+            },
+            attributes: ['id', 'book_name'],
+            raw: true,
+        });
+
+        // Step 4: Map `book_id` to `book_name` for fast lookup
+        const bookNameMap = booksData.reduce((acc, book) => {
+            acc[book.id] = book.book_name;
+            return acc;
+        }, {});
+
+        // Step 5: Count frequency based on each request entry's book name
+        const frequencyMap = requestData.reduce((acc, request) => {
+            const bookName = bookNameMap[request.book_id];
+            if (bookName) {
+                acc[bookName] = (acc[bookName] || 0) + 1;
+            }
+            return acc;
+        }, {});
+
+        // Step 6: Prepare labels and frequency arrays for the chart
+        const labels = Object.keys(frequencyMap);
+        const frequency = Object.values(frequencyMap);
+
+        // Step 7: Send response with labels and frequency
+        res.json({
+            labels,
+            data: frequency
+        });
+    } catch (err) {
+        // Handle any errors
+        console.error(err);
+        res.status(500).json({ error: "An error occurred while fetching book title data." });
+    }
+};

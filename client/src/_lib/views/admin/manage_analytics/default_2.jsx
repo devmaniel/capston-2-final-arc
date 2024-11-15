@@ -12,7 +12,7 @@ const default_2 = ({
   handleDateChange,
 }) => {
   return (
-    <div className="grid grid-cols-4 h-60 gap-4 mt-2 text-[#333333]">
+    <div className="grid grid-cols-2 h-60 gap-4 mt-2 text-[#333333]">
       {/* First div (75% wider) */}
       <div className="col-span-3 rounded-md bg-white p-4 border-2">
         <div className="flex justify-between items-center ">
@@ -55,109 +55,7 @@ const default_2 = ({
           MostFrequestStrandBorrower={MostFrequestStrandBorrower}
         />
       </div>
-      {/* Second div */}
-      <div className="col-span-1 rounded-md bg-white text-[#333333] border-2 h-56 p-4">
-        <h1 className="font-bold">Legend</h1>
-        <ul className="list-none pl-2">
-          <li style={{ position: "relative", paddingLeft: "20px" }}>
-            <span
-              style={{
-                position: "absolute",
-                left: "0",
-                top: "50%",
-                transform: "translateY(-50%)",
-                height: "10px",
-                width: "10px",
-                borderRadius: "50%",
-                backgroundColor: "#D38141", // Change color here for each strand
-              }}
-            ></span>
-            STEM
-          </li>
-          <li style={{ position: "relative", paddingLeft: "20px" }}>
-            <span
-              style={{
-                position: "absolute",
-                left: "0",
-                top: "50%",
-                transform: "translateY(-50%)",
-                height: "10px",
-                width: "10px",
-                borderRadius: "50%",
-                backgroundColor: "blue",
-              }}
-            ></span>
-            ABM
-          </li>
-          <li style={{ position: "relative", paddingLeft: "20px" }}>
-            <span
-              style={{
-                position: "absolute",
-                left: "0",
-                top: "50%",
-                transform: "translateY(-50%)",
-                height: "10px",
-                width: "10px",
-                borderRadius: "50%",
-                backgroundColor: "green",
-              }}
-            ></span>
-            GAS
-          </li>
-          <li style={{ position: "relative", paddingLeft: "20px" }}>
-            <span
-              style={{
-                position: "absolute",
-                left: "0",
-                top: "50%",
-                transform: "translateY(-50%)",
-                height: "10px",
-                width: "10px",
-                borderRadius: "50%",
-                backgroundColor: "green",
-              }}
-            ></span>
-            Cookery
-          </li>
-          <li style={{ position: "relative", paddingLeft: "20px" }}>
-            <span
-              style={{
-                position: "absolute",
-                left: "0",
-                top: "50%",
-                transform: "translateY(-50%)",
-                height: "10px",
-                width: "10px",
-                borderRadius: "50%",
-                backgroundColor: "orange",
-              }}
-            ></span>
-            HUMSS
-          </li>
-          <li
-            className="mb-2"
-            style={{
-              position: "relative",
-              paddingLeft: "20px",
-              marginBottom: "5px",
-            }}
-          >
-            <span
-              style={{
-                position: "absolute",
-                left: "0",
-                top: "50%",
-                transform: "translateY(-50%)",
-                height: "10px",
-                width: "10px",
-                borderRadius: "50%",
-                backgroundColor: "#337E7E",
-              }}
-            ></span>
-            ICT
-          </li>
-        </ul>
-      </div>
+      
     </div>
   );
 };
