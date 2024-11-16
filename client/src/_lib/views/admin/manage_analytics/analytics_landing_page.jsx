@@ -124,7 +124,7 @@ const AnalyticsLandingPage = () => {
   return (
     <>
       <div className="flex h-max">
-        <Drawer dh={"h-lvh"} />
+        <Drawer  />
         <div className="dashboard w-full">
           <nav className="flex p-5 justify-between">
             <Breadcrumps links={["Components", "Analytics"]} />
@@ -141,6 +141,7 @@ const AnalyticsLandingPage = () => {
               TotalOutOfStock={TotalOutOfStock}
               TotalBookBorrowed={TotalBookBorrowed}
             />
+
 
             <Default_2
               MostFrequestStrandBorrower={MostFrequestStrandBorrower}

@@ -8,6 +8,9 @@ export const classifications = [
   "COOKERY",
   "FICTION",
   "NON-FICTION",
+  "DICTIONARY",
+  "GENERAL", 
+  "REFERENCE"
 ];
 
 export const testData = classifications;

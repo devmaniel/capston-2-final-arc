@@ -1,72 +1,70 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 
-const default_2_frequest_strand = ({ MostFrequestStrandBorrower }) => {
-  const data = {
-    labels: MostFrequestStrandBorrower.labels,
-    datasets: [
-      {
-        label: MostFrequestStrandBorrower.labels,
-        data: MostFrequestStrandBorrower.frequency,
-        backgroundColor: [
-          "rgba(0, 100, 100, 0.8)", // Darker teal
-          "rgba(200, 100, 20, 0.8)", // Darker orange
-          "rgba(90, 50, 150, 0.8)", // Darker purple
-          "rgba(150, 50, 70, 0.8)", // Darker red
-          "rgba(30, 80, 180, 0.8)", // Darker blue
-        ],
-        borderColor: [
-          "rgba(0, 100, 100, 1)",
-          "rgba(200, 100, 20, 1)",
-          "rgba(90, 50, 150, 1)",
-          "rgba(150, 50, 70, 1)",
-          "rgba(30, 80, 180, 1)",
-        ],
-        borderWidth: 1,
-        color: "white",
-      },
-    ],
-  };
+  const default_2_frequest_strand = ({ MostFrequestStrandBorrower }) => {
+    const data = {
+      labels: MostFrequestStrandBorrower.labels,
+      datasets: [
+        {
+          data: MostFrequestStrandBorrower.frequency,
+          backgroundColor: [
+            "rgba(0, 100, 100, 0.8)", // Darker teal
+            "rgba(200, 100, 20, 0.8)", // Darker orange
+            "rgba(90, 50, 150, 0.8)", // Darker purple
+            "rgba(150, 50, 70, 0.8)", // Darker red
+            "rgba(30, 80, 180, 0.8)", // Darker blue
+          ],
+          borderColor: [
+            "rgba(0, 100, 100, 1)",
+            "rgba(200, 100, 20, 1)",
+            "rgba(90, 50, 150, 1)",
+            "rgba(150, 50, 70, 1)",
+            "rgba(30, 80, 180, 1)",
+          ],
+          borderWidth: 1,
+          color: "white", // Not necessary for Chart.js, safe to remove
+        },
+      ],
+    };
+    
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        labels: {
-          // Legend text color
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false, // Completely hide the legend
         },
       },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: "Number of Books Borrowed",
-          // Y-axis title color
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "Number of Books Borrowed",
+            color: "#333", // Y-axis title color
+          },
+          ticks: {
+            color: "#555", // Y-axis labels color
+          },
         },
-        ticks: {
-          // Y-axis labels color
+        x: {
+          title: {
+            display: true,
+            text: "Strand",
+            color: "#333", // X-axis title color
+          },
+          ticks: {
+            color: "#555", // X-axis labels color
+          },
         },
       },
-      x: {
-        title: {
-          display: true,
-          text: "Strand",
-          // X-axis title color
-        },
-        ticks: {
-          // X-axis labels color
+      layout: {
+        padding: {
+          top: 20,
+          bottom: 20,
         },
       },
-    },
-    layout: {
-      padding: {
-        top: 20,
-        bottom: 20,
-      },
-    },
-  };
+    };
 
   return (
     <div

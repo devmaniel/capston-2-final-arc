@@ -12,7 +12,7 @@ const default_2 = ({
   handleDateChange,
 }) => {
   return (
-    <div className="grid grid-cols-2 h-60 gap-4 mt-2 text-[#333333]">
+    <div className="grid grid-cols-2 h-52 gap-4 mt-2 text-[#333333]">
       {/* First div (75% wider) */}
       <div className="col-span-3 rounded-md bg-white p-4 border-2">
         <div className="flex justify-between items-center ">

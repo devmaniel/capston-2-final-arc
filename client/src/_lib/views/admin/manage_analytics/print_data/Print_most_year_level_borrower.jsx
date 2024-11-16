@@ -10,8 +10,8 @@ const Print_most_year_level_borrower = () => {
     `/admin/analytics/most_request_strand_borrower?date=${default3_Date}`
   );
 
-   // Handler function to update state based on the selected date range
-   const handleDateChange = (event, dateType) => {
+  // Handler function to update state based on the selected date range
+  const handleDateChange = (event, dateType) => {
     const newValue = event.target.value;
 
     switch (dateType) {
@@ -35,7 +35,6 @@ const Print_most_year_level_borrower = () => {
     day: "numeric",
   });
 
-  
   // Ensure data is fully loaded and contains necessary fields
   if (
     !most_request_strand_borrower ||
@@ -58,7 +57,7 @@ const Print_most_year_level_borrower = () => {
       const percentage = totalFrequency
         ? ((frequency / totalFrequency) * 100).toFixed(2)
         : 0;
-      return { label, percentage: `${percentage}%` };
+      return { label, rawFrequency: frequency, percentage };
     }
   );
 
@@ -112,10 +111,35 @@ const Print_most_year_level_borrower = () => {
           </button>
         </div>
       </div>
-      <div className="h-[700px] w-[700px] mx-auto text-center p-10 page">
-        <h1 className="font-bold">Most Frequent Year Level Borrower</h1>
-
-       
+      <div className="h-[700px] w-[700px] mx-auto text-center -mt-10 p-10 page">
+        <div className="flex justify-center">
+          <img
+            src="/images/logo.png"
+            alt="School Logo"
+            className="h-20 w-20 mb-2"
+          />
+        </div>
+        <div id="print-area" className="border-b pb-5">
+          <h1 className="text-3xl font-bold mb-3">Library Report</h1>
+          {/* <div className="flex justify-between items-center"> */}
+          <p className="text-sm   mt-5">Generated on: {today}</p>
+          <p className="text-sm font-semibold ">
+            Report: Most Borrowed Sections
+          </p>
+          {/* </div> */}
+        </div>
+        <div>
+          <p className="text-center mt-5">
+            The report titled "Most Frequent Section Borrower" displays data on
+            the borrowing activity of various academic sections. Each
+            section—ICT-401, STEM-401, HUMMS-301, ABM-402, and GAS-401—has
+            borrowed one item, representing 20.00% of the total borrowing
+            activity. The data suggests an equal borrowing frequency across all
+            sections, with no single section dominating the borrowing
+            statistics. This distribution indicates that borrowing activities
+            are evenly distributed among the sections included in the report.
+          </p>
+        </div>
 
         <table className="divide-y divide-black mt-5 ml-10 border w-[540px]">
           <thead className="bg-gray-50">
@@ -124,28 +148,33 @@ const Print_most_year_level_borrower = () => {
                 Year Level
               </th>
               <th className="px-6 py-3 text-md text-center font-bold uppercase tracking-wider">
-                Percentage Borrowed
+                Borrowed (Count & Percentage)
               </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-black">
-            {labelPercentages.map(({ label, percentage }) => (
+            {labelPercentages.map(({ label, rawFrequency, percentage }) => (
               <tr key={label}>
                 <td className="px-6 py-4 text-sm text-left">{label}</td>
-                <td className="px-6 py-4 text-sm text-center">{percentage}</td>
+                <td className="px-6 py-4 text-sm text-center">
+                  {rawFrequency} ({percentage}%)
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
 
+        <div className="bg-white w-full h-auto">
+          <p class="border-t border-black pt-2 absolute   text-center w-[250px] -ml-35 mt-[230px]">
+            <span className="text-sm">
+              Signature of the Head Librarian Over Printed Name
+            </span>
+          </p>
 
-        <p class="border-t border-black pt-2 absolute  text-center w-[250px] -ml-35 mt-[100px]">
-          Signature of the Head Librarian Over Printed Name
-        </p>
-
-        <p className="border-t border-black pt-2 absolute w-[250px]  ml-[350px] mt-[100px]">
-          Date: {today}
-        </p>
+          <p className="border-t border-black pt-2 absolute w-[250px]   ml-[350px] mt-[230px]">
+            <span className="text-sm">Date: {today}</span>
+          </p>
+        </div>
       </div>
     </div>
   );

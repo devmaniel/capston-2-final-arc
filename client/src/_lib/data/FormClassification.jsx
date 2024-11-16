@@ -7,4 +7,7 @@ export const formclass = [
   "COOKERY",
   "FICTION",
   "NON-FICTION",
+  "DICTIONARY",
+  "GENERAL", 
+  "REFERENCE"
 ];

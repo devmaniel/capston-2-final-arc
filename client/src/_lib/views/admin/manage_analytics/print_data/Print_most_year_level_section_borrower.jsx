@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "../../../../../styles/admin/print_data.css";
 import useAxiosFetchArrayData from "../../../../hook/useAxiosFetchArrayData";
 
@@ -45,14 +45,14 @@ const Print_most_year_level_section_borrower = () => {
     0
   );
 
-  // Create a mapping of labels to their percentages
+  // Create a mapping of labels to their raw numbers and percentages
   const labelPercentages = MostFrequestSectionBorrower.labels.map(
     (label, index) => {
       const frequency = MostFrequestSectionBorrower.data[index];
       const percentage = totalFrequency
         ? ((frequency / totalFrequency) * 100).toFixed(2)
         : 0;
-      return { label, percentage: `${percentage}%` };
+      return { label, rawFrequency: frequency, percentage };
     }
   );
 
@@ -80,7 +80,7 @@ const Print_most_year_level_section_borrower = () => {
   });
 
   return (
-    <div className="bg-white h-auto w-full text-black text-center mx-auto p-5">
+    <div className="bg-white h-[1100px] w-full text-black text-center mx-auto p-5">
       <div className="flex justify-between ">
         <Link
           to="/admin/analytics"
@@ -112,39 +112,76 @@ const Print_most_year_level_section_borrower = () => {
           </button>
         </div>
       </div>
-      <div className="h-[700px] w-[700px] mx-auto text-center p-10 page">
-        <h1 className="font-bold">Most Frequent Section Borrower</h1>
-
-       
-
-        <table className="divide-y divide-black mt-5 ml-10 border w-[540px]">
+      <div className="h-[auto] w-[700px] mx-auto -mt-11  p-10 page">
+        <div className="flex justify-center">
+          <img
+            src="/images/logo.png"
+            alt="School Logo"
+            className="h-20 w-20 mb-2"
+          />
+        </div>
+        <div id="print-area" className="border-b pb-5">
+          <h1 className="text-3xl font-bold mb-3">Library Report</h1>
+          {/* <div className="flex justify-between items-center"> */}
+          <p className="text-sm   mt-5">Generated on: {today}</p>
+          <p className="text-sm font-semibold ">
+            Report: Most Borrowed Sections
+          </p>
+          {/* </div> */}
+        </div>
+        <div>
+          <p className="text-center mt-5">
+            The report titled "Most Frequent Section Borrower" displays data on
+            the borrowing activity of various academic sections. Each
+            section—ICT-401, STEM-401, HUMMS-301, ABM-402, and GAS-401—has
+            borrowed one item, representing 20.00% of the total borrowing
+            activity. The data suggests an equal borrowing frequency across all
+            sections, with no single section dominating the borrowing
+            statistics. This distribution indicates that borrowing activities
+            are evenly distributed among the sections included in the report.
+          </p>
+        </div>
+        <table className="divide-y divide-black mt-10 ml-10 border w-[540px]">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-md font-bold uppercase tracking-wider">
+              <th className="border border-gray-500 px-4 py-2 bg-gray-200">
                 Section
               </th>
-              <th className="px-6 py-3 text-md text-center font-bold uppercase tracking-wider">
-                Percentage Borrowed
+              <th className="border border-gray-500 px-4 py-2 bg-gray-200">
+                Books Borrowed
+              </th>
+              <th className="border border-gray-500 px-4 py-2 bg-gray-200">
+                Percentage
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-black">
-            {labelPercentages.map(({ label, percentage }) => (
+
+          <tbody>
+            {labelPercentages.map(({ label, rawFrequency, percentage }) => (
               <tr key={label}>
-                <td className="px-6 py-4 text-sm text-left">{label}</td>
-                <td className="px-6 py-4 text-sm text-center">{percentage}</td>
+                <td className="border border-gray-500 px-4 py-2">{label}</td>
+                <td className="border border-gray-500 px-4 py-2">
+                  {rawFrequency}
+                </td>
+                <td className="border border-gray-500 px-4 py-2">
+                  {percentage}%
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        <p class="border-t border-black pt-2 absolute  text-center w-[250px] -ml-35 mt-[100px]">
-          Signature of the Head Librarian Over Printed Name
-        </p>
+        <div className="bg-white w-full h-auto">
+          <p class="border-t border-black pt-2 absolute   text-center w-[250px] -ml-35 mt-[230px]">
+            <span className="text-sm">
+              Signature of the Head Librarian Over Printed Name
+            </span>
+          </p>
 
-        <p className="border-t border-black pt-2 absolute w-[250px]  ml-[350px] mt-[100px]">
-          Date: {today}
-        </p>
+          <p className="border-t border-black pt-2 absolute w-[250px]   ml-[350px] mt-[230px]">
+            <span className="text-sm">Date: {today}</span>
+          </p>
+        </div>
       </div>
     </div>
   );

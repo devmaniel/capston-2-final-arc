@@ -437,13 +437,7 @@ export default function TopBook({ bookData }) {
                 </div>
               </div>
 
-              <div className="float-end">
-                <p className="text-center mb-2 font-black">Book QR Code</p>
-                <img
-                  className="w-[80px] sm:w-[100px] rounded-lg shadow-lg md:w-[150px] h-[80px] sm:h-[100px] md:h-[150px] object-cover"
-                  src={qrpath}
-                />
-              </div>
+             
             </div>
             <div className="flex items-center gap-4 md:gap-5 my-10">
               <div className="flex items-center gap-3">

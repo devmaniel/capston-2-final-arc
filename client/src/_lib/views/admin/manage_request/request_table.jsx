@@ -20,7 +20,7 @@ const Request_table = ({ requests }) => {
             <th>Requester Name</th>
             <th>Requester QR Code</th>
 
-            <th>QR Code</th>
+            
             <th>Title</th>
 
             <th>Number of Requested</th>
@@ -81,20 +81,7 @@ const Request_table = ({ requests }) => {
                   />
                 </td>
 
-                <td>
-                  <button
-                    className="badge badge-success"
-                    onClick={() =>
-                      document.getElementById(`my_modal_3_${index}`).showModal()
-                    }
-                  >
-                    <p>View</p>
-                  </button>
-                  <Book_qr_dialog
-                    url={request["Book QR"]}
-                    dialogId={`my_modal_3_${index}`}
-                  />
-                </td>
+                
                 <td>{request["Book Name"]}</td>
 
                 <td>{request["Request Quantity"]}</td>
