@@ -10,6 +10,7 @@ import "react-multi-carousel/lib/styles.css";
 // Common components
 import Nav from "@_lib/views/screen/student/common/Nav";
 import Footer from "../../_lib/views/screen/student/common/Footer";
+import { useTypewriter, Cursor } from "react-simple-typewriter";
 
 // authentication api
 import auth from "../../_lib/api/auth";
@@ -126,9 +127,9 @@ const Slides = [
 
 export default function index() {
   const images = [
-    "https://img.freepik.com/free-photo/room-interior-design_23-2148899444.jpg?t=st=1722777509~exp=1722781109~hmac=f74d5dc3858184729b1f5b95773fbaecfc3c41e716efbc7d80ba174e06ce7eb4&w=1380",
-    "https://img.freepik.com/free-photo/made-clear-concrete-library-features-lightcolored-log-bookshelves-stepped-seating_73899-13428.jpg?t=st=1722778342~exp=1722781942~hmac=cb440d0cf5038109c995ea394af9ecf3fe060003342f89b47b5c7d2de7cd1cfa&w=1380",
-    "https://img.freepik.com/free-photo/young-student-looking-book-library_23-2149215403.jpg?t=st=1722778524~exp=1722782124~hmac=374c5ec97c86a6ab5c2988ea398f81f1c7c04f804c7ae62e8947c5ebdc9000e3&w=1380",
+    "/images/ba.jpg",
+    "/images/bbshsloc.JPG",
+    "/images/location.png",
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -184,7 +185,10 @@ export default function index() {
       items: 1,
     },
   };
-
+  const [text] = useTypewriter({
+    words: ["User! Welcome to Bagong Barrior Senior High School Library"],
+    loop: true, // or loop: false depending on your needs
+  });
   return (
     <>
       <Nav />
@@ -204,20 +208,21 @@ export default function index() {
               loading="lazy"
               style={{ animationDelay: "300ms" }}
             />
-
-            <div className="text-center mx-auto text-white p-6 rounded-lg shadow-lg">
+            <div className="text-center lg:text-center mx-auto text-white p-6 rounded-lg shadow-lg">
               <h1
-                className="animate-slidein opacity-0 first-line:opacity-0 text-[28px] font-extrabold sm:text-[34px] md:text-[40px] lg:text-[42px] xl:text-[56px] tracking-[2px] uppercase drop-shadow-xl leading-tight"
+                className=" text-[24px] font-extrabold sm:text-[34px] md:text-[40px] lg:text-[42px] xl:text-[47px] tracking-[2px] uppercase drop-shadow-xl leading-tight"
                 style={{ animationDelay: "500ms" }}
               >
-                Bagong Barrio Senior Highschool Library
+                Hello,
+                <span className="mx-1">{text}</span>
+                <Cursor />
               </h1>
               <blockquote
-                className="animate-slidein opacity-0 mt-4 italic text-[16px] sm:text-[18px] lg:text-[16px] text-gray-200"
+                className="animate-slidein opacity-0 mt-4 italic text-[14px] sm:text-[18px] lg:text-[16px] text-gray-200"
                 style={{ animationDelay: "700ms" }}
               >
-                “The only thing that you absolutely have to know, is the
-                location of the library.” – Albert Einstein
+                "A library is not just a place to read, but a space to grow." –
+                Anonymous
               </blockquote>
             </div>
           </div>

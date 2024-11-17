@@ -6,12 +6,13 @@ import { Link } from "@tanstack/react-router";
 const Lrn_table = ({ data }) => {
   return (
     <>
-      <div className="overflow-x-auto bg-neutral text-base-100 rounded-md">
+      <div className="overflow-x-auto bg-neutral text-base-100 rounded-md w-full">
         <table className="table">
           {/* head */}
           <thead className="text-base-100">
             <tr>
               <th></th>
+              <th>Status</th>
               <th>Name</th>
               <th>Student LRN</th>
               <th>Track</th>
@@ -19,7 +20,7 @@ const Lrn_table = ({ data }) => {
               <th>Year level</th>
               <th>Section</th>
               <th>Role</th>
-              <th>Status</th>
+              <th>Account Status</th>
               <th>Date Created</th>
               <th>Date Updated</th>
             </tr>
@@ -89,6 +90,7 @@ const Lrn_table = ({ data }) => {
           <tfoot className="text-base-100">
             <tr>
               <th></th>
+              <th>Status</th>
               <th>Name</th>
               <th>Student LRN</th>
               <th>Track</th>
@@ -96,7 +98,7 @@ const Lrn_table = ({ data }) => {
               <th>Year level</th>
               <th>Section</th>
               <th>Role</th>
-              <th>Status</th>
+              <th>Account Status</th>
               <th>Date Created</th>
               <th>Date Updated</th>
             </tr>

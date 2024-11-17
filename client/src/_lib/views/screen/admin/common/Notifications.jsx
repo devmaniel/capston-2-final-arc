@@ -95,10 +95,10 @@ export default function Notifications() {
                               className="h-12 bg-white rounded-full"
                               alt="Logo"
                             />
-                            <div className="my-2 mx-4 overflow-hidden">
+                            <div className="my-2 mx-4 overflow-hidden ">
                               <div className="flex">
-                                <h1 className="text-[12px] font-bold">BBSHS</h1>
-                                <h1 className="text-[12px] mx-1 truncate w-[250px]">
+                                <h1 className="text-[12px] ">BBSHS</h1>
+                                <h1 className="text-[12px] mx-1  truncate w-[250px]">
                                   {notif.descriptions}
                                 </h1>
                               </div>

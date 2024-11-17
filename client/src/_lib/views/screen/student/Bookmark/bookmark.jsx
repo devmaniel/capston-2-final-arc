@@ -553,7 +553,7 @@ const bookmark = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label className="font-bold tracking-[1px] py-2 mb-2 text-[15px] text-base-100">
-                      Pick-up Date:
+                      Date of Borrowed:
                     </label>
                     <input
                       type="date"
@@ -576,7 +576,7 @@ const bookmark = () => {
                   </div>
                   <div>
                     <label className="font-bold tracking-[1px] py-2 mb-2 text-[15px] text-base-100">
-                      Return Date:
+                      Date of Returned:
                     </label>
                     <input
                       type="date"

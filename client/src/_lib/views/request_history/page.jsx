@@ -184,7 +184,7 @@ function RequestTable({ requests, user, handleCancelRequest }) {
               <th>Date of Borrowed</th>
               <th>Date of Returned</th>
               <th>History</th>
-              <th>Book QR</th>
+              {/* <th>Book QR</th> */}
               <th>Request QR</th>
               <th>Status</th>
               <th>Action</th>
@@ -226,7 +226,7 @@ function RequestTable({ requests, user, handleCancelRequest }) {
                     modalId={`my_modal_History_${index}`}
                   />
                 </td>
-                <td>
+                {/* <td>
                   <button
                     className="badge badge-success "
                     onClick={() =>
@@ -241,7 +241,7 @@ function RequestTable({ requests, user, handleCancelRequest }) {
                     requestData={request}
                     modalId={`my_modal_QR_${index}`}
                   />
-                </td>
+                </td> */}
                 <td>
                   <button
                     className="badge badge-primary text-white"

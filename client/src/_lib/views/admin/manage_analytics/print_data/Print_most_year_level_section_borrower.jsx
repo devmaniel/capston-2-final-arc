@@ -80,7 +80,7 @@ const Print_most_year_level_section_borrower = () => {
   });
 
   return (
-    <div className="bg-white h-[1100px] w-full text-black text-center mx-auto p-5">
+    <div className=" h-[auto] w-full text-black text-center mx-auto p-5">
       <div className="flex justify-between ">
         <Link
           to="/admin/analytics"
@@ -145,7 +145,7 @@ const Print_most_year_level_section_borrower = () => {
           <thead className="bg-gray-50">
             <tr>
               <th className="border border-gray-500 px-4 py-2 bg-gray-200">
-                Section
+                Sections
               </th>
               <th className="border border-gray-500 px-4 py-2 bg-gray-200">
                 Books Borrowed

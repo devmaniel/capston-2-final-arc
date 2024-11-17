@@ -87,7 +87,7 @@ const Print_most_borrowed_title = () => {
   });
 
   return (
-    <div className="bg-white h-auto w-full text-black text-center mx-auto p-5">
+    <div className=" h-auto w-full text-black text-center mx-auto p-5">
       <div className="flex justify-between ">
         <Link
           to="/admin/analytics"
@@ -155,8 +155,11 @@ const Print_most_borrowed_title = () => {
               <th className="px-6 py-3 text-left text-md font-bold uppercase tracking-wider">
                 Title
               </th>
+              <th className="px-6 py-3 text-left text-md font-bold uppercase tracking-wider">
+                Borrowed
+              </th>
               <th className="px-6 py-3 text-md text-center font-bold uppercase tracking-wider">
-                Borrowed (Count & Percentage)
+                Percentage
               </th>
             </tr>
           </thead>
@@ -164,15 +167,16 @@ const Print_most_borrowed_title = () => {
             {labelPercentages.map(({ label, rawFrequency, percentage }) => (
               <tr key={label}>
                 <td className="px-6 py-4 text-sm text-left">{label}</td>
+                <td className="px-6 py-4 text-sm text-center">{rawFrequency}</td>
                 <td className="px-6 py-4 text-sm text-center">
-                  {rawFrequency} ({percentage}%)
+                   ({percentage}%)
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        <div className="bg-white w-full h-auto">
+        <div className=" w-full h-auto">
           <p class="border-t border-black pt-2 absolute   text-center w-[250px] -ml-35 mt-[230px]">
             <span className="text-sm">
               Signature of the Head Librarian Over Printed Name

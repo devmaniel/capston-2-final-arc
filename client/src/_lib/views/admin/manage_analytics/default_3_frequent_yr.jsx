@@ -1,9 +1,10 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels"; // Import the plugin
 
 // Register necessary components for Chart.js
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const default_3_frequent_yr = ({ MostYearLevelBorrower }) => {
   // Sample data: you should replace this with your actual data
@@ -23,6 +24,8 @@ const default_3_frequent_yr = ({ MostYearLevelBorrower }) => {
   // Extract labels and frequency data after sorting and slicing
   const truncatedLabels = topData.map((item) => item.label);
   const topFrequencies = topData.map((item) => item.frequency);
+
+  const totalFrequency = topFrequencies.reduce((acc, val) => acc + val, 0);
 
   const data = {
     labels: truncatedLabels,
@@ -51,6 +54,26 @@ const default_3_frequent_yr = ({ MostYearLevelBorrower }) => {
     plugins: {
       legend: {
         position: "top",
+      },
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => {
+            const value = tooltipItem.raw;
+            const percentage = ((value / totalFrequency) * 100).toFixed(2);
+            return `${tooltipItem.label}: ${value} (${percentage}%)`;
+          },
+        },
+      },
+      datalabels: {
+        formatter: (value, context) => {
+          const percentage = ((value / totalFrequency) * 100).toFixed(2);
+          return `${percentage}%`; // Display percentage on the pie chart
+        },
+        color: "#fff", // Label color
+        font: {
+          weight: "bold",
+          size: 12,
+        },
       },
     },
   };
