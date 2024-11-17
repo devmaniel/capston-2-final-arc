@@ -157,6 +157,7 @@ exports.postUpdateSpecificLRN = async (req, res, next) => {
       valid_lrn, 
       section, 
       track, 
+      status_lrn,
       year_level 
     } = req.body;
 
@@ -190,6 +191,7 @@ exports.postUpdateSpecificLRN = async (req, res, next) => {
       valid_lrn,
       section,
       track,
+      status_lrn,
       year_level,
       updatedAt: new Date()
     });
@@ -388,6 +390,55 @@ exports.excelLRNpost = async (req, res, next) => {
   } finally {
     fs.remove(filePath, (err) => {
       if (err) console.error(err);
+    });
+  }
+};
+
+
+exports.postAddStudent = async (req, res, next) => {
+  try {
+    // Destructuring fields from req.body
+    const { first_name, middle_name, last_name, valid_lrn, track, role } = req.body;
+
+    console.log("TEST ROUTE: /admin/post_single_lrn_student");
+
+    // Check if the LRN already exists
+    const existingStudent = await ModelLRN.findOne({ where: { valid_lrn } });
+
+    if (existingStudent) {
+      // If LRN exists, send a response indicating the LRN already exists
+      return res.status(400).json({
+        message: "LRN already exists in the database"
+      });
+    }
+
+    // Default values for acc_status and status_lrn
+    const acc_status = 'unregistered';
+    const status_lrn = 'enrolled';
+
+    // Creating a new entry in the LRN model
+    const newStudent = await ModelLRN.create({
+      first_name,
+      middle_name,
+      last_name,
+      valid_lrn,
+      track,
+      role,
+      acc_status,
+      status_lrn
+    });
+
+    // Sending a success response with the created student data
+    res.status(201).json({
+      message: "Student added successfully",
+      data: newStudent
+    });
+  } catch (err) {
+    // Handling errors and sending error response
+    console.error(err);
+    res.status(500).json({
+      message: "Error adding student",
+      error: err.message
     });
   }
 };

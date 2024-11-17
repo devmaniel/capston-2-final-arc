@@ -14,7 +14,8 @@ export const Route = createFileRoute("/student/catalog/book")({
     }
     return { bookId: search.bookId };
   },
-  beforeLoad: async ({ search }) => {  // Access search to retrieve bookId
+  beforeLoad: async ({ search }) => {
+    // Access search to retrieve bookId
     const role = "student";
     const authResult = await auth(role);
 
@@ -43,9 +44,14 @@ export const Route = createFileRoute("/student/catalog/book")({
           throw redirect({ to: "/violations_page" });
         case "role_mismatch":
           console.log(
-            `Role mismatch. Redirecting to: ${role === "admin" ? "/student" : "/admin"}`
+            `Role mismatch. Redirecting to: ${role === "admin" ? "/student" : `/admin/manage_books/edit_book?book_id=${search.bookId}`}`
           );
-          throw redirect({ to: role === "admin" ? "/student" : "/admin" });
+          throw redirect({
+            to:
+              role === "admin"
+                ? "/student"
+                : `/admin/manage_books/edit_book?book_id=${search.bookId}`,
+          });
         case "unenrolled":
           console.log("User is no longer enrolled. Redirecting to /noLonger");
           throw redirect({ to: "/noLonger" });
@@ -119,7 +125,8 @@ function BookComponent() {
     data: books,
     loading: bottomLoading,
     error,
-  } = useAxiosBookBottomCatalog(bookData?.classifications_name);
+  } = useAxiosBookBottomCatalog(bookData?.classifications_name, bookId);
+
 
   if (loading || !delayOver || !bookData) {
     return <Loading />;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 
-const useAxiosBookBottomCatalog = (bookClass) => {
+const useAxiosBookBottomCatalog = (bookClass, bookId) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,12 +12,19 @@ const useAxiosBookBottomCatalog = (bookClass) => {
       return;
     }
 
+    console.log("Testing API", bookId);
+
     const fetchBooks = async () => {
       setLoading(true);
       setError(null);
 
+      
+
       try {
-        const response = await axios.get(`/student/table_book_bottom/${bookClass}`);
+        // Add bookId as a query parameter if it exists
+        const response = await axios.get(`/student/table_book_bottom/${bookClass}`, {
+          params: bookId ? { bookId } : {}, // Add the query parameter dynamically
+        });
         setData(response.data.books);
       } catch (err) {
         setError(err.response ? err.response.data.message : "An error occurred");
@@ -27,7 +34,7 @@ const useAxiosBookBottomCatalog = (bookClass) => {
     };
 
     fetchBooks();
-  }, [bookClass]);
+  }, [bookClass, bookId]); // Add bookId to the dependency array
 
   return { data, loading, error };
 };

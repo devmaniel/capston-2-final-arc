@@ -4,20 +4,15 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import "../../../../styles/admin/QR_Scanner.css";
 
-const Scanning_add_books_form = ({
+const Scan_Request = ({
   isScannerRunning,
-  qrCodeRegionId,
-  startScanner,
   handleRestartScanning,
-  showScanResultModal,
-  fetchBookDetails,
-}) => {
-  
 
+}) => {
   return (
     <div className="bg-neutral rounded-md m-auto text-base-100 h-[490px] w-500px">
       <div className="border-base-100 p-5 border-b flex justify-between">
-        <h1 className="font-black">Scan QR for Request Link Transfer</h1>
+        <h1 className="font-black">Scan QR to Find the Request</h1>
         {!isScannerRunning && (
           <button
             onClick={handleRestartScanning}
@@ -31,8 +26,8 @@ const Scanning_add_books_form = ({
         <div className="qr_area rounded-md flex justify-center items-center">
           {!isScannerRunning && (
             <p className="text-2xl font-black w-[450px] text-center">
-              Please activate the camera to proceed with adding books using a
-              scan.
+              Please activate the camera to scan the QR code and find the
+              request.
             </p>
           )}
           <div
@@ -47,9 +42,8 @@ const Scanning_add_books_form = ({
 
         {isScannerRunning && (
           <p className="text-sm font-normal italic w-[400px] mt-5">
-            Note: Please activate the camera to proceed with adding books via
-            barcode or QR scan. Ensure proper lighting and focus for an accurate
-            scan.
+            Note: Please activate the camera to scan the QR code and find the
+            request. Ensure proper lighting and focus for an accurate scan.
           </p>
         )}
       </div>
@@ -57,4 +51,4 @@ const Scanning_add_books_form = ({
   );
 };
 
-export default Scanning_add_books_form;
+export default Scan_Request;

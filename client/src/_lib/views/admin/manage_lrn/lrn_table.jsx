@@ -40,7 +40,7 @@ const Lrn_table = ({ data }) => {
                 </th>
                 <th>
                   <span
-                    className={`badge capitalize  badge-sm text-white ${item.status_lrn === "enrolled" ? "badge-primary" : item.status_lrn === "unenrolled" ? "badge-error" : "badge-ghost"} text-uppercase`}
+                    className={`badge capitalize  badge-sm  ${item.status_lrn === "enrolled" ? "badge-primary text-white" : item.status_lrn === "unenrolled" ? "badge-error" : "badge-ghost"} text-uppercase`}
                   >
                     {item.status_lrn}
                   </span>
@@ -71,7 +71,7 @@ const Lrn_table = ({ data }) => {
                   <span
                     className={`badge badge-sm capitalize ${
                       item.acc_status === "registered"
-                        ? "badge-ghost"
+                        ? "badge-black"
                         : "badge-primary"
                     }`}
                   >

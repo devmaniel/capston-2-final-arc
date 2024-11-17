@@ -96,7 +96,7 @@ const default_3 = ({
         <Default_3_frequent_yr MostYearLevelBorrower={MostYearLevelBorrower} />
       </div>
 
-      <div className="col-span-2 rounded-md bg-white p-4 -my-4  border-2">
+      <div className="col-span-2 rounded-md bg-white p-4 -my-3  border-2">
         <div className="flex justify-between items-center ">
           <h3 className="mb-2 font-black text-[#333333]">
             Most Borrowed Books Based on Classifications
@@ -135,7 +135,7 @@ const default_3 = ({
         <Default_3_frequent_yr MostYearLevelBorrower={MostBookBorrowedClassifications} />
       </div>
 
-      <div className="col-span-2 rounded-md bg-white p-4    border-2">
+      <div className="col-span-2 rounded-md bg-white p-4  -my-3  border-2">
         <div className="flex justify-between items-center ">
           <h3 className="mb-2 font-black text-[#333333]">
             Most Borrowed Book Titles

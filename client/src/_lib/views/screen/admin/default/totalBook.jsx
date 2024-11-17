@@ -9,9 +9,7 @@ const totalBook = ({ totalBooks }) => {
         <h1 className="text-4xl p-3  bg-gray-100 rounded-full">
           <BsBookFill className="text-primary" />
         </h1>
-        <a href="#" className="">
-          ...
-        </a>
+        <p className="text-sm font-bold">All</p>
       </ul>
 
       <div className="mt-10 ">

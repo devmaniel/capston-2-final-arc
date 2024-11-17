@@ -97,6 +97,13 @@ const lrn_landing = () => {
               </Link>
               <Link
                 role="tab"
+                to="/admin/manage_lrn/Add_Student"
+                className="tab "
+              >
+                Add Student
+              </Link>
+              <Link
+                role="tab"
                 to="/admin/manage_lrn/cycle_account"
                 className="tab "
               >

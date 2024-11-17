@@ -11,6 +11,7 @@ const LRNcontroller = require("../../controller/admin/LRN/LRN");
 router.get("/excelLRN", LRNcontroller.excelLRN);
 router.get("/excelspecificstudent", LRNcontroller.getSpecificLRN);
 
+router.post("/post_single_lrn_student", LRNcontroller.postAddStudent)
 
 router.post("/excellrnupdatespecificstudent", LRNcontroller.postUpdateSpecificLRN);
 router.post("/excelLRN", upload.single('file'), LRNcontroller.excelLRNpost);

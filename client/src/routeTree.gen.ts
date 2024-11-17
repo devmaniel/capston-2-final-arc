@@ -52,9 +52,10 @@ import { Route as AdminManageviolationsHandleviolationsImport } from './routes/a
 import { Route as AdminManagestudentsStudentviewformImport } from './routes/admin/manage_students/student_view_form'
 import { Route as AdminManagestudentsCreateaccountImport } from './routes/admin/manage_students/create_account'
 import { Route as AdminManagerequestViewrequestformImport } from './routes/admin/manage_request/view_request_form'
-import { Route as AdminManagerequestOnsiterequestImport } from './routes/admin/manage_request/onsite_request'
+import { Route as AdminManagerequestScanrequestImport } from './routes/admin/manage_request/scan_request'
 import { Route as AdminManagelrnSpecificlrnImport } from './routes/admin/manage_lrn/specific_lrn'
 import { Route as AdminManagelrnCycleaccountImport } from './routes/admin/manage_lrn/cycle_account'
+import { Route as AdminManagelrnAddStudentImport } from './routes/admin/manage_lrn/Add_Student'
 import { Route as AdminManagebooksQrscanaddbooksformImport } from './routes/admin/manage_books/qr_scan_add_books_form'
 import { Route as AdminManagebooksQrscanaddbooksbarcodeImport } from './routes/admin/manage_books/qr_scan_add_books_barcode'
 import { Route as AdminManagebooksQrscanaddbooksImport } from './routes/admin/manage_books/qr_scan_add_books'
@@ -287,9 +288,9 @@ const AdminManagerequestViewrequestformRoute =
     getParentRoute: () => rootRoute,
   } as any)
 
-const AdminManagerequestOnsiterequestRoute =
-  AdminManagerequestOnsiterequestImport.update({
-    path: '/admin/manage_request/onsite_request',
+const AdminManagerequestScanrequestRoute =
+  AdminManagerequestScanrequestImport.update({
+    path: '/admin/manage_request/scan_request',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -304,6 +305,11 @@ const AdminManagelrnCycleaccountRoute = AdminManagelrnCycleaccountImport.update(
     getParentRoute: () => rootRoute,
   } as any,
 )
+
+const AdminManagelrnAddStudentRoute = AdminManagelrnAddStudentImport.update({
+  path: '/admin/manage_lrn/Add_Student',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AdminManagebooksQrscanaddbooksformRoute =
   AdminManagebooksQrscanaddbooksformImport.update({
@@ -582,6 +588,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminManagebooksQrscanaddbooksformImport
       parentRoute: typeof rootRoute
     }
+    '/admin/manage_lrn/Add_Student': {
+      id: '/admin/manage_lrn/Add_Student'
+      path: '/admin/manage_lrn/Add_Student'
+      fullPath: '/admin/manage_lrn/Add_Student'
+      preLoaderRoute: typeof AdminManagelrnAddStudentImport
+      parentRoute: typeof rootRoute
+    }
     '/admin/manage_lrn/cycle_account': {
       id: '/admin/manage_lrn/cycle_account'
       path: '/admin/manage_lrn/cycle_account'
@@ -596,11 +609,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminManagelrnSpecificlrnImport
       parentRoute: typeof rootRoute
     }
-    '/admin/manage_request/onsite_request': {
-      id: '/admin/manage_request/onsite_request'
-      path: '/admin/manage_request/onsite_request'
-      fullPath: '/admin/manage_request/onsite_request'
-      preLoaderRoute: typeof AdminManagerequestOnsiterequestImport
+    '/admin/manage_request/scan_request': {
+      id: '/admin/manage_request/scan_request'
+      path: '/admin/manage_request/scan_request'
+      fullPath: '/admin/manage_request/scan_request'
+      preLoaderRoute: typeof AdminManagerequestScanrequestImport
       parentRoute: typeof rootRoute
     }
     '/admin/manage_request/view_request_form': {
@@ -806,9 +819,10 @@ export const routeTree = rootRoute.addChildren({
   AdminManagebooksQrscanaddbooksRoute,
   AdminManagebooksQrscanaddbooksbarcodeRoute,
   AdminManagebooksQrscanaddbooksformRoute,
+  AdminManagelrnAddStudentRoute,
   AdminManagelrnCycleaccountRoute,
   AdminManagelrnSpecificlrnRoute,
-  AdminManagerequestOnsiterequestRoute,
+  AdminManagerequestScanrequestRoute,
   AdminManagerequestViewrequestformRoute,
   AdminManagestudentsCreateaccountRoute,
   AdminManagestudentsStudentviewformRoute,
@@ -872,9 +886,10 @@ export const routeTree = rootRoute.addChildren({
         "/admin/manage_books/qr_scan_add_books",
         "/admin/manage_books/qr_scan_add_books_barcode",
         "/admin/manage_books/qr_scan_add_books_form",
+        "/admin/manage_lrn/Add_Student",
         "/admin/manage_lrn/cycle_account",
         "/admin/manage_lrn/specific_lrn",
-        "/admin/manage_request/onsite_request",
+        "/admin/manage_request/scan_request",
         "/admin/manage_request/view_request_form",
         "/admin/manage_students/create_account",
         "/admin/manage_students/student_view_form",
@@ -988,14 +1003,17 @@ export const routeTree = rootRoute.addChildren({
     "/admin/manage_books/qr_scan_add_books_form": {
       "filePath": "admin/manage_books/qr_scan_add_books_form.jsx"
     },
+    "/admin/manage_lrn/Add_Student": {
+      "filePath": "admin/manage_lrn/Add_Student.jsx"
+    },
     "/admin/manage_lrn/cycle_account": {
       "filePath": "admin/manage_lrn/cycle_account.jsx"
     },
     "/admin/manage_lrn/specific_lrn": {
       "filePath": "admin/manage_lrn/specific_lrn.jsx"
     },
-    "/admin/manage_request/onsite_request": {
-      "filePath": "admin/manage_request/onsite_request.jsx"
+    "/admin/manage_request/scan_request": {
+      "filePath": "admin/manage_request/scan_request.jsx"
     },
     "/admin/manage_request/view_request_form": {
       "filePath": "admin/manage_request/view_request_form.jsx"

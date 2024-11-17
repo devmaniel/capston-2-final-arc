@@ -511,6 +511,7 @@ exports.fetchBookmark = async (req, res, next) => {
 exports.BottomRecoBooklist = async (req, res, next) => {
   try {
     const bookClass = req.params.class || "all";
+    const excludedBookId = req.query.bookId; // Extract bookId from the query
 
     let whereClause = { book_status: "active" }; // Only get active books
     if (bookClass !== "all") {
@@ -520,10 +521,15 @@ exports.BottomRecoBooklist = async (req, res, next) => {
       whereClause.classifications_name = capitalizedClass;
     }
 
+    // Exclude the book with the specified bookId
+    if (excludedBookId) {
+      whereClause.id = { [Sequelize.Op.ne]: excludedBookId }; // Not equal to excludedBookId
+    }
+
     // Fetch 10 random books related to the class
     const books = await BooksModel.findAll({
       where: whereClause,
-      order: Sequelize.literal('RAND()'), // Random ordering
+      order: Sequelize.literal("RAND()"), // Random ordering
       limit: 10, // Limit to 10 books
     });
 
@@ -533,12 +539,12 @@ exports.BottomRecoBooklist = async (req, res, next) => {
       name: book.book_name,
       book_img_file: book.book_img_file,
       quantity: book.quantity,
-      isBookmark: book.isBookmark
+      isBookmark: book.isBookmark,
     }));
 
     res.status(200).json({
       books: bookData,
-      totalItems: books.length,
+      totalItems: bookData.length,
     });
   } catch (err) {
     console.error("Server error:", err);

@@ -33,6 +33,13 @@ import { axiosFetch } from "../../../hook/axiosFetch";
 import useAxiosFetchArrayData from "../../../hook/useAxiosFetchArrayData";
 
 const AnalyticsLandingPage = () => {
+
+  // single data
+  const [singledefault1, setSingleDefault1_Date] = useState("today")
+  const [singledefault2, setSingleDefault2_Date] = useState("today")
+  const [singledefault3, setSingleDefault3_Date] = useState("today")
+
+  // array data
   const [default1_Date, setDefault1_Date] = useState("this_week");
   const [default2_Date, setDefault2_Date] = useState("all");
   const [default3_Date, setDefault3_Date] = useState("all");
@@ -44,6 +51,15 @@ const AnalyticsLandingPage = () => {
     const newValue = event.target.value;
 
     switch (dateType) {
+      case "singledefault1":
+      setSingleDefault1_Date(newValue)
+      break;
+      case "singledefault2":
+      setSingleDefault2_Date(newValue)
+      break;
+      case "singledefault3":
+      setSingleDefault3_Date(newValue)
+      break;
       case "default1_Date":
         setDefault1_Date(newValue);
         break;
@@ -65,13 +81,13 @@ const AnalyticsLandingPage = () => {
   };
 
   const { data: TotalBookActive, loading: TotalBookActiveLoading } = axiosFetch(
-    `/admin/analytics/total_book_active`
+    `/admin/analytics/total_book_active?date=${singledefault1}`
   );
   const { data: TotalOutOfStock, loading: TotalOutOfStockLoading } = axiosFetch(
-    "/admin/analytics/total_out_of_stock"
+    `/admin/analytics/total_out_of_stock?date=${singledefault2}`
   );
   const { data: TotalBookBorrowed, loading: TotalBookBorrowedLoading } =
-    axiosFetch(`/admin/analytics/total_borrowed_book`);
+    axiosFetch(`/admin/analytics/total_borrowed_book?date=${singledefault3}`);
 
   const {
     arrayData: MostFrequestStrandBorrower,
@@ -137,6 +153,10 @@ const AnalyticsLandingPage = () => {
           <section className="mx-5">
             {/* Default Components Rendered with Props */}
             <Default_1
+              singledefault1={singledefault1}
+              singledefault2={singledefault2}
+              singledefault3={singledefault3}
+              handleDateChange={handleDateChange}
               TotalBookActive={TotalBookActive}
               TotalOutOfStock={TotalOutOfStock}
               TotalBookBorrowed={TotalBookBorrowed}

@@ -36,6 +36,7 @@ const LRN_View_Form = ({ studentData }) => {
     first_name: studentData.first_name,
     middle_name: studentData.middle_name,
     lrn: studentData.valid_lrn,
+    status_lrn: studentData.status_lrn,
     section: studentData.section,
     track: studentData.track,
     year_level: studentData.year_level,
@@ -43,6 +44,7 @@ const LRN_View_Form = ({ studentData }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log("Name:", name, "Values", value);
     setUpdateData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -218,6 +220,21 @@ const LRN_View_Form = ({ studentData }) => {
               readOnly
               value={studentData.role}
             />
+          </div>
+
+          <div>
+            <h1 className="text-md font-semibold">Status:</h1>
+            <select
+              name="status_lrn"
+              value={updateData.status_lrn}
+              disabled={!editMode}
+              onChange={handleChange}
+              className="input bg-base-100 text-neutral rounded-md w-full"
+            >
+              <option disabled>Select a Status</option>
+              <option value="enrolled">Enrolled</option>
+              <option value="unerolled">Unerolled</option>
+            </select>
           </div>
 
           <button

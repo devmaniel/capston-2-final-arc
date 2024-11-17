@@ -2,45 +2,83 @@ const ViolationsModel = require("../../../model/violations.js");
 const UserModel = require("../../../model/user");
 const LRNModel = require("../../../model/lrn");
 
+const { Op } = require('sequelize');
+
 exports.fetchTableViolations = async (req, res, next) => {
     try {
         console.log("fetchTableViolations API called");
 
-        const violations = await ViolationsModel.findAll();
+        const { filter = 'newest', status = 'all', search = '' } = req.query;
 
-        const violationsWithDetails = violations.length
-            ? await Promise.all(
-                violations.map(async (violation) => {
-                    const user = await UserModel.findOne({
-                        where: { id: violation.user_id },
-                        attributes: ['id', 'last_name', 'first_name', 'middle_name', 'email', 'phone_number', 'acc_lrn', 'profileImage']
+        // Prepare conditions
+        const whereConditions = {};
+        if (status !== 'all') {
+            if (status === 'violated') {
+                whereConditions.type_of_violation = ['violated-lost', 'violated-damages'];
+            } else {
+                whereConditions.status = status;
+            }
+        }
+
+        if (search) {
+            whereConditions.first_name = { [Op.iLike]: `%${search}%` }; // Case-insensitive search
+        }
+
+        // Fetch violations
+        const violations = await ViolationsModel.findAll({
+            where: whereConditions,
+            order: [['createdAt', filter.toLowerCase() === 'oldest' ? 'ASC' : 'DESC']],
+            attributes: [
+                'id', 'user_id', 'type_of_violation', 'date_issued',
+                'createdAt', 'status'
+            ]
+        });
+
+        const violationsWithDetails = await Promise.all(
+            violations.map(async (violation) => {
+                const user = await UserModel.findOne({
+                    where: { id: violation.user_id },
+                    attributes: [
+                        'id', 'last_name', 'first_name', 'middle_name',
+                        'email', 'phone_number', 'acc_lrn', 'profileImage'
+                    ]
+                });
+
+                let lrnInfo = null;
+                if (user?.acc_lrn) {
+                    lrnInfo = await LRNModel.findOne({
+                        where: { valid_lrn: user.acc_lrn }
                     });
+                }
 
-                    let lrnInfo = null;
-                    if (user && user.acc_lrn) {
-                        lrnInfo = await LRNModel.findOne({
-                            where: { valid_lrn: user.acc_lrn }
-                        });
-                    }
+                return {
+                    firstname: lrnInfo?.first_name || null,
+                    lastname: lrnInfo?.last_name || null,
+                    middlename: lrnInfo?.middle_name || null,
+                    section: lrnInfo?.section || null,
+                    valid_lrn: lrnInfo?.valid_lrn || null,
+                    track: lrnInfo?.track || null,
+                    id_violations: violation.id,
+                    user_id: violation.user_id,
+                    type_of_violation: violation.type_of_violation,
+                    date_issued: violation.date_issued,
+                    createdAt: violation.createdAt,
+                    status: violation.status,
+                    profileImage: user?.profileImage || null
+                };
+            })
+        );
 
-                    return {
-                        firstname: lrnInfo ? lrnInfo.first_name : null,
-                        lastname: lrnInfo ? lrnInfo.last_name : null,
-                        middlename: lrnInfo ? lrnInfo.middle_name : null,
-                        section: lrnInfo ? lrnInfo.section : null,
-                        valid_lrn: lrnInfo ? lrnInfo.valid_lrn : null,
-                        track: lrnInfo ? lrnInfo.track : null,
-                        id_violations: violation.id,
-                        user_id: violation.user_id,
-                        type_of_violation: violation.type_of_violation,
-                        date_issued: violation.date_issued,
-                        createdAt: violation.createdAt,
-                        status: violation.status,
-                        profileImage: user ? user.profileImage : null
-                    };
-                })
-            )
-            : []; // Return an empty array if no violations are found
+        // Apply A-Z/Z-A filtering
+        if (['a-z', 'z-a'].includes(filter.toLowerCase())) {
+            violationsWithDetails.sort((a, b) => {
+                const nameA = a.firstname?.toLowerCase() || '';
+                const nameB = b.firstname?.toLowerCase() || '';
+                return filter.toLowerCase() === 'a-z'
+                    ? nameA.localeCompare(nameB)
+                    : nameB.localeCompare(nameA);
+            });
+        }
 
         res.status(200).json({
             message: violations.length ? "Violations fetched successfully" : "No violations found",
@@ -55,6 +93,7 @@ exports.fetchTableViolations = async (req, res, next) => {
         });
     }
 };
+
 
 exports.fetchSpecificViolations = async (req, res, next) => {
     try {

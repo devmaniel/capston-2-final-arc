@@ -1,6 +1,8 @@
 const RequestModel = require("../../model/request.js");
+const NotificationsModel = require("../../model/Notifications");
 const BookModel = require("../../model/Books");
 const BookmarkModel = require("../../model/Bookmark");
+const LRNModel = require("../../model/lrn.js");
 const UserModel = require("../../model/user");
 const ViolationsModel = require("../../model/violations.js");
 const { Op } = require("sequelize"); // Import Op for query operations
@@ -13,8 +15,6 @@ const { QueryTypes } = require("sequelize");
 const generateRequestCode = () => {
   return Math.random().toString(36).substring(2, 9).toUpperCase();
 };
-
-
 
 exports.PostSingleRequest = async (req, res, next) => {
   try {
@@ -49,13 +49,12 @@ exports.PostSingleRequest = async (req, res, next) => {
 
       // Step 5: Check if the book exists in the BooksModel
       const book = await BookModel.findOne({ where: { id: book_id } });
-
       if (book) {
         // Generate a 7-character request code
         const requestCode = generateRequestCode();
 
         // Step 6: Create a new request entry in the RequestModel
-        await RequestModel.create({
+        const newRequest = await RequestModel.create({
           book_qty: quantity,
           request_code: requestCode,
           user_id: userId,
@@ -69,6 +68,60 @@ exports.PostSingleRequest = async (req, res, next) => {
           createdAt: new Date(),
           updatedAt: new Date(),
         });
+
+        // Create notification for the student
+        const studentDescription = `New request created: Your request has been submitted with ID ${newRequest.id}`;
+        await NotificationsModel.create({
+          account_id: userId, // Using the extracted session user ID
+          descriptions: studentDescription,
+          href: `/student/request_history/view_request?request_id=${newRequest.id}`,
+          type: "request",
+          isRead: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+
+        // Find all admin LRNs
+        const adminLRNs = await LRNModel.findAll({
+          where: {
+            role: "admin",
+          },
+          attributes: ["valid_lrn"],
+        });
+
+        if (!adminLRNs.length) {
+          console.log("No admin LRNs found");
+          return;
+        }
+
+        // Extract valid_lrn values
+        const validLRNs = adminLRNs.map((lrn) => lrn.valid_lrn);
+
+        // Find all users with matching LRNs
+        const adminUsers = await UserModel.findAll({
+          where: {
+            acc_lrn: {
+              [Op.in]: validLRNs,
+            },
+          },
+          attributes: ["id"], // Using id as per your request
+        });
+
+        // Create notifications for all admin users
+        const adminNotifications = adminUsers.map((admin) => ({
+          account_id: admin.id, // Using admin.id as requested
+          descriptions: `New request update: A request with code ${newRequest.request_code} has been updated to status "${newRequest.status}"`,
+          href: `/admin/manage_request/view_request_form?requestId=${newRequest.id}`,
+          type: "request",
+          isRead: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }));
+
+        // Bulk create notifications for all admins
+        if (adminNotifications.length > 0) {
+          await NotificationsModel.bulkCreate(adminNotifications);
+        }
 
         // Step 7: Send a success response
         res.status(201).send({ message: "Request was successfully created" });
@@ -87,6 +140,7 @@ exports.PostSingleRequest = async (req, res, next) => {
     res.status(500).send({ error: "Server error" });
   }
 };
+
 
 exports.postBookmarkRequest = async (req, res, next) => {
   try {
@@ -186,9 +240,63 @@ exports.postBookmarkRequest = async (req, res, next) => {
       });
     });
 
-    await Promise.all(requestPromises);
+    const newRequests = await Promise.all(requestPromises);
 
-    // Step 8: Remove the bookmarks from the `BookmarkModel`
+    // Step 7: Create notification for the student
+    const studentDescription = `New request created: Your request has been submitted with ID ${newRequests[0].id}`;
+    await NotificationsModel.create({
+      account_id: userId, // Using the extracted session user ID
+      descriptions: studentDescription,
+      href: `/student/request_history/view_request?request_id=${newRequests[0].id}`,
+      type: "request",
+      isRead: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    // Step 8: Find all admin LRNs
+    const adminLRNs = await LRNModel.findAll({
+      where: {
+        role: "admin",
+      },
+      attributes: ["valid_lrn"],
+    });
+
+    if (!adminLRNs.length) {
+      console.log("No admin LRNs found");
+      return;
+    }
+
+    // Extract valid_lrn values
+    const validLRNs = adminLRNs.map((lrn) => lrn.valid_lrn);
+
+    // Find all users with matching LRNs
+    const adminUsers = await UserModel.findAll({
+      where: {
+        acc_lrn: {
+          [Op.in]: validLRNs,
+        },
+      },
+      attributes: ["id"], // Using id as per your request
+    });
+
+    // Step 9: Create notifications for all admin users
+    const adminNotifications = adminUsers.map((admin) => ({
+      account_id: admin.id, // Using admin.id as requested
+      descriptions: `New request update: A request with code ${newRequests[0].request_code} has been updated to status "${newRequests[0].status}"`,
+      href: `/admin/manage_request/view_request_form?requestId=${newRequests[0].id}`,
+      type: "request",
+      isRead: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+
+    // Step 10: Bulk create notifications for all admins
+    if (adminNotifications.length > 0) {
+      await NotificationsModel.bulkCreate(adminNotifications);
+    }
+
+    // Step 11: Remove the bookmarks from the `BookmarkModel`
     const bookmarkIds = bookmarkedBooks.map(
       ({ isBookmarked_id }) => isBookmarked_id
     );
@@ -198,20 +306,19 @@ exports.postBookmarkRequest = async (req, res, next) => {
       },
     });
 
-    // Step 9: Update the `BookModel`
+    // Step 12: Update the `BookModel`
     await BookModel.update({ isBookmarked: false }, { where: { id: bookIds } });
 
-    // Step 10: Send success response to the client
-    res
-      .status(200)
-      .json({
-        message: "Bookmark requests created and bookmarks removed successfully",
-      });
+    // Step 13: Send success response to the client
+    res.status(200).json({
+      message: "Bookmark requests created and bookmarks removed successfully",
+    });
   } catch (error) {
     console.error("Error processing bookmark request:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 exports.fetchPostRequestHistory = async (req, res, next) => {
   try {
@@ -305,8 +412,6 @@ exports.fetchPostRequestHistory = async (req, res, next) => {
         }
       );
 
-     
-
       // Step 8: Fetch books associated with each request
       const requestDetails = await Promise.all(
         requests.map(async (request) => {
@@ -369,18 +474,71 @@ exports.postCancelRequest = async (req, res, next) => {
     request.status = "cancelled";
     await request.save();
 
+    // Create a notification for the student
+    const studentDescription = `Your request with ID ${request.id} has been cancelled successfully.`;
+    await NotificationsModel.create({
+      account_id: request.user_id, // Assuming request has a `user_id` field
+      descriptions: studentDescription,
+      href: `/student/request_history/view_request?request_id=${request.id}`,
+      type: "request",
+      isRead: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    // Find all admin LRNs
+    const adminLRNs = await LRNModel.findAll({
+      where: {
+        role: "admin",
+      },
+      attributes: ["valid_lrn"],
+    });
+
+    if (!adminLRNs.length) {
+      console.log("No admin LRNs found");
+      return res
+        .status(200)
+        .json({ message: "Request cancelled successfully", request });
+    }
+
+    // Extract valid_lrn values
+    const validLRNs = adminLRNs.map((lrn) => lrn.valid_lrn);
+
+    // Find all users with matching LRNs
+    const adminUsers = await UserModel.findAll({
+      where: {
+        acc_lrn: {
+          [Op.in]: validLRNs,
+        },
+      },
+      attributes: ["id"],
+    });
+
+    // Create notifications for all admin users
+    const adminNotifications = adminUsers.map((admin) => ({
+      account_id: admin.id,
+      descriptions: `A request with ID ${request.id} has been cancelled by the user.`,
+      href: `/admin/manage_request/view_request_form?requestId=${request.id}`,
+      type: "request",
+      isRead: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+
+    // Bulk create notifications for all admins
+    if (adminNotifications.length > 0) {
+      await NotificationsModel.bulkCreate(adminNotifications);
+    }
+
     // Respond with success
     res
       .status(200)
-      .json({ message: "Request cancelled successfully", request });
+      .json({ message: "Request cancelled successfully and notifications sent", request });
   } catch (error) {
     console.error("Error cancelling request:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
-
-
-
 
 exports.QRviewSingleRequest = async (req, res, next) => {
   try {
@@ -435,7 +593,7 @@ exports.QRviewSingleRequest = async (req, res, next) => {
         "admin_comment",
         "pickupdate",
         "returndate",
-        "user_id"
+        "user_id",
       ],
     });
 
@@ -443,7 +601,6 @@ exports.QRviewSingleRequest = async (req, res, next) => {
       return res.status(404).json({ message: "Request not found" });
     }
 
-  
     // Step 6: Find book details from BookModel using book_id
     const book = await BookModel.findOne({
       where: { id: request.book_id },

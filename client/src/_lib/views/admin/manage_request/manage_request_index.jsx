@@ -88,7 +88,7 @@ const manage_request_index = () => {
 
   const tabLinks = [
     { name: "Manage Request", path: "/admin/manage_request" },
-    { name: "Onsite Request", path: "/admin/manage_request/onsite_request" },
+    { name: "Scan Request", path: "/admin/manage_request/scan_request" },
   ];
 
   return (

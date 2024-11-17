@@ -1,18 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from '../api/axios'; // Import axios instance
 
-const useAxiosFetchViolations = () => {
+const useAxiosFetchViolations = (initialParams = {}) => {
     // States for data, loading, status, and error
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [status, setStatus] = useState(null);
     const [error, setError] = useState(null);
+    const [params, setParams] = useState(initialParams);
 
     // Function to fetch violations from the API
-    const fetchViolations = async () => {
+    const fetchViolations = useCallback(async () => {
         try {
             setLoading(true);
-            const response = await axios.get('/admin/fetch_table_violations');
+            const queryString = new URLSearchParams(params).toString(); // Build query string from params
+            const response = await axios.get(`/admin/fetch_table_violations?${queryString}`);
             setData(response.data.data); // Store fetched data
             setStatus(response.status); // Store the status code
         } catch (err) {
@@ -21,14 +23,14 @@ const useAxiosFetchViolations = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [params]); // Dependencies include params
 
-    // UseEffect to call fetchViolations when the component mounts
+    // UseEffect to call fetchViolations when params change
     useEffect(() => {
         fetchViolations();
-    }, []); // Empty dependency array ensures it runs only once
+    }, [fetchViolations]);
 
-    return { data, loading, status, error }; // Return relevant states
+    return { data, loading, status, error, setParams }; // Return relevant states and param setter
 };
 
 export default useAxiosFetchViolations;

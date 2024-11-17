@@ -19,13 +19,13 @@ const { Op } = require("sequelize");
 const checkAndUpdateViolationStatus = async (requests) => {
   try {
     const currentDate = new Date();
-    
+
     // Map through requests and check dates
     const updatedRequests = await Promise.all(
       requests.map(async (request) => {
         // Find the full request data including dates
         const fullRequest = await RequestModel.findByPk(request.id);
-        
+
         if (!fullRequest) {
           return request;
         }
@@ -33,18 +33,21 @@ const checkAndUpdateViolationStatus = async (requests) => {
         const returnDate = new Date(fullRequest.returndate);
 
         // Check if item is borrowed, overdue, and not already marked as violated
-        if (fullRequest.status === "borrowed" && 
-            currentDate > returnDate && 
-            fullRequest.status !== "violated-lost") {
-            
-          console.log(`Request ${request.id} is overdue. Return date: ${returnDate}, Current date: ${currentDate}`);
-          
+        if (
+          fullRequest.status === "borrowed" &&
+          currentDate > returnDate &&
+          fullRequest.status !== "violated-lost"
+        ) {
+          console.log(
+            `Request ${request.id} is overdue. Return date: ${returnDate}, Current date: ${currentDate}`
+          );
+
           // Update the status in the database
           await RequestModel.update(
             { status: "violated-lost" },
             { where: { id: request.id } }
           );
-          
+
           // Update the status in the current request object
           request.status = "violated-lost";
 
@@ -54,16 +57,16 @@ const checkAndUpdateViolationStatus = async (requests) => {
             type_of_violation: "violated-lost",
             status: "pending",
             date_issued: currentDate,
-            request_id: fullRequest.id
+            request_id: fullRequest.id,
           });
 
           console.log("New violation recorded:", newViolation);
         }
-        
+
         return request;
       })
     );
-    
+
     return updatedRequests;
   } catch (error) {
     console.error("Error checking violation status:", error);
@@ -226,7 +229,6 @@ exports.fetchRequestTable = async (req, res, next) => {
   }
 };
 
-
 exports.fetchSpecificRequestForm = async (req, res, next) => {
   try {
     // Extract requestId from query parameters
@@ -369,7 +371,11 @@ exports.StaffUpdateRequest = async (req, res, next) => {
     const requestUserId = request.user_id;
 
     // Set the authorizer field automatically
-    await request.update({ admin_comment: adminComment, status, authorizer: "Ebora Mendoza" });
+    await request.update({
+      admin_comment: adminComment,
+      status,
+      authorizer: "Ebora Mendoza",
+    });
 
     const bookId = request.book_id;
     const bookQty = parseInt(request.book_qty, 10);
@@ -382,17 +388,21 @@ exports.StaffUpdateRequest = async (req, res, next) => {
 
     const currentQuantity = parseInt(book.quantity, 10);
 
-    if (status === "borrowed") {
+    if (status === "accepted") {
       await book.update({ quantity: currentQuantity - bookQty });
 
       const qrCodeData = `http://localhost:5173/student/request_history/view_request?request_id=${requestId}`;
       const qrCodeImageBuffer = await QRCode.toBuffer(qrCodeData);
       const qrCodeFileName = `${requestId}-qr.png`;
-      const qrCodeFilePath = path.join(__dirname, "../../../../client/public/QR Image", qrCodeFileName);
+      const qrCodeFilePath = path.join(
+        __dirname,
+        "../../../../client/public/QR Image",
+        qrCodeFileName
+      );
       fs.writeFileSync(qrCodeFilePath, qrCodeImageBuffer);
 
       await request.update({ request_qr_img: qrCodeFileName });
-
+    } else if (status === "borrowed") {
       // Fetch pickupdate and returndate from request
       const { pickupdate, returndate } = request;
 
@@ -408,7 +418,7 @@ exports.StaffUpdateRequest = async (req, res, next) => {
             `Return Date: ${returndate}\n\n` +
             `Note: Please return the book on time and ensure it is not damaged.`,
           from: "+12677725301",
-          to: "+63"+phone_number,
+          to: "+63" + phone_number,
         });
 
         console.log("SMS sent successfully to", phone_number);
@@ -445,6 +455,48 @@ exports.StaffUpdateRequest = async (req, res, next) => {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+
+    // Find all admin LRNs
+    const adminLRNs = await LRNModel.findAll({
+      where: {
+        role: "admin",
+      },
+      attributes: ["valid_lrn"],
+    });
+
+    if (!adminLRNs.length) {
+      console.log("No admin LRNs found");
+      return;
+    }
+
+    // Extract valid_lrn values
+    const validLRNs = adminLRNs.map((lrn) => lrn.valid_lrn);
+
+    // Find all users with matching LRNs
+    const adminUsers = await UserModel.findAll({
+      where: {
+        acc_lrn: {
+          [Op.in]: validLRNs,
+        },
+      },
+      attributes: ["id"], // Using id as per your request
+    });
+
+    // Create notifications for all admin users
+    const adminNotifications = adminUsers.map((admin) => ({
+      account_id: admin.id, // Using admin.id as requested
+      descriptions: `New request update: A request with code ${request.request_code} has been updated to status "${status}"`,
+      href: `/admin/manage_request/view_request_form?requestId=${requestId}`,
+      type: "request",
+      isRead: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+
+    // Bulk create notifications for all admins
+    if (adminNotifications.length > 0) {
+      await NotificationsModel.bulkCreate(adminNotifications);
+    }
 
     res
       .status(200)

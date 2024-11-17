@@ -15,10 +15,10 @@ import "@styles/admin/Base1.scss";
 import { axiosFetch } from "@hook/axiosFetch";
 
 const Base1 = () => {
-  let { data: totalBooksData, status: Check } = axiosFetch("/admin/Base1");
-  let { data: totalActive } = axiosFetch("/admin/Base2");
-  let { data: totalActiveAcc } = axiosFetch("/admin/Base3");
-  let { data: totalViolated } = axiosFetch("/admin/Base4");
+  let { data: totalBooksData, status: Check } = axiosFetch( `/admin/analytics/total_book?date=all`);
+  let { data: totalActive } = axiosFetch(`/admin/analytics/total_active_request?date=all`);
+  let { data: totalActiveAcc } = axiosFetch("/admin/analytics/total_active_account?date=all");
+  let { data: totalViolated } = axiosFetch("/admin/analytics/total_active_violations?date=all");
   let { data: activityLog } = axiosFetch("/admin/Base5");
 
   console.log("Data: ", activityLog);
@@ -31,13 +31,13 @@ const Base1 = () => {
         {totalBooksData === null ? (
           <div className=" totalBooks bg-default"></div>
         ) : (
-          <div className="totalBooks border bg-white transition-shadow duration-300 text-black p-6 shadow-sm">
+          <div className="totalBooks border bg-neutral text-base-100  transition-shadow duration-300  p-6 shadow-sm">
             <TotalBook totalBooks={totalBooksData} />
           </div>
         )}
 
         {totalActive ? (
-          <div className="totalRequest border bg-white   p-6">
+          <div className="totalRequest border bg-neutral text-base-100  p-6">
             <TotalRequest totalActive={totalActive} />
           </div>
         ) : (
@@ -67,7 +67,7 @@ const Base1 = () => {
         {bookChart === null ? (
           <div className="bg-default base-chart w-full h-full p-2"></div>
         ) : (
-          <div className="bg-white w-full h-full border base-chart p-2">
+          <div className="bg-white w-full h-full border-2 border-primary rounded-md base-chart p-2">
             <BaseChart chartData={bookChart} />
           </div>
         )}
